@@ -22,7 +22,7 @@ namespace XyTech.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page is shown as here. ";
+            ViewBag.Message = "Your contact page. ";
 
             return View();
         }
