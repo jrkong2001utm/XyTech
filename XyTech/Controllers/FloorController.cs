@@ -18,7 +18,7 @@ namespace XyTech.Controllers
         public ActionResult Index()
         {
             var tb_floor = db.tb_floor.Include(t => t.tb_landlord);
-            return View(tb_floor.ToList());
+            return View();
         }
 
         // GET: Floor/Details/5

@@ -4,60 +4,216 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<style>
+    .column {
+        float: left;
+        width: 28%;
+        padding: 0px 30px;
+    }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.fl_bid)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fl_wifipwd)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fl_modemip)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fl_cctvqr)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fl_layout)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tb_landlord.l_name)
-        </th>
-        <th></th>
-    </tr>
+    .row {
+        margin: 0 -10px;
+    }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.fl_bid)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fl_wifipwd)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fl_modemip)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fl_cctvqr)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fl_layout)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tb_landlord.l_name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.fl_id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.fl_id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.fl_id })
-        </td>
-    </tr>
-}
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
 
-</table>
+    h3{
+        color: white;
+    }
+
+    h4 {
+        color: white;
+    }
+</style>
+
+<div class="centerflipcards">
+    <div class="row">
+        <div class="column">
+            <div class="square-flip">
+                <div class='square' style="background-color: #7DA0FA;">
+                    <div class="square-container">
+                        <div class="align-center"><img src="http://titanicthemes.com/files/flipbox/kallyas.png" class="boxshadow" alt=""></div>
+                        <h3 class="textshadow font-weight-bold">DL1</h3>
+                        <h4 class="textshadow">Floor 1</h4>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+                <div class='square2' style="background-color: #7DA0FA;">
+                    <div class="square-container2">
+                        <div class="align-center"></div>
+                        <a class="btn btn-primary btn-rounded btn-fw" href="~/Views/Floor/Details.cshtml">View Floor</a>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="square-flip">
+                <div class='square' style="background-color: #7DA0FA;">
+                    <div class="square-container">
+                        <div class="align-center"><img src="http://titanicthemes.com/files/flipbox/kallyas.png" class="boxshadow" alt=""></div>
+                        <h3 class="textshadow font-weight-bold">DL5</h3>
+                        <h4 class="textshadow">Floor 1</h4>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+                <div class='square2' style="background-color: #7DA0FA;">
+                    <div class="square-container2">
+                        <div class="align-center"></div>
+                        <a class="btn btn-primary btn-rounded btn-fw"  asp-action="Details">View Floor</a>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="square-flip">
+                <div class='square' style="background-color: #7DA0FA;">
+                    <div class="square-container">
+                        <div class="align-center"><img src="http://titanicthemes.com/files/flipbox/kallyas.png" class="boxshadow" alt=""></div>
+                        <h3 class="textshadow font-weight-bold">GE1</h3>
+                        <h4 class="textshadow">Floor 1</h4>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+                <div class='square2' style="background-color: #7DA0FA;">
+                    <div class="square-container2">
+                        <div class="align-center"></div>
+                        <a class="btn btn-primary btn-rounded btn-fw"  asp-action="Details">View Floor</a>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <div class="square-flip">
+                <div class='square' style="background-color: #F3797E;">
+                    <div class="square-container">
+                        <div class="align-center"><img src="http://titanicthemes.com/files/flipbox/kallyas.png" class="boxshadow" alt=""></div>
+                        <h3 class="textshadow font-weight-bold">GE2</h3>
+                        <h4 class="textshadow">Floor 2</h4>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+                <div class='square2' style="background-color: #F3797E;">
+                    <div class="square-container2">
+                        <div class="align-center"></div>
+                        <a class="btn btn-primary btn-rounded btn-fw"  asp-action="Details">View Floor</a>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="square-flip">
+                <div class='square' style="background-color: #F3797E;">
+                    <div class="square-container">
+                        <div class="align-center"><img src="http://titanicthemes.com/files/flipbox/kallyas.png" class="boxshadow" alt=""></div>
+                        <h3 class="textshadow font-weight-bold">GE3</h3>
+                        <h4 class="textshadow">Floor 2</h4>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+                <div class='square2' style="background-color: #F3797E;">
+                    <div class="square-container2">
+                        <div class="align-center"></div>
+                        <a class="btn btn-primary btn-rounded btn-fw"  asp-action="Details">View Floor</a>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="square-flip">
+                <div class='square' style="background-color: #F3797E;">
+                    <div class="square-container">
+                        <div class="align-center"><img src="http://titanicthemes.com/files/flipbox/kallyas.png" class="boxshadow" alt=""></div>
+                        <h3 class="textshadow font-weight-bold">TN1</h3>
+                        <h4 class="textshadow">Floor 2</h4>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+                <div class='square2' style="background-color: #F3797E;">
+                    <div class="square-container2">
+                        <div class="align-center"></div>
+                        <a class="btn btn-primary btn-rounded btn-fw"  asp-action="Details">View Floor</a>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <div class="square-flip">
+                <div class='square'style="background-color: #7978E9;">
+                    <div class="square-container">
+                        <div class="align-center"><img src="http://titanicthemes.com/files/flipbox/kallyas.png" class="boxshadow" alt=""></div>
+                        <h3 class="textshadow font-weight-bold">TN2</h3>
+                        <h4 class="textshadow">Floor 2</h4>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+                <div class='square2' style="background-color: #7978E9;">
+                    <div class="square-container2">
+                        <div class="align-center"></div>
+                        <a class="btn btn-primary btn-rounded btn-fw"  asp-action="Details">View Floor</a>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="square-flip">
+                <div class='square' style="background-color: #7978E9;">
+                    <div class="square-container">
+                        <div class="align-center"><img src="http://titanicthemes.com/files/flipbox/kallyas.png" class="boxshadow" alt=""></div>
+                        <h3 class="textshadow font-weight-bold">TN3</h3>
+                        <h4 class="textshadow">Floor 2</h4>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+                <div class='square2' style="background-color: #7978E9;">
+                    <div class="square-container2">
+                        <div class="align-center"></div>
+                        <a class="btn btn-primary btn-rounded btn-fw"  asp-action="Details">View Floor</a>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="square-flip">
+                <div class='square' style="background-color: #7978E9;">
+                    <div class="square-container">
+                        <div class="align-center"><img src="http://titanicthemes.com/files/flipbox/kallyas.png" class="boxshadow" alt=""></div>
+                        <h3 class="textshadow font-weight-bold">TN4</h3>
+                        <h4 class="textshadow">Floor 3</h4>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+                <div class='square2' style="background-color: #7978E9;">
+                    <div class="square-container2">
+                        <div class="align-center"></div>
+                        <a class="btn btn-primary btn-rounded btn-fw"  asp-action="Details">View Floor</a>
+                    </div>
+                    <div class="flip-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
