@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="23eaccbd63174c79a4841a2ab512a3a7" Name="Diagram1">
+        <EntityTypeShape EntityType="db_XyTechModel.tb_attendance" Width="1.5" PointX="7.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_XyTechModel.tb_finance" Width="1.5" PointX="5.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_XyTechModel.tb_floor" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_XyTechModel.tb_inventory" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_XyTechModel.tb_investor" Width="1.5" PointX="7.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_XyTechModel.tb_landlord" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_XyTechModel.tb_profit" Width="1.5" PointX="7.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_XyTechModel.tb_reminder" Width="1.5" PointX="9.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_XyTechModel.tb_room" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_XyTechModel.tb_tenant" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_XyTechModel.tb_user" Width="1.5" PointX="9.75" PointY="5" IsExpanded="true" />
+        <AssociationConnector Association="db_XyTechModel.FK_tb_attendance_tb_attendance" ManuallyRouted="false" />
+        <AssociationConnector Association="db_XyTechModel.FK_tb_finance_tb_finance" ManuallyRouted="false" />
+        <AssociationConnector Association="db_XyTechModel.FK_tb_floor_tb_landlord" ManuallyRouted="false" />
+        <AssociationConnector Association="db_XyTechModel.FK_tb_inventory_tb_floor" ManuallyRouted="false" />
+        <AssociationConnector Association="db_XyTechModel.FK_tb_room_tb_floor" ManuallyRouted="false" />
+        <AssociationConnector Association="db_XyTechModel.FK_tb_room_tb_tenant" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
