@@ -1,0 +1,63 @@
+﻿@model IEnumerable<XyTech.Models.tb_floor>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.fl_bid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fl_wifipwd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fl_modemip)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fl_cctvqr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fl_layout)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tb_landlord.l_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.fl_bid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fl_wifipwd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fl_modemip)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fl_cctvqr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fl_layout)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tb_landlord.l_name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.fl_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.fl_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.fl_id })
+        </td>
+    </tr>
+}
+
+</table>
