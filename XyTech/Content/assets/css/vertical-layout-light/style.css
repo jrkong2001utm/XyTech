@@ -30786,5 +30786,7 @@ div.tagsinput span.tag a {
     box-shadow: 24px 42px 58px -8px rgba(0,0,0,0.3);
 }
 
-
+.floorlayout {
+    float: left;
+}
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */

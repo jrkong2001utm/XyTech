@@ -285,6 +285,15 @@
     <Content Include="Content\assets\images\file-icons\64\006-record.png" />
     <Content Include="Content\assets\images\file-icons\64\007-folder.png" />
     <Content Include="Content\assets\images\file-icons\64\008-archive.png" />
+    <Content Include="Content\assets\images\floor_layout_trim\DL1-1.jpeg" />
+    <Content Include="Content\assets\images\floor_layout_trim\DL5-2.jpeg" />
+    <Content Include="Content\assets\images\floor_layout_trim\GE1-1.jpeg" />
+    <Content Include="Content\assets\images\floor_layout_trim\GE2-2.jpeg" />
+    <Content Include="Content\assets\images\floor_layout_trim\GE3-2.jpeg" />
+    <Content Include="Content\assets\images\floor_layout_trim\TN1-2.jpeg" />
+    <Content Include="Content\assets\images\floor_layout_trim\TN2-3.jpeg" />
+    <Content Include="Content\assets\images\floor_layout_trim\TN3-2.jpeg" />
+    <Content Include="Content\assets\images\floor_layout_trim\TN4-3.jpeg" />
     <Content Include="Content\assets\images\lightbox\play-button.png" />
     <Content Include="Content\assets\images\lightbox\thumb-v-v-1.jpg" />
     <Content Include="Content\assets\images\lightbox\thumb-v-v-2.jpg" />
@@ -1898,7 +1907,7 @@
     <Content Include="Views\Inventory\Edit.cshtml" />
     <Content Include="Views\Inventory\Index.cshtml" />
     <Content Include="Views\Floor\Delete.cshtml" />
-    <Content Include="Views\Floor\Details.cshtml" />
+    <Content Include="Views\Floor\Details_DL1.cshtml" />
     <Content Include="Views\Floor\Edit.cshtml" />
     <Content Include="Views\Floor\Index.cshtml" />
   </ItemGroup>

@@ -17,23 +17,34 @@ namespace XyTech.Controllers
         // GET: Floor
         public ActionResult Index()
         {
-            var tb_floor = db.tb_floor.Include(t => t.tb_landlord);
             return View();
         }
 
         // GET: Floor/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details_DL1(string searchString)
+        {
+            var floor = from f in db.tb_floor.Include(t => t.tb_landlord)
+                        select f;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                floor = floor.Where(f => f.fl_id.Contains(searchString));
+            }
+            return View(floor.ToList());
+        }
+
+        public ActionResult Room(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_floor tb_floor = db.tb_floor.Find(id);
-            if (tb_floor == null)
+            tb_room tb_room = db.tb_room.Find(id);
+            if (tb_room == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_floor);
+            return View(tb_room);
         }
 
         // GET: Floor/Create
