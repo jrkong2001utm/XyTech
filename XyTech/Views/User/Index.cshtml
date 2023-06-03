@@ -9,43 +9,49 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.u_pwd)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.u_email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.u_phone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.u_usertype)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.u_pwd)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.u_email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.u_phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.u_usertype)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.u_username }) |
-            @Html.ActionLink("Details", "Details", new { id=item.u_username }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.u_username })
-        </td>
-    </tr>
-}
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.u_pwd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.u_email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.u_phone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.u_usertype)
+                </th>
+                <th></th>
+            </tr>
 
-</table>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.u_pwd)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.u_email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.u_phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.u_usertype)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.u_username }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.u_username }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.u_username })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

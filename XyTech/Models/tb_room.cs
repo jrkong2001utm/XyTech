@@ -14,16 +14,22 @@ namespace XyTech.Models
     
     public partial class tb_room
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_room()
+        {
+            this.tb_tenant = new HashSet<tb_tenant>();
+        }
+    
         public string r_id { get; set; }
         public string r_floor { get; set; }
         public double r_price { get; set; }
         public int r_availability { get; set; }
-        public Nullable<int> r_tenant { get; set; }
         public double r_size { get; set; }
         public string r_active { get; set; }
         public byte[] r_pic { get; set; }
     
         public virtual tb_floor tb_floor { get; set; }
-        public virtual tb_tenant tb_tenant { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_tenant> tb_tenant { get; set; }
     }
 }

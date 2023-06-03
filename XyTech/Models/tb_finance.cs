@@ -24,7 +24,7 @@ namespace XyTech.Models
         public System.DateTime f_date { get; set; }
         public string f_receipt { get; set; }
     
-        public virtual tb_floor tb_floor { get; set; }
         public virtual tb_user tb_user { get; set; }
+        public virtual tb_floor tb_floor { get; set; }
     }
 }

@@ -17,22 +17,24 @@ namespace XyTech.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_floor()
         {
+            this.tb_attendance = new HashSet<tb_attendance>();
             this.tb_finance = new HashSet<tb_finance>();
             this.tb_inventory = new HashSet<tb_inventory>();
             this.tb_room = new HashSet<tb_room>();
-            this.tb_attendance = new HashSet<tb_attendance>();
         }
     
         public string fl_id { get; set; }
+        public string fl_bid { get; set; }
         public string fl_wifipwd { get; set; }
         public string fl_modemip { get; set; }
         public byte[] fl_cctvqr { get; set; }
         public Nullable<int> fl_landlord { get; set; }
         public string fl_address { get; set; }
         public string fl_active { get; set; }
-        public string fl_bid { get; set; }
         public byte[] fl_layout { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_attendance> tb_attendance { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_finance> tb_finance { get; set; }
         public virtual tb_landlord tb_landlord { get; set; }
@@ -40,7 +42,5 @@ namespace XyTech.Models
         public virtual ICollection<tb_inventory> tb_inventory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_room> tb_room { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_attendance> tb_attendance { get; set; }
     }
 }

@@ -11,7 +11,8 @@ namespace XyTech.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tb_user
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,6 +23,7 @@ namespace XyTech.Models
         }
     
         public string u_username { get; set; }
+        [DataType(DataType.Password)]
         public string u_pwd { get; set; }
         public string u_email { get; set; }
         public string u_phone { get; set; }

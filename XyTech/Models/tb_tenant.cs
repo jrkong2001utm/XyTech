@@ -14,12 +14,6 @@ namespace XyTech.Models
     
     public partial class tb_tenant
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_tenant()
-        {
-            this.tb_room = new HashSet<tb_room>();
-        }
-    
         public int t_id { get; set; }
         public string t_name { get; set; }
         public string t_ic { get; set; }
@@ -35,7 +29,6 @@ namespace XyTech.Models
         public int t_paymentstatus { get; set; }
         public string t_room { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_room> tb_room { get; set; }
+        public virtual tb_room tb_room { get; set; }
     }
 }
