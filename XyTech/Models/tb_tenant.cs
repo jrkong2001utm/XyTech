@@ -29,9 +29,11 @@ namespace XyTech.Models
         public string t_emergency { get; set; }
         public System.DateTime t_indate { get; set; }
         public System.DateTime t_outdate { get; set; }
+        public string t_outsession { get; set; }
         public int t_siri { get; set; }
         public double t_outstanding { get; set; }
         public int t_paymentstatus { get; set; }
+        public string t_room { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_room> tb_room { get; set; }

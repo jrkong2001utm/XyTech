@@ -16,9 +16,8 @@ namespace XyTech.Models
     {
         public int a_id { get; set; }
         public string a_floor { get; set; }
-        public Nullable<System.DateTime> a_check { get; set; }
+        public System.DateTime a_check { get; set; }
     
-        public virtual tb_attendance tb_attendance1 { get; set; }
-        public virtual tb_attendance tb_attendance2 { get; set; }
+        public virtual tb_floor tb_floor { get; set; }
     }
 }

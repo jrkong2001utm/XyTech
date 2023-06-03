@@ -14,9 +14,22 @@ namespace XyTech.Models
     
     public partial class tb_user
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_user()
+        {
+            this.tb_finance = new HashSet<tb_finance>();
+            this.tb_investor = new HashSet<tb_investor>();
+        }
+    
         public string u_username { get; set; }
         public string u_pwd { get; set; }
         public string u_email { get; set; }
-        public int u_usertype { get; set; }
+        public string u_phone { get; set; }
+        public string u_usertype { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_finance> tb_finance { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_investor> tb_investor { get; set; }
     }
 }

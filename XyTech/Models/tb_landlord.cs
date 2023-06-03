@@ -25,6 +25,7 @@ namespace XyTech.Models
         public string l_phone { get; set; }
         public double l_fee { get; set; }
         public System.DateTime l_due { get; set; }
+        public string l_bank { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_floor> tb_floor { get; set; }

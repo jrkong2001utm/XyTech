@@ -130,7 +130,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\FloorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -168,9 +167,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tb_profit.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\tb_reminder.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tb_room.cs">
@@ -1892,15 +1888,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\tinymce\langs\README.md" />
     <Content Include="Scripts\tinymce\tsconfig.json" />
-    <Content Include="Views\Inventory\Create.cshtml" />
-    <Content Include="Views\Inventory\Delete.cshtml" />
-    <Content Include="Views\Inventory\Details.cshtml" />
-    <Content Include="Views\Inventory\Edit.cshtml" />
-    <Content Include="Views\Inventory\Index.cshtml" />
+    <Content Include="Views\Floor\Create.cshtml" />
     <Content Include="Views\Floor\Delete.cshtml" />
     <Content Include="Views\Floor\Details.cshtml" />
     <Content Include="Views\Floor\Edit.cshtml" />
     <Content Include="Views\Floor\Index.cshtml" />
+    <Content Include="Views\Floor\Details_DL1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

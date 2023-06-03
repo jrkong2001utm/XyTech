@@ -14,7 +14,7 @@ namespace XyTech.Models
     
     public partial class tb_inventory
     {
-        public string iv_id { get; set; }
+        public int iv_id { get; set; }
         public string iv_floor { get; set; }
         public string iv_item { get; set; }
         public int iv_count { get; set; }

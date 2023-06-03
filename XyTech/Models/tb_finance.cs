@@ -14,14 +14,17 @@ namespace XyTech.Models
     
     public partial class tb_finance
     {
-        public int f_tid { get; set; }
-        public Nullable<double> f_transaction { get; set; }
+        public int f_id { get; set; }
+        public string f_floor { get; set; }
+        public string f_user { get; set; }
+        public double f_transaction { get; set; }
+        public string f_desc { get; set; }
         public string f_transactiontype { get; set; }
         public string f_paymentmethod { get; set; }
-        public Nullable<System.DateTime> f_date { get; set; }
+        public System.DateTime f_date { get; set; }
         public string f_receipt { get; set; }
     
-        public virtual tb_finance tb_finance1 { get; set; }
-        public virtual tb_finance tb_finance2 { get; set; }
+        public virtual tb_floor tb_floor { get; set; }
+        public virtual tb_user tb_user { get; set; }
     }
 }

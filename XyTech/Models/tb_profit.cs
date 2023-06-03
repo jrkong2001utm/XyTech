@@ -18,5 +18,7 @@ namespace XyTech.Models
         public int p_investor { get; set; }
         public string p_month { get; set; }
         public double p_profit { get; set; }
+    
+        public virtual tb_investor tb_investor { get; set; }
     }
 }
