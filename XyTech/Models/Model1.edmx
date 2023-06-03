@@ -74,19 +74,19 @@
           <Key>
             <PropertyRef Name="p_id" />
           </Key>
-          <Property Name="p_id" Type="int" Nullable="false" />
-          <Property Name="p_investor" Type="int" Nullable="false" />
-          <Property Name="p_month" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="p_profit" Type="float" Nullable="false" />
+          <Property Name="p_id" Nullable="false" Type="int" />
+          <Property Name="p_investor" Nullable="false" Type="int" />
+          <Property Name="p_month" Nullable="false" MaxLength="20" Type="varchar" />
+          <Property Name="p_profit" Nullable="false" Type="float" />
         </EntityType>
         <EntityType Name="tb_room">
           <Key>
             <PropertyRef Name="r_id" />
           </Key>
-          <Property Name="r_id" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="r_floor" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="r_price" Type="float" Nullable="false" />
-          <Property Name="r_availability" Type="int" Nullable="false" />
+          <Property Name="r_id" Nullable="false" MaxLength="50" Type="varchar" />
+          <Property Name="r_floor" Nullable="false" MaxLength="50" Type="varchar" />
+          <Property Name="r_price" Nullable="false" Type="float" />
+          <Property Name="r_availability" Nullable="false" Type="int" />
           <Property Name="r_tenant" Type="int" />
           <Property Name="r_size" Type="float" Nullable="false" />
           <Property Name="r_active" Type="varchar" MaxLength="10" Nullable="false" />
@@ -170,8 +170,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tb_inventory_tb_floor">
-          <End Role="tb_floor" Type="Self.tb_floor" Multiplicity="1" />
-          <End Role="tb_inventory" Type="Self.tb_inventory" Multiplicity="*" />
+          <End Type="Self.tb_floor" Multiplicity="1" Role="tb_floor" />
+          <End Type="Self.tb_inventory" Multiplicity="*" Role="tb_inventory" />
           <ReferentialConstraint>
             <Principal Role="tb_floor">
               <PropertyRef Name="fl_id" />
@@ -208,8 +208,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tb_room_tb_floor">
-          <End Role="tb_floor" Type="Self.tb_floor" Multiplicity="1" />
-          <End Role="tb_room" Type="Self.tb_room" Multiplicity="*" />
+          <End Type="Self.tb_floor" Multiplicity="1" Role="tb_floor" />
+          <End Type="Self.tb_room" Multiplicity="*" Role="tb_room" />
           <ReferentialConstraint>
             <Principal Role="tb_floor">
               <PropertyRef Name="fl_id" />
@@ -220,8 +220,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tb_room_tb_tenant">
-          <End Role="tb_tenant" Type="Self.tb_tenant" Multiplicity="0..1" />
-          <End Role="tb_room" Type="Self.tb_room" Multiplicity="*" />
+          <End Type="Self.tb_tenant" Multiplicity="0..1" Role="tb_tenant" />
+          <End Type="Self.tb_room" Multiplicity="*" Role="tb_room" />
           <ReferentialConstraint>
             <Principal Role="tb_tenant">
               <PropertyRef Name="t_id" />
@@ -255,12 +255,12 @@
             <End Role="tb_attendance" EntitySet="tb_attendance" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_floor_tb_landlord" Association="Self.FK_tb_floor_tb_landlord">
-            <End Role="tb_landlord" EntitySet="tb_landlord" />
-            <End Role="tb_floor" EntitySet="tb_floor" />
+            <End EntitySet="tb_landlord" Role="tb_landlord" />
+            <End EntitySet="tb_floor" Role="tb_floor" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_inventory_tb_floor" Association="Self.FK_tb_inventory_tb_floor">
-            <End Role="tb_floor" EntitySet="tb_floor" />
-            <End Role="tb_inventory" EntitySet="tb_inventory" />
+            <End EntitySet="tb_floor" Role="tb_floor" />
+            <End EntitySet="tb_inventory" Role="tb_inventory" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_investor_tb_user" Association="Self.FK_tb_investor_tb_user">
             <End Role="tb_user" EntitySet="tb_user" />
@@ -271,12 +271,12 @@
             <End Role="tb_profit" EntitySet="tb_profit" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_room_tb_floor" Association="Self.FK_tb_room_tb_floor">
-            <End Role="tb_floor" EntitySet="tb_floor" />
-            <End Role="tb_room" EntitySet="tb_room" />
+            <End EntitySet="tb_floor" Role="tb_floor" />
+            <End EntitySet="tb_room" Role="tb_room" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_room_tb_tenant" Association="Self.FK_tb_room_tb_tenant">
-            <End Role="tb_tenant" EntitySet="tb_tenant" />
-            <End Role="tb_room" EntitySet="tb_room" />
+            <End EntitySet="tb_tenant" Role="tb_tenant" />
+            <End EntitySet="tb_room" Role="tb_room" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
