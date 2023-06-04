@@ -1,0 +1,82 @@
+﻿@model XyTech.Models.tb_finance
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tb_finance</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.f_transaction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_transaction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_transactiontype)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_transactiontype)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_paymentmethod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_paymentmethod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_receipt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_receipt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tb_user.u_pwd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tb_user.u_pwd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tb_floor.fl_bid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tb_floor.fl_bid)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.f_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
