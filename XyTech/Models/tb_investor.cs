@@ -24,6 +24,7 @@ namespace XyTech.Models
         public string i_user { get; set; }
         public int i_lot { get; set; }
         public double i_amount { get; set; }
+        public string i_active { get; set; }
     
         public virtual tb_user tb_user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

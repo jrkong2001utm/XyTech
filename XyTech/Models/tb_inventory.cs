@@ -18,6 +18,7 @@ namespace XyTech.Models
         public string iv_floor { get; set; }
         public string iv_item { get; set; }
         public int iv_count { get; set; }
+        public string iv_active { get; set; }
     
         public virtual tb_floor tb_floor { get; set; }
     }
