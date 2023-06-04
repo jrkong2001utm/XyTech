@@ -10,7 +10,14 @@ namespace XyTech.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            if (Session["u_username"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public ActionResult About()
