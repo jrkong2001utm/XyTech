@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="a_id" />
           </Key>
-          <Property Name="a_id" Type="int" Nullable="false" />
+          <Property Name="a_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="a_floor" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="a_check" Type="datetime" Nullable="false" />
         </EntityType>
@@ -17,7 +17,7 @@
           <Key>
             <PropertyRef Name="f_id" />
           </Key>
-          <Property Name="f_id" Type="int" Nullable="false" />
+          <Property Name="f_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="f_floor" Type="varchar" MaxLength="50" />
           <Property Name="f_user" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="f_transaction" Type="float" Nullable="false" />
@@ -45,7 +45,7 @@
           <Key>
             <PropertyRef Name="iv_id" />
           </Key>
-          <Property Name="iv_id" Type="int" Nullable="false" />
+          <Property Name="iv_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="iv_floor" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="iv_item" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="iv_count" Type="int" Nullable="false" />
@@ -55,7 +55,7 @@
           <Key>
             <PropertyRef Name="i_id" />
           </Key>
-          <Property Name="i_id" Type="int" Nullable="false" />
+          <Property Name="i_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="i_user" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="i_lot" Type="int" Nullable="false" />
           <Property Name="i_amount" Type="float" Nullable="false" />
@@ -65,7 +65,7 @@
           <Key>
             <PropertyRef Name="l_id" />
           </Key>
-          <Property Name="l_id" Type="int" Nullable="false" />
+          <Property Name="l_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="l_name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="l_phone" Type="varchar" MaxLength="50" />
           <Property Name="l_fee" Type="float" Nullable="false" />
@@ -77,7 +77,7 @@
           <Key>
             <PropertyRef Name="p_id" />
           </Key>
-          <Property Name="p_id" Type="int" Nullable="false" />
+          <Property Name="p_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="p_investor" Type="int" Nullable="false" />
           <Property Name="p_month" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="p_profit" Type="float" Nullable="false" />
@@ -98,7 +98,7 @@
           <Key>
             <PropertyRef Name="t_id" />
           </Key>
-          <Property Name="t_id" Type="int" Nullable="false" />
+          <Property Name="t_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="t_name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="t_ic" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="t_uploadic" Type="varchar" MaxLength="50" Nullable="false" />
