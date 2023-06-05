@@ -39,7 +39,7 @@ namespace XyTech.Controllers
         // GET: Attendance/Create
         public ActionResult Create()
         {
-            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid");
+            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_id");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace XyTech.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid", tb_attendance.a_floor);
+            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_id", tb_attendance.a_floor);
             return View(tb_attendance);
         }
 
@@ -73,7 +73,7 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid", tb_attendance.a_floor);
+            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_id", tb_attendance.a_floor);
             return View(tb_attendance);
         }
 
@@ -90,7 +90,7 @@ namespace XyTech.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid", tb_attendance.a_floor);
+            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_id", tb_attendance.a_floor);
             return View(tb_attendance);
         }
 
