@@ -58,9 +58,15 @@
                             }
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.u_username }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.u_username }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.u_username })
+                            <a href="@Url.Action("Edit", new { id = item.u_username })" class="btn btn-link" title="edit">
+                                <i class="fa fa-edit text-primary"></i>
+                            </a>
+                            <a href="@Url.Action("Details", new { id = item.u_username })" class="btn btn-link" title="details">
+                                <i class="fa fa-info-circle text-info"></i>
+                            </a>
+                            <a href="@Url.Action("Delete", new { id = item.u_username })" class="btn btn-link" title="delete">
+                                <i class="fa fa-trash text-danger"></i>
+                            </a>
                         </td>
                     </tr>
                 }
