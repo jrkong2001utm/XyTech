@@ -3,12 +3,90 @@
 @{
     ViewBag.Title = "Index";
 }
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+<script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 
 <h2>Index</h2>
-
-<p>
+<p class="btn btn-success btn-rounded btn-fw">
     @Html.ActionLink("Create New", "Create")
 </p>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title">Tenant Table</p>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table id="example" class="display expandable-table" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>IC</th>
+                                        <th>Phone</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Out Session</th>
+                                        <th>Outstanding</th>
+                                        <th>Payment Status</th>
+                                        <th>Room No</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.t_name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.t_ic)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.t_phone)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.t_indate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.t_outdate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.t_outsession)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.t_outstanding)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.t_paymentstatus)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.tb_room.r_floor)
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.t_id }) |
+                                                @Html.ActionLink("Details", "Details", new { id = item.t_id }) |
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.t_id })
+                                            </td>
+                                        </tr>
+                                    }
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<!--
 <table class="table">
     <tr>
         <th>
@@ -53,53 +131,55 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.t_name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.t_ic)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.t_uploadic)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.t_contract)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.t_phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.t_emergency)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.t_indate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.t_outdate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.t_outsession)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.t_siri)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.t_outstanding)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.t_paymentstatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tb_room.r_floor)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.t_id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.t_id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.t_id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.t_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.t_ic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.t_uploadic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.t_contract)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.t_phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.t_emergency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.t_indate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.t_outdate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.t_outsession)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.t_siri)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.t_outstanding)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.t_paymentstatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tb_room.r_floor)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.t_id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.t_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.t_id })
+            </td>
+        </tr>
+    }
 
 </table>
+-->
