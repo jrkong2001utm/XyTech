@@ -1,0 +1,63 @@
+﻿@model IEnumerable<XyTech.Models.tb_landlord>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.l_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.l_phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.l_fee)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.l_due)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.l_bank)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.l_active)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.l_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.l_phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.l_fee)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.l_due)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.l_bank)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.l_active)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.l_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.l_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.l_id })
+        </td>
+    </tr>
+}
+
+</table>
