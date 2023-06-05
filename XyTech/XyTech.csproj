@@ -1969,6 +1969,13 @@
     <Content Include="Views\Tenant\Details.cshtml" />
     <Content Include="Views\Tenant\Edit.cshtml" />
     <Content Include="Views\Tenant\Index.cshtml" />
+    <Content Include="Views\Floor\Create.cshtml" />
+    <Content Include="Views\Floor\Delete.cshtml" />
+    <Content Include="Views\Floor\Details.cshtml" />
+    <Content Include="Views\Floor\Details_DL1.cshtml" />
+    <Content Include="Views\Floor\Edit.cshtml" />
+    <Content Include="Views\Floor\Index.cshtml" />
+    <Content Include="Views\Floor\FloorList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

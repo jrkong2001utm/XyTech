@@ -21,8 +21,14 @@ namespace XyTech.Controllers
             return View();
         }
 
-        // GET: Floor/Details/5
-        public ActionResult Details(string id)
+        public ActionResult FloorList()
+        {
+            var tb_floor = db.tb_floor.Include(t => t.tb_landlord);
+            return View(tb_floor.ToList());
+        }
+
+            // GET: Floor/Details/5
+            public ActionResult Details(string id)
         {
             if (id == null)
             {
@@ -38,13 +44,12 @@ namespace XyTech.Controllers
 
         public ActionResult Details_DL1()
         {
-            var floor = from f in db.tb_floor.Include(t => t.tb_landlord)
-                        select f;
-
-            floor = floor.Where(f => f.fl_id.Equals("DL1-v1.5"));
-            return View(floor.ToList());
+            using (var context = new Entities())
+            {
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals("DL1-v1.5")).ToList();
+                return View(floor);
+            }
         }
-
 
         // GET: Floor/Create
         public ActionResult Create()
@@ -88,8 +93,6 @@ namespace XyTech.Controllers
         }
 
         // POST: Floor/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_address,fl_active,fl_layout")] tb_floor tb_floor)

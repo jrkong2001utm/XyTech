@@ -30789,4 +30789,24 @@ div.tagsinput span.tag a {
 .floorlayout {
     float: left;
 }
+
+.floorlayout_parent {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 12px;
+    grid-row-gap: 12px;
+}
+
+.floorlayout_div1 {
+    grid-area: 1 / 4 / 4 / 6;
+}
+
+.floorlayout_div2 {
+    grid-area: 4 / 4 / 6 / 5;
+}
+
+.floorlayout_div3 {
+    grid-area: 4 / 5 / 6 / 6;
+}
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */
