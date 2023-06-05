@@ -1,0 +1,128 @@
+﻿@model XyTech.Models.tb_tenant
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>tb_tenant</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.t_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_ic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_ic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_uploadic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_uploadic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_contract)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_contract)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_emergency)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_emergency)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_indate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_indate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_outdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_outdate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_outsession)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_outsession)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_siri)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_siri)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_outstanding)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_outstanding)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_paymentstatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_paymentstatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tb_room.r_floor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tb_room.r_floor)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
