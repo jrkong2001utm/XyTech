@@ -17,7 +17,14 @@ namespace XyTech.Controllers
         // GET: Landlord
         public ActionResult Index()
         {
-            return View(db.tb_landlord.ToList());
+            using (var context = new Entities())
+            {
+                var selected = context.tb_landlord.Where(p => p.l_active != "4").ToList();
+
+                // Pass the selected rows to the view
+                return View(selected);
+            }
+            //return View(db.tb_landlord.ToList());
         }
 
         // GET: Landlord/Details/5
