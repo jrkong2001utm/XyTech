@@ -20,7 +20,7 @@ namespace XyTech.Models
             this.tb_finance = new HashSet<tb_finance>();
             this.tb_investor = new HashSet<tb_investor>();
         }
-    
+        
         public string u_username { get; set; }
         public string u_pwd { get; set; }
         public string u_email { get; set; }

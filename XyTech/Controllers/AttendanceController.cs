@@ -10,107 +10,112 @@ using XyTech.Models;
 
 namespace XyTech.Controllers
 {
-    public class UserController : Controller
+    public class AttendanceController : Controller
     {
         private Entities db = new Entities();
 
-        // GET: User
+        // GET: Attendance
         public ActionResult Index()
         {
-            return View(db.tb_user.ToList());
+            var tb_attendance = db.tb_attendance.Include(t => t.tb_floor);
+            return View(tb_attendance.ToList());
         }
 
-        // GET: User/Details/5
-        public ActionResult Details(string id)
+        // GET: Attendance/Details/5
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_user tb_user = db.tb_user.Find(id);
-            if (tb_user == null)
+            tb_attendance tb_attendance = db.tb_attendance.Find(id);
+            if (tb_attendance == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_user);
+            return View(tb_attendance);
         }
 
-        // GET: User/Create
+        // GET: Attendance/Create
         public ActionResult Create()
         {
+            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_id");
             return View();
         }
 
-        // POST: User/Create
+        // POST: Attendance/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "u_username,u_pwd,u_email,u_phone,u_usertype,u_active")] tb_user tb_user)
+        public ActionResult Create([Bind(Include = "a_id,a_floor,a_check")] tb_attendance tb_attendance)
         {
             if (ModelState.IsValid)
             {
-                db.tb_user.Add(tb_user);
+                db.tb_attendance.Add(tb_attendance);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(tb_user);
+            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_id", tb_attendance.a_floor);
+            return View(tb_attendance);
         }
 
-        // GET: User/Edit/5
-        public ActionResult Edit(string id)
+        // GET: Attendance/Edit/5
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_user tb_user = db.tb_user.Find(id);
-            if (tb_user == null)
+            tb_attendance tb_attendance = db.tb_attendance.Find(id);
+            if (tb_attendance == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_user);
+            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_id", tb_attendance.a_floor);
+            return View(tb_attendance);
         }
 
-        // POST: User/Edit/5
+        // POST: Attendance/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "u_username,u_pwd,u_email,u_phone,u_usertype,u_active")] tb_user tb_user)
+        public ActionResult Edit([Bind(Include = "a_id,a_floor,a_check")] tb_attendance tb_attendance)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tb_user).State = EntityState.Modified;
+                db.Entry(tb_attendance).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(tb_user);
+            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_id", tb_attendance.a_floor);
+            return View(tb_attendance);
         }
 
-        // GET: User/Delete/5
-        public ActionResult Delete(string id)
+        // GET: Attendance/Delete/5
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_user tb_user = db.tb_user.Find(id);
-            if (tb_user == null)
+            tb_attendance tb_attendance = db.tb_attendance.Find(id);
+            if (tb_attendance == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_user);
+            return View(tb_attendance);
         }
 
-        // POST: User/Delete/5
+        // POST: Attendance/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            tb_user tb_user = db.tb_user.Find(id);
-            db.tb_user.Remove(tb_user);
+            tb_attendance tb_attendance = db.tb_attendance.Find(id);
+            db.tb_attendance.Remove(tb_attendance);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

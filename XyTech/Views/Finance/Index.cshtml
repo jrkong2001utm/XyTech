@@ -7,66 +7,78 @@
 </p>
 <div class="card">
     <div class="card-body">
-        <table class="table">
-            <tr>
-                <th>
-                    ID
-                </th>
-                <th>
-                    Date
-                </th>
-                <th>
-                    Amount
-                </th>
-                <th>
-                    Inflow/Outflow
-                </th>
-                <th>
-                    Bank/Cash
-                </th>
-                <th>
-                    Details
-                </th>
-                <th>
-                    Receipts
-                </th>
-                <th>
-                    User-in-charge
-                </th>
-                <th>
-                    Floor ID
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
+        <div class="table-responsive pt-3">
+            <table class="table table-bordered">
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.f_id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.f_date)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.f_transaction)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.f_transactiontype)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.f_paymentmethod)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.f_desc)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.f_receipt)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.tb_user.u_username)
-                    </td>
-                    
+                    <th>
+                        Year
+                    </th>
+                    <th>
+                        Month
+                    </th>
+                    <th>
+                        Day
+                    </th>
+                    <th>
+                        Inflow
+                    </th>
+                    <th>
+                        Outflow
+                    </th>
+                    <th>
+                        Bank/Cash
+                    </th>
+                    <th>
+                        Details
+                    </th>
+                    <th>
+                        Receipts
+                    </th>
+                    <th>
+                        Floor ID
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    // Extract year, month, and day from f_date
+                    var year = item.f_date.Year;
+                    var month = item.f_date.Month;
+                    var day = item.f_date.Day;
+                    <tr>
+                        <td>
+                            @year
+                        </td>
+                        <td>
+                            @month
+                        </td>
+                        <td>
+                            @day
+                        </td>
+                        <td>
+                            @if (item.f_transactiontype == "Inflow")
+                            {
+                                <span id="inflowAmount">@item.f_transaction</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.f_transactiontype == "Outflow")
+                            {
+                                <span id="inflowAmount">@item.f_transaction</span>
+                            }
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.f_paymentmethod)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.f_desc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.f_receipt)
+                        </td>
+
                         @if (item.tb_floor?.fl_id == null)
                         {
                             <td>
@@ -79,15 +91,53 @@
                                 @Html.DisplayFor(modelItem => item.tb_floor.fl_id)
                             </td>
                         }
-                                
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.f_id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.f_id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.f_id })
-                    </td>
-                </tr>
-            }
 
-        </table>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.f_id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.f_id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.f_id })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
     </div>
 </div>
+
+<script>
+    // Format the inflow and outflow amounts with 2 decimal places
+    var inflowAmount = document.getElementById("inflowAmount");
+    if (inflowAmount) {
+        inflowAmount.textContent = parseFloat(inflowAmount.textContent).toFixed(2);
+    }
+
+    function GetRowColor(transactionType) {
+        if (transactionType === "Inflow") {
+            return "inflow-row";
+        }
+        else if (transactionType === "Outflow") {
+            return "outflow-row";
+        }
+        else {
+            return ""; // Default row color
+        }
+    }
+</script>
+
+<style>
+    .inflow-row {
+        background-color: lightgreen;
+    }
+
+    .outflow-row {
+        background-color: lightcoral;
+    }
+</style>
+
+
+
+
+
+
+
