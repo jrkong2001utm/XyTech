@@ -11,8 +11,7 @@ namespace XyTech.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class tb_finance
     {
         public int f_id { get; set; }
@@ -22,8 +21,7 @@ namespace XyTech.Models
         public string f_desc { get; set; }
         public string f_transactiontype { get; set; }
         public string f_paymentmethod { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime? f_date { get; set; }
+        public System.DateTime f_date { get; set; }
         public string f_receipt { get; set; }
     
         public virtual tb_user tb_user { get; set; }

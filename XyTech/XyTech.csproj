@@ -157,6 +157,9 @@
     <Compile Include="Models\tb_attendance.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tb_bankname.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tb_finance.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
