@@ -39,8 +39,8 @@ namespace XyTech.Controllers
         // GET: Finance/Create
         public ActionResult Create()
         {
-            ViewBag.f_user = new SelectList(db.tb_user, "u_username", "u_pwd");
-            ViewBag.f_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid");
+            ViewBag.f_user = Session["u_username"];
+            ViewBag.f_floor = new SelectList(db.tb_floor, "fl_id", "fl_id");
             return View();
         }
 
