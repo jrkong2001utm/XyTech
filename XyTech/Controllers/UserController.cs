@@ -46,7 +46,7 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "u_username,u_pwd,u_email,u_phone,u_usertype")] tb_user tb_user)
+        public ActionResult Create([Bind(Include = "u_username,u_pwd,u_email,u_phone,u_usertype,u_active")] tb_user tb_user)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "u_username,u_pwd,u_email,u_phone,u_usertype")] tb_user tb_user)
+        public ActionResult Edit([Bind(Include = "u_username,u_pwd,u_email,u_phone,u_usertype,u_active")] tb_user tb_user)
         {
             if (ModelState.IsValid)
             {
