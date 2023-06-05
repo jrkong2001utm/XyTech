@@ -3,21 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using XyTech.Attributes;
 
 namespace XyTech.Controllers
 {
+    [CustomAuthorize]
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
-            if (Session["u_username"] == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-            else
-            {
+            
                 return View();
-            }
+            
         }
 
         public ActionResult About()

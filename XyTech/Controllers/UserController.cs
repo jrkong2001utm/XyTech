@@ -82,6 +82,12 @@ namespace XyTech.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (string.IsNullOrWhiteSpace(tb_user.u_pwd))
+                {
+                    // User is being edited, and password is not being modified
+                    ModelState.Remove("u_pwd"); // Remove the password property from ModelState to bypass its validation
+                }
+
                 db.Entry(tb_user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
