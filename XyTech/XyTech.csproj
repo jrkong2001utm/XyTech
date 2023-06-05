@@ -1955,11 +1955,6 @@
     <Content Include="Views\Floor\Edit.cshtml" />
     <Content Include="Views\Floor\Index.cshtml" />
     <Content Include="Views\Floor\Details_DL1.cshtml" />
-    <Content Include="Views\User\Create.cshtml" />
-    <Content Include="Views\User\Delete.cshtml" />
-    <Content Include="Views\User\Details.cshtml" />
-    <Content Include="Views\User\Edit.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Shared\_navbar.cshtml" />
     <Content Include="Views\Shared\_settingpanel.cshtml" />
@@ -1984,6 +1979,11 @@
     <Content Include="Views\Investor\Details.cshtml" />
     <Content Include="Views\Investor\Edit.cshtml" />
     <Content Include="Views\Investor\Index.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\User\Delete.cshtml" />
+    <Content Include="Views\User\Details.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

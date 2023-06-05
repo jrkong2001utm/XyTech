@@ -11,7 +11,7 @@ namespace XyTech.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class tb_finance
     {
         public int f_id { get; set; }
