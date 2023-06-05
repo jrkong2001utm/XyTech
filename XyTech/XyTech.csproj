@@ -1945,12 +1945,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\tinymce\langs\README.md" />
     <Content Include="Scripts\tinymce\tsconfig.json" />
-    <Content Include="Views\Floor\Create.cshtml" />
-    <Content Include="Views\Floor\Delete.cshtml" />
-    <Content Include="Views\Floor\Details_DL1.cshtml" />
-    <Content Include="Views\Floor\Edit.cshtml" />
-    <Content Include="Views\Floor\Index.cshtml" />
-    <Content Include="Views\Floor\Details_DL1.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\User\Details.cshtml" />
