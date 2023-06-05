@@ -120,6 +120,11 @@ namespace XyTech.Controllers
             return RedirectToAction("Index");
         }
 
+       /** public ActionResult FileUplaod()
+        {
+
+        }
+       **/
         protected override void Dispose(bool disposing)
         {
             if (disposing)
