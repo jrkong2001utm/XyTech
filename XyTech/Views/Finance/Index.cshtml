@@ -10,7 +10,7 @@
         <table class="table">
             <tr>
                 <th>
-                    Transaction ID
+                    ID
                 </th>
                 <th>
                     Date
@@ -26,6 +26,9 @@
                 </th>
                 <th>
                     Details
+                </th>
+                <th>
+                    Receipts
                 </th>
                 <th>
                     User-in-charge
@@ -61,11 +64,22 @@
                         @Html.DisplayFor(modelItem => item.f_receipt)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.tb_user.u_pwd)
+                        @Html.DisplayFor(modelItem => item.tb_user.u_username)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.tb_floor.fl_bid)
-                    </td>
+                    
+                        @if (item.tb_floor?.fl_id == null)
+                        {
+                            <td>
+                                General
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.tb_floor.fl_id)
+                            </td>
+                        }
+                                
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.f_id }) |
                         @Html.ActionLink("Details", "Details", new { id = item.f_id }) |
