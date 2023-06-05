@@ -10,117 +10,112 @@ using XyTech.Models;
 
 namespace XyTech.Controllers
 {
-    public class LandlordController : Controller
+    public class InvestorController : Controller
     {
         private Entities db = new Entities();
 
-        // GET: Landlord
+        // GET: Investor
         public ActionResult Index()
         {
-            var landlords = db.tb_landlord
-                .Where(l => l.l_active != "4")
-                .Include(l => l.tb_bankname)
-                .OrderBy(l => l.l_due)
-                .ToList();
-
-            return View(landlords);
+            var tb_investor = db.tb_investor.Include(t => t.tb_user);
+            return View(tb_investor.ToList());
         }
 
-        // GET: Landlord/Details/5
+        // GET: Investor/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var landlord = db.tb_landlord
-                .Where(l => l.l_id == id && l.l_active != "4")
-                .Include(l => l.tb_bankname)
-                .FirstOrDefault();
-            if (landlord == null)
+            tb_investor tb_investor = db.tb_investor.Find(id);
+            if (tb_investor == null)
             {
                 return HttpNotFound();
             }
-            return View(landlord);
+            return View(tb_investor);
         }
 
-        // GET: Landlord/Create
+        // GET: Investor/Create
         public ActionResult Create()
         {
-            ViewBag.l_bankname = new SelectList(db.tb_bankname, "bn_id", "bn_description");
+            ViewBag.i_user = new SelectList(db.tb_user, "u_username", "u_pwd");
             return View();
         }
 
-        // POST: Landlord/Create
+        // POST: Investor/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "l_id,l_name,l_phone,l_fee,l_due,l_bank,l_active,l_bankname")] tb_landlord tb_landlord)
+        public ActionResult Create([Bind(Include = "i_id,i_user,i_lot,i_amount,i_active")] tb_investor tb_investor)
         {
             if (ModelState.IsValid)
             {
-                db.tb_landlord.Add(tb_landlord);
+                db.tb_investor.Add(tb_investor);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(tb_landlord);
+            ViewBag.i_user = new SelectList(db.tb_user, "u_username", "u_pwd", tb_investor.i_user);
+            return View(tb_investor);
         }
 
-        // GET: Landlord/Edit/5
+        // GET: Investor/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_landlord tb_landlord = db.tb_landlord.Find(id);
-            if (tb_landlord == null)
+            tb_investor tb_investor = db.tb_investor.Find(id);
+            if (tb_investor == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_landlord);
+            ViewBag.i_user = new SelectList(db.tb_user, "u_username", "u_pwd", tb_investor.i_user);
+            return View(tb_investor);
         }
 
-        // POST: Landlord/Edit/5
+        // POST: Investor/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "l_id,l_name,l_phone,l_fee,l_due,l_bank,l_active")] tb_landlord tb_landlord)
+        public ActionResult Edit([Bind(Include = "i_id,i_user,i_lot,i_amount,i_active")] tb_investor tb_investor)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tb_landlord).State = EntityState.Modified;
+                db.Entry(tb_investor).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(tb_landlord);
+            ViewBag.i_user = new SelectList(db.tb_user, "u_username", "u_pwd", tb_investor.i_user);
+            return View(tb_investor);
         }
 
-        // GET: Landlord/Delete/5
+        // GET: Investor/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_landlord tb_landlord = db.tb_landlord.Find(id);
-            if (tb_landlord == null)
+            tb_investor tb_investor = db.tb_investor.Find(id);
+            if (tb_investor == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_landlord);
+            return View(tb_investor);
         }
 
-        // POST: Landlord/Delete/5
+        // POST: Investor/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            tb_landlord tb_landlord = db.tb_landlord.Find(id);
-            db.tb_landlord.Remove(tb_landlord);
+            tb_investor tb_investor = db.tb_investor.Find(id);
+            db.tb_investor.Remove(tb_investor);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

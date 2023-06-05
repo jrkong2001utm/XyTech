@@ -11,28 +11,19 @@ namespace XyTech.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class tb_landlord
+    
+    public partial class tb_bankname
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_landlord()
+        public tb_bankname()
         {
-            this.tb_floor = new HashSet<tb_floor>();
+            this.tb_landlord = new HashSet<tb_landlord>();
         }
     
-        public int l_id { get; set; }
-        public string l_name { get; set; }
-        public string l_phone { get; set; }
-        public double l_fee { get; set; }
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public System.DateTime l_due { get; set; }
-        public string l_bank { get; set; }
-        public string l_active { get; set; }
-        public int l_bankname { get; set; }
+        public int bn_id { get; set; }
+        public string bn_description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_floor> tb_floor { get; set; }
-        public virtual tb_bankname tb_bankname { get; set; }
+        public virtual ICollection<tb_landlord> tb_landlord { get; set; }
     }
 }

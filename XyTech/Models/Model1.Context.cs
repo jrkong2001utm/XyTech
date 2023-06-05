@@ -35,5 +35,6 @@ namespace XyTech.Models
         public virtual DbSet<tb_attendance> tb_attendance { get; set; }
         public virtual DbSet<tb_floor> tb_floor { get; set; }
         public virtual DbSet<tb_room> tb_room { get; set; }
+        public virtual DbSet<tb_bankname> tb_bankname { get; set; }
     }
 }

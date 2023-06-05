@@ -3,7 +3,6 @@
 
 <head>
     @RenderSection("head", required: false)
-    @RenderSection("scripts", required: false)
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,7 +21,7 @@
     <link rel="stylesheet" href="~/Content/assets/css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="~/Content/assets/images/favicon.ico" />
-    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    
 </head>
 <body>
     <div class="container-scroller">
@@ -84,8 +83,7 @@
     <script src="~/Content/assets/js/dashboard.js"></script>
     <script src="~/Content/assets/js/Chart.roundedBarCharts.js"></script>
     <!-- End custom js for this page-->
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 
 </html>

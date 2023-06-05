@@ -4,44 +4,9 @@
     ViewBag.Title = "Create";
 }
 
+
 <h2>Create</h2>
-@section Scripts {
 
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jqueryui")
-    @Styles.Render("~/Content/cssjqryUi")
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#t_indate').datepicker({
-                dateFormat: "dd/MM/yy",
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-60:+0",
-                minDate: "0D",
-                onSelect: function (selected) {
-                    var dt = new Date(selected);
-                    dt.setDate(dt.getDate() + 1);
-                    $("#t_outdate").datepicker("option", "minDate", dt);
-                }
-            });
-
-            $('#t_outdate').datepicker({
-                dateFormat: "dd/MM/yy",
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-60:+0",
-                onSelect: function (selected) {
-                    var dt = new Date(selected);
-                    dt.setDate(dt.getDate() - 1);
-                    $("#t_indate").datepicker("option", "maxDate", dt);
-                }
-            });
-
-        });
-    </script>
-
-}
 
 @using (Html.BeginForm())
 {
@@ -103,7 +68,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.t_indate, "Check In Date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.t_indate, new { htmlAttributes = new { @class = "datetime", autocomplete = "off" } })
+                @Html.EditorFor(model => model.t_indate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.t_indate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -111,7 +76,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.t_outdate, "Check Out Date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.t_outdate, new { htmlAttributes = new { @class = "datetime", autocomplete = "off" } })
+                @Html.EditorFor(model => model.t_outdate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.t_outdate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -143,7 +108,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.t_paymentstatus, "Payment Status", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.t_paymentstatus, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("t_paymentstatus", new SelectList(new[]
+                {
+                    "Successfuly Paid",
+                    "Partially Paid",
+                    "Unpaid"
+                }), "Select Payment Status", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.t_paymentstatus, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -158,12 +128,49 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-success btn-rounded btn-fw" />
             </div>
         </div>
     </div>
 }
 
-<div>
+<div class="btn btn-dark btn-rounded btn-fw">
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts {
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.13.2.min.js"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#t_indate').datepicker({
+                dateFormat: "dd/MM/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0",
+                minDate: "0D",
+                onSelect: function (selected) {
+                    var dt = new Date(selected);
+                    dt.setDate(dt.getDate() + 1);
+                    $("#t_outdate").datepicker("option", "minDate", dt);
+                }
+            });
+
+            $('#t_outdate').datepicker({
+                dateFormat: "dd/MM/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0",
+                onSelect: function (selected) {
+                    var dt = new Date(selected);
+                    dt.setDate(dt.getDate() - 1);
+                    $("#t_indate").datepicker("option", "maxDate", dt);
+                }
+            });
+
+        });
+    </script>
+}
