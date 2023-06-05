@@ -7,85 +7,88 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <img class="floorlayout" src="~/Content/assets/images/floor_layout_trim/DL1-1.jpeg" alt="DL1" usemap="#DL1map">
-
-    <map name="DL1map">
-        <area shape="rect" coords="43,29,121,87" alt="Room1" href="~/Views/Room/Details/DL1-Room1" id="r_id">
-        <area shape="rect" coords="45,91,117,151" alt="Room2" href="~/Views/Room/Details/DL1-Room2" id="r_id">
-        <area shape="rect" coords="45,156,117,208" alt="Room3" href="~/Views/Room/Details/DL1-Room3" id="r_id">
-        <area shape="rect" coords="45,218,116,272" alt="Room4" href="~/Views/Room/Details/DL1-Room4" id="r_id">
-        <area shape="rect" coords="44,278,115,334" alt="Room5" href="~/Views/Room/Details/DL1-Room5" id="r_id">
-        <area shape="rect" coords="46,341,117,396" alt="Room6" href="~/Views/Room/Details/DL1-Room6" id="r_id">
-        <area shape="rect" coords="44,404,118,456" alt="Room7" href="~/Views/Room/Details/DL1-Room7" id="r_id">
-        <area shape="rect" coords="47,469,116,520" alt="Room8" href="~/Views/Room/Details/DL1-Room8" id="r_id">
-        <area shape="rect" coords="45,528,115,580" alt="Room9" href="~/Views/Room/Details/DL1-Room9" id="r_id">
-        <area shape="rect" coords="44,590,117,644" alt="Room10" href="~/Views/Room/Details/DL1-Room10" id="r_id">
-        <area shape="rect" coords="147,514,220,568" alt="Room11" href="~/Views/Room/Details/DL1-Room11" id="r_id">
-        <area shape="rect" coords="149,428,222,504" alt="Room12" href="~/Views/Room/Details/DL1-Room12" id="r_id">
-        <area shape="rect" coords="149,129,222,210" alt="Room13" href="~/Views/Room/Details/DL1-Room13" id="r_id">
-        <area shape="rect" coords="147,29,222,122" alt="Room14" href="~/Views/Room/Details/DL1-Room14" id="r_id">
-    </map>
-
     <div>
-        @foreach (var item in Model)
-        {
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.Label("Floor Level")
-                </dt>
+        <img class="floorlayout" src="~/Content/assets/images/floor_layout_trim/DL1-1.jpeg" alt="DL1" usemap="#DL1map" width="300" height="800">
 
-                <dd>
-                    @Html.DisplayFor(modelItem => item.fl_bid)
-                </dd>
-
-                <dt>
-                    @Html.Label("Address")
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(modelItem => item.fl_address)
-                </dd>
-
-                <dt>
-                    @Html.Label("Landlord")
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(modelItem => item.fl_landlord)
-                </dd>
-
-                <dt>
-                    @Html.Label("Modem IP Adress")
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(modelItem => item.fl_modemip)
-                </dd>
-
-                <dt>
-                    @Html.Label("WiFi Password")
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(modelItem => item.fl_wifipwd)
-                </dd>
-
-                <dt>
-                    @Html.Label("CCTV QR Code")
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => item.fl_cctvqr)
-                </dd>
-
-            </dl>
-
-            @Html.ActionLink("Edit", "Edit", new { id = item.fl_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
-
-            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
-        }
+        <map name="DL1map">
+            <area shape="rect" coords="43,29,121,87" alt="Room1" href="~/Views/Room/Details/DL1-Room1" id="r_id">
+            <area shape="rect" coords="45,91,117,151" alt="Room2" href="~/Views/Room/Details/DL1-Room2" id="r_id">
+            <area shape="rect" coords="45,156,117,208" alt="Room3" href="~/Views/Room/Details/DL1-Room3" id="r_id">
+            <area shape="rect" coords="45,218,116,272" alt="Room4" href="~/Views/Room/Details/DL1-Room4" id="r_id">
+            <area shape="rect" coords="44,278,115,334" alt="Room5" href="~/Views/Room/Details/DL1-Room5" id="r_id">
+            <area shape="rect" coords="46,341,117,396" alt="Room6" href="~/Views/Room/Details/DL1-Room6" id="r_id">
+            <area shape="rect" coords="44,404,118,456" alt="Room7" href="~/Views/Room/Details/DL1-Room7" id="r_id">
+            <area shape="rect" coords="47,469,116,520" alt="Room8" href="~/Views/Room/Details/DL1-Room8" id="r_id">
+            <area shape="rect" coords="45,528,115,580" alt="Room9" href="~/Views/Room/Details/DL1-Room9" id="r_id">
+            <area shape="rect" coords="44,590,117,644" alt="Room10" href="~/Views/Room/Details/DL1-Room10" id="r_id">
+            <area shape="rect" coords="147,514,220,568" alt="Room11" href="~/Views/Room/Details/DL1-Room11" id="r_id">
+            <area shape="rect" coords="149,428,222,504" alt="Room12" href="~/Views/Room/Details/DL1-Room12" id="r_id">
+            <area shape="rect" coords="149,129,222,210" alt="Room13" href="~/Views/Room/Details/DL1-Room13" id="r_id">
+            <area shape="rect" coords="147,29,222,122" alt="Room14" href="~/Views/Room/Details/DL1-Room14" id="r_id">
+        </map>
     </div>
+
+    @foreach (var item in Model)
+    {
+        <div class="col-8 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <form class="forms-sample">
+                        <div class="form-group row">
+                            <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Building Code</label>
+                            <div class="col-sm-7 col-form-label">
+                                @Html.DisplayFor(modelItem => item.fl_id)
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Floor Level</label>
+                            <div class="col-sm-7 col-form-label">
+                                @Html.DisplayFor(modelItem => item.fl_bid)
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="exampleInputMobile" class="col-sm-4 col-form-label">Address</label>
+                            <div class="col-sm-7 col-form-label">
+                                @Html.DisplayFor(modelItem => item.fl_address)
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="exampleInputPassword2" class="col-sm-4 col-form-label">Landlord Name</label>
+                            <div class="col-sm-7 col-form-label">
+                                @Html.DisplayFor(modelItem => item.fl_landlord)
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">WiFi Password</label>
+                            <div class="col-sm-7 col-form-label">
+                                @Html.DisplayFor(modelItem => item.fl_wifipwd)
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">Modem IP</label>
+                            <div class="col-sm-7 col-form-label">
+                                @Html.DisplayFor(modelItem => item.fl_modemip)
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">CCTV QR Code</label>
+                            <div class="col-sm-7 col-form-label">
+                                @Html.DisplayFor(modelItem => item.fl_cctvqr)
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-auto">
+                                @Html.ActionLink("Edit", "FloorList", null, new { @class = "btn btn-primary btn-rounded btn-fw" })
+                            </div>
+                            <div class="col-auto">
+                                @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    }
 </body>
 </html>
-
-

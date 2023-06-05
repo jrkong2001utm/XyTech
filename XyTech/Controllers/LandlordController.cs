@@ -17,14 +17,13 @@ namespace XyTech.Controllers
         // GET: Landlord
         public ActionResult Index()
         {
-            using (var context = new Entities())
-            {
-                var selected = context.tb_landlord.Where(p => p.l_active != "4").ToList();
+            var landlords = db.tb_landlord
+                .Where(l => l.l_active != "4")
+                .Include(l => l.tb_bankname)
+                .OrderBy(l => l.l_due)
+                .ToList();
 
-                // Pass the selected rows to the view
-                return View(selected);
-            }
-            //return View(db.tb_landlord.ToList());
+            return View(landlords);
         }
 
         // GET: Landlord/Details/5
@@ -34,17 +33,21 @@ namespace XyTech.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_landlord tb_landlord = db.tb_landlord.Find(id);
-            if (tb_landlord == null)
+            var landlord = db.tb_landlord
+                .Where(l => l.l_id == id && l.l_active != "4")
+                .Include(l => l.tb_bankname)
+                .FirstOrDefault();
+            if (landlord == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_landlord);
+            return View(landlord);
         }
 
         // GET: Landlord/Create
         public ActionResult Create()
         {
+            ViewBag.l_bankname = new SelectList(db.tb_bankname, "bn_id", "bn_description");
             return View();
         }
 
@@ -53,7 +56,7 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "l_id,l_name,l_phone,l_fee,l_due,l_bank,l_active")] tb_landlord tb_landlord)
+        public ActionResult Create([Bind(Include = "l_id,l_name,l_phone,l_fee,l_due,l_bank,l_active,l_bankname")] tb_landlord tb_landlord)
         {
             if (ModelState.IsValid)
             {
