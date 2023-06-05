@@ -1,4 +1,4 @@
-﻿﻿@model XyTech.Models.tb_floor
+﻿@model IEnumerable<XyTech.Models.tb_floor>
 
 @{
     ViewBag.Title = "Details_DL1";
@@ -7,8 +7,6 @@
 <!DOCTYPE html>
 <html>
 <body>
-
-    @Html.Hidden("searchString", "DL1")
     <img class="floorlayout" src="~/Content/assets/images/floor_layout_trim/DL1-1.jpeg" alt="DL1" usemap="#DL1map">
 
     <map name="DL1map">
@@ -28,81 +26,66 @@
         <area shape="rect" coords="147,29,222,122" alt="Room14" href="~/Views/Room/Details/DL1-Room14" id="r_id">
     </map>
 
+    <div>
+        @foreach (var item in Model)
+        {
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.Label("Floor Level")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(modelItem => item.fl_bid)
+                </dd>
+
+                <dt>
+                    @Html.Label("Address")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(modelItem => item.fl_address)
+                </dd>
+
+                <dt>
+                    @Html.Label("Landlord")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(modelItem => item.fl_landlord)
+                </dd>
+
+                <dt>
+                    @Html.Label("Modem IP Adress")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(modelItem => item.fl_modemip)
+                </dd>
+
+                <dt>
+                    @Html.Label("WiFi Password")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(modelItem => item.fl_wifipwd)
+                </dd>
+
+                <dt>
+                    @Html.Label("CCTV QR Code")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => item.fl_cctvqr)
+                </dd>
+
+            </dl>
+
+            @Html.ActionLink("Edit", "Edit", new { id = item.fl_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
+
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
+        }
+    </div>
 </body>
 </html>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-<h2>Details</h2>
-
-<div>
-    <h4>tb_floor</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.fl_bid)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fl_bid)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.fl_wifipwd)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fl_wifipwd)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.fl_modemip)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fl_modemip)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.fl_cctvqr)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fl_cctvqr)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.fl_layout)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fl_layout)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.tb_landlord.l_name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.tb_landlord.l_name)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.fl_id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-    -->

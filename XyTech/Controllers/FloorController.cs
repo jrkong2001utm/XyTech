@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -17,36 +18,33 @@ namespace XyTech.Controllers
         // GET: Floor
         public ActionResult Index()
         {
-            var tb_floor = db.tb_floor.Include(t => t.tb_landlord);
-            return View(tb_floor.ToList());
+            return View();
         }
 
         // GET: Floor/Details/5
-        public ActionResult Details_DL1(string searchString)
-        {
-            var floor = from f in db.tb_floor.Include(t => t.tb_landlord)
-                        select f;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                floor = floor.Where(f => f.fl_id.Contains(searchString));
-            }
-            return View(floor.ToList());
-        }
-
-        public ActionResult Room(string id)
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_room tb_room = db.tb_room.Find(id);
-            if (tb_room == null)
+            tb_floor tb_floor = db.tb_floor.Find(id);
+            if (tb_floor == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_room);
+            return View(tb_floor);
         }
+
+        public ActionResult Details_DL1()
+        {
+            var floor = from f in db.tb_floor.Include(t => t.tb_landlord)
+                        select f;
+
+            floor = floor.Where(f => f.fl_id.Equals("DL1-v1.5"));
+            return View(floor.ToList());
+        }
+
 
         // GET: Floor/Create
         public ActionResult Create()
@@ -60,7 +58,7 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "fl_id,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_address,fl_active,fl_bid,fl_layout")] tb_floor tb_floor)
+        public ActionResult Create([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_address,fl_active,fl_layout")] tb_floor tb_floor)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +92,7 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "fl_id,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_address,fl_active,fl_bid,fl_layout")] tb_floor tb_floor)
+        public ActionResult Edit([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_address,fl_active,fl_layout")] tb_floor tb_floor)
         {
             if (ModelState.IsValid)
             {
