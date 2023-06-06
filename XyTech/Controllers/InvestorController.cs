@@ -40,7 +40,7 @@ namespace XyTech.Controllers
         // GET: Investor/Create
         public ActionResult Create()
         {
-            ViewBag.i_user = new SelectList(db.tb_user, "u_username", "u_username");
+            ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username");
             return View();
         }
 
@@ -58,7 +58,7 @@ namespace XyTech.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.i_user = new SelectList(db.tb_user, "u_username", "u_username", tb_investor.i_user);
+            ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username", tb_investor.i_user);
             return View(tb_investor);
         }
 
@@ -74,7 +74,7 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.i_user = new SelectList(db.tb_user, "u_username", "u_username", tb_investor.i_user);
+            ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username", tb_investor.i_user);
             return View(tb_investor);
         }
 
@@ -91,7 +91,7 @@ namespace XyTech.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.i_user = new SelectList(db.tb_user, "u_username", "u_username", tb_investor.i_user);
+            ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username", tb_investor.i_user);
             return View(tb_investor);
         }
 
