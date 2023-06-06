@@ -49,7 +49,7 @@ namespace XyTech.Controllers
         {
             using (var context = new Entities())
             {
-                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals("DL1-v1.5")).ToList();
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(1)).ToList();
                 return View(floor);
             }
         }
@@ -136,14 +136,11 @@ namespace XyTech.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_address,fl_active,fl_layout")] tb_floor tb_floor)
         {
-            tb_floor floor = new tb_floor();
-
             HttpPostedFileBase imageFile = Request.Files["imageFile"];
             HttpPostedFileBase qrimageFile = Request.Files["qrimageFile"];
 
             if (ModelState.IsValid)
             {
-
                 if (imageFile != null && imageFile.ContentLength > 0)
                 {
                     // Read the image file into a byte array
@@ -154,7 +151,7 @@ namespace XyTech.Controllers
                     }
 
                     // Assign the image data to the floor object
-                    floor.fl_layout = imageData;
+                    tb_floor.fl_layout = imageData;
                 }
 
                 if (qrimageFile != null && qrimageFile.ContentLength > 0)
@@ -167,14 +164,11 @@ namespace XyTech.Controllers
                     }
 
                     // Assign the image data to the floor object
-                    floor.fl_cctvqr = qrimageData;
+                    tb_floor.fl_cctvqr = qrimageData;
                 }
 
-                using (var context = new Entities())
-                {
-                    context.Entry(tb_floor).State = EntityState.Modified;
-                    context.SaveChanges();
-                }
+                db.Entry(tb_floor).State = EntityState.Modified;
+                db.SaveChanges();
 
                 return RedirectToAction("FloorList");
             }
@@ -182,6 +176,7 @@ namespace XyTech.Controllers
             ViewBag.fl_landlord = new SelectList(db.tb_landlord, "l_id", "l_name", tb_floor.fl_landlord);
             return View(tb_floor);
         }
+
 
         // GET: Floor/Delete/5
         public ActionResult Delete(string id)
