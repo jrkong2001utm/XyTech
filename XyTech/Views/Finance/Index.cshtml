@@ -39,6 +39,10 @@
                     </th>
                     <th></th>
                 </tr>
+                @{
+                    int previousYear = 0;
+                    int previousMonth = -1;
+                }
 
                 @foreach (var item in Model)
                 {
@@ -47,12 +51,25 @@
                     var month = item.f_date.Month;
                     var day = item.f_date.Day;
                     <tr>
-                        <td>
-                            @year
-                        </td>
-                        <td>
-                            @month
-                        </td>
+                        @{
+                            if (year == previousYear)
+                            {
+                                <td rowspan="2">@year</td>
+                            }
+                            else
+                            {
+                                <td>@year</td>
+                            }
+
+                            if (month == previousMonth)
+                            {
+                                <td rowspan="2">@month</td>
+                            }
+                            else
+                            {
+                                <td>@month</td>
+                            }
+                        }
                         <td>
                             @day
                         </td>

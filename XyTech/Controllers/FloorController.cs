@@ -31,18 +31,18 @@ namespace XyTech.Controllers
 
             // GET: Floor/Details/5
             public ActionResult Details(string id)
-        {
-            if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                tb_floor tb_floor = db.tb_floor.Find(id);
+                if (tb_floor == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(tb_floor);
             }
-            tb_floor tb_floor = db.tb_floor.Find(id);
-            if (tb_floor == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tb_floor);
-        }
 
         public ActionResult Details_DL1()
         {
