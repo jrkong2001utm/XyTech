@@ -11,13 +11,13 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>tb_tenant</h4>
+        <h4>Tenant</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.t_id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.t_name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.t_name, "Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.t_name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.t_name, "", new { @class = "text-danger" })
@@ -25,7 +25,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.t_ic, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.t_ic, "IC Number", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.t_ic, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.t_ic, "", new { @class = "text-danger" })
@@ -33,15 +33,15 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.t_uploadic, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.t_uploadic, "Upload IC Picture", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.t_uploadic, new { htmlAttributes = new { @class = "form-control" } })
+                <input type="file" name="IcFile" id="IcFile" />
                 @Html.ValidationMessageFor(model => model.t_uploadic, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.t_contract, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.t_contract, "Uplaod Contract", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.t_contract, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.t_contract, "", new { @class = "text-danger" })
@@ -49,7 +49,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.t_phone, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.t_phone, "Phone Number", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.t_phone, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.t_phone, "", new { @class = "text-danger" })
@@ -57,7 +57,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.t_emergency, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.t_emergency, "Emergency Contact", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.t_emergency, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.t_emergency, "", new { @class = "text-danger" })
@@ -65,7 +65,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.t_indate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.t_indate, "Check In Date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.t_indate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.t_indate, "", new { @class = "text-danger" })
@@ -73,7 +73,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.t_outdate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.t_outdate, "Check Out Date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.t_outdate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.t_outdate, "", new { @class = "text-danger" })
@@ -81,15 +81,22 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.t_outsession, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.t_outsession, "Out Session", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.t_outsession, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("t_outsession", new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "-- Select Out Session --", Selected = true, Disabled = true },
+                    new SelectListItem { Text = "Morning", Value = "Morning" },
+                    new SelectListItem { Text = "Afternoon", Value = "Afternoon" },
+                    new SelectListItem { Text = "Night", Value = "Night" },
+                    new SelectListItem { Text = "Wait", Value = "Wait" }
+                }, new { @class = "form-control", @required = true })
                 @Html.ValidationMessageFor(model => model.t_outsession, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.t_siri, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.t_siri, "Siri Number", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.t_siri, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.t_siri, "", new { @class = "text-danger" })
@@ -97,7 +104,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.t_outstanding, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.t_outstanding, "Outstanding", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.t_outstanding, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.t_outstanding, "", new { @class = "text-danger" })
@@ -105,15 +112,21 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.t_paymentstatus, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.t_paymentstatus, "Payment Status", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.t_paymentstatus, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("t_paymentstatus", new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "-- Select Payment Status --", Selected = true, Disabled = true },
+                    new SelectListItem { Text = "Successfully Paid", Value = "1" },
+                    new SelectListItem { Text = "Partially Paid", Value = "2" },
+                    new SelectListItem { Text = "Unpaid", Value = "3" }
+                }, new { @class = "form-control", @required = true })
                 @Html.ValidationMessageFor(model => model.t_paymentstatus, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.t_room, "t_room", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.t_room, "Room Number", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("t_room", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.t_room, "", new { @class = "text-danger" })
@@ -122,13 +135,13 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-success btn-rounded btn-fw" />
             </div>
         </div>
     </div>
 }
 
-<div>
+<div class="btn btn-dark btn-rounded btn-fw">
     @Html.ActionLink("Back to List", "Index")
 </div>
 
