@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using XyTech.Models;
 
 namespace XyTech.Controllers
@@ -65,15 +67,51 @@ namespace XyTech.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_address,fl_active,fl_layout")] tb_floor tb_floor)
         {
+            tb_floor floor = new tb_floor();
+
+            HttpPostedFileBase imageFile = Request.Files["imageFile"];
+            HttpPostedFileBase qrimageFile = Request.Files["qrimageFile"];
+
             if (ModelState.IsValid)
             {
-                db.tb_floor.Add(tb_floor);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
+                if (imageFile != null && imageFile.ContentLength > 0)
+                {
+                    // Read the image file into a byte array
+                    byte[] imageData;
+                    using (var binaryReader = new BinaryReader(imageFile.InputStream))
+                    {
+                        imageData = binaryReader.ReadBytes(imageFile.ContentLength);
+                    }
+
+                    // Assign the image data to the floor object
+                    floor.fl_layout = imageData;
+                }
+
+                if (qrimageFile != null && qrimageFile.ContentLength > 0)
+                {
+                    // Read the image file into a byte array
+                    byte[] qrimageData;
+                    using (var binaryReader = new BinaryReader(qrimageFile.InputStream))
+                    {
+                        qrimageData = binaryReader.ReadBytes(qrimageFile.ContentLength);
+                    }
+
+                    // Assign the image data to the floor object
+                    floor.fl_cctvqr = qrimageData;
+                }
+
+                using (var context = new Entities())
+                {
+                    context.tb_floor.Add(tb_floor);
+                    context.SaveChanges();
+                }
+
+                return RedirectToAction("FloorList");
+            }
+               
             ViewBag.fl_landlord = new SelectList(db.tb_landlord, "l_id", "l_name", tb_floor.fl_landlord);
-            return View(tb_floor);
+            return View(floor);
         }
 
         // GET: Floor/Edit/5
@@ -97,12 +135,49 @@ namespace XyTech.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_address,fl_active,fl_layout")] tb_floor tb_floor)
         {
+            tb_floor floor = new tb_floor();
+
+            HttpPostedFileBase imageFile = Request.Files["imageFile"];
+            HttpPostedFileBase qrimageFile = Request.Files["qrimageFile"];
+
             if (ModelState.IsValid)
             {
-                db.Entry(tb_floor).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
+                if (imageFile != null && imageFile.ContentLength > 0)
+                {
+                    // Read the image file into a byte array
+                    byte[] imageData;
+                    using (var binaryReader = new BinaryReader(imageFile.InputStream))
+                    {
+                        imageData = binaryReader.ReadBytes(imageFile.ContentLength);
+                    }
+
+                    // Assign the image data to the floor object
+                    floor.fl_layout = imageData;
+                }
+
+                if (qrimageFile != null && qrimageFile.ContentLength > 0)
+                {
+                    // Read the image file into a byte array
+                    byte[] qrimageData;
+                    using (var binaryReader = new BinaryReader(qrimageFile.InputStream))
+                    {
+                        qrimageData = binaryReader.ReadBytes(qrimageFile.ContentLength);
+                    }
+
+                    // Assign the image data to the floor object
+                    floor.fl_cctvqr = qrimageData;
+                }
+
+                using (var context = new Entities())
+                {
+                    context.Entry(tb_floor).State = EntityState.Modified;
+                    context.SaveChanges();
+                }
+
+                return RedirectToAction("FloorList");
             }
+
             ViewBag.fl_landlord = new SelectList(db.tb_landlord, "l_id", "l_name", tb_floor.fl_landlord);
             return View(tb_floor);
         }
@@ -127,11 +202,24 @@ namespace XyTech.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            tb_floor tb_floor = db.tb_floor.Find(id);
-            db.tb_floor.Remove(tb_floor);
-            db.SaveChanges();
+            using (var context = new Entities())
+    {
+        // Find the floor record with the specified id
+        var floor = context.tb_floor.Find(id);
+
+        if (floor != null)
+        {
+            // Set the fl_active attribute to "inactive"
+            floor.fl_active = "inactive";
+
+            // Save the changes to the database
+            context.SaveChanges();
+        }
+    }
+
             return RedirectToAction("Index");
         }
+
 
         protected override void Dispose(bool disposing)
         {
