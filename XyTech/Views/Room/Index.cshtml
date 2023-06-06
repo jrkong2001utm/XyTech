@@ -1,0 +1,69 @@
+﻿@model IEnumerable<XyTech.Models.tb_room>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.r_price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.r_availability)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.r_size)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.r_active)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.r_pic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.r_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tb_floor.fl_bid)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.r_price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.r_availability)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.r_size)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.r_active)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.r_pic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.r_no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tb_floor.fl_bid)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.r_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.r_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.r_id })
+        </td>
+    </tr>
+}
+
+</table>

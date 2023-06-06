@@ -136,6 +136,7 @@
     <Compile Include="Controllers\InvestorController.cs" />
     <Compile Include="Controllers\LandlordController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\TenantController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1993,6 +1994,19 @@
     <Content Include="Views\Floor\Edit.cshtml" />
     <Content Include="Views\Floor\Index.cshtml" />
     <Content Include="Views\Floor\FloorList.cshtml" />
+    <Content Include="Views\Floor\Details_DL5.cshtml" />
+    <Content Include="Views\Floor\Details_GE1.cshtml" />
+    <Content Include="Views\Floor\Details_GE2.cshtml" />
+    <Content Include="Views\Floor\Details_GE3.cshtml" />
+    <Content Include="Views\Floor\Details_TN1.cshtml" />
+    <Content Include="Views\Floor\Details_TN2.cshtml" />
+    <Content Include="Views\Floor\Details_TN3.cshtml" />
+    <Content Include="Views\Floor\Details_TN4.cshtml" />
+    <Content Include="Views\Room\Create.cshtml" />
+    <Content Include="Views\Room\Delete.cshtml" />
+    <Content Include="Views\Room\Details.cshtml" />
+    <Content Include="Views\Room\Edit.cshtml" />
+    <Content Include="Views\Room\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
