@@ -24,7 +24,7 @@ namespace XyTech.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (Entities db = new Entities())
+                using (db_XyTechEntities db = new db_XyTechEntities())
                 {
                     var obj = db.tb_user.Where(a => a.u_username.Equals(objchk.u_username) && a.u_pwd.Equals(objchk.u_pwd)).FirstOrDefault();
 

@@ -30,7 +30,6 @@
                                         <th>Phone</th>
                                         <th>Check In</th>
                                         <th>Check Out</th>
-                                        <th>Out Session</th>
                                         <th>Outstanding</th>
                                         <th>Payment Status</th>
                                         <th>Room No</th>
@@ -53,9 +52,6 @@
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.t_outdate)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.t_outsession)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.t_outstanding)
@@ -83,17 +79,26 @@
                                                 @Html.DisplayFor(modelItem => item.tb_room.r_floor)
                                             </td>
                                             <td>
-
-                                                @Html.ActionLink("Edit", "Edit", new { id = item.t_id }) |
-                                                @Html.ActionLink("Details", "Details", new { id = item.t_id }) |
-
                                                 @if (item.t_paymentstatus == 1)
                                                 {
-                                                    @Html.ActionLink("Delete", "Delete", new { id = item.t_id })
+                                                    <a href="@Url.Action("Edit", new { id = item.t_id })" class="btn btn-link" title="edit">
+                                                        <i class="fa fa-edit text-primary menu-icon"></i>
+                                                    </a>
+                                                    <a href="@Url.Action("Details", new { id = item.t_id })" class="btn btn-link" title="details">
+                                                        <i class="fa fa-info-circle text-info menu-icon"></i>
+                                                    </a>
+                                                    <a href="@Url.Action("Delete", new { id = item.t_id })" class="btn btn-link" title="details">
+                                                        <i class="fa fa-trash text-danger menu-icon"></i>
+                                                    </a>
                                                 }
                                                 else
                                                 {
-
+                                                    <a href="@Url.Action("Edit", new { id = item.t_id })" class="btn btn-link" title="edit">
+                                                        <i class="fa fa-edit text-primary menu-icon"></i>
+                                                    </a>
+                                                    <a href="@Url.Action("Details", new { id = item.t_id })" class="btn btn-link" title="details">
+                                                        <i class="fa fa-info-circle text-info menu-icon"></i>
+                                                    </a>
                                                 }
                                             </td>
                                         </tr>
