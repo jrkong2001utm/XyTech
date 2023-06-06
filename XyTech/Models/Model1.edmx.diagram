@@ -26,6 +26,8 @@
         <AssociationConnector Association="db_XyTechModel.FK_tb_tenant_tb_room" />
         <EntityTypeShape EntityType="db_XyTechModel.tb_bankname" Width="1.5" PointX="0.75" PointY="3.125" />
         <AssociationConnector Association="db_XyTechModel.FK_tb_landlord_tb_bankname" />
+        <AssociationConnector Association="db_XyTechModel.FK_tb_finance_tb_user1" />
+        <AssociationConnector Association="db_XyTechModel.FK_tb_investor_tb_user1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
