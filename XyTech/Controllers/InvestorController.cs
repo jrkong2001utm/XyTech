@@ -2,28 +2,27 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using XyTech.Attributes;
 using XyTech.Models;
 
 namespace XyTech.Controllers
 {
-    [CustomAuthorize]
     public class InvestorController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();
 
-        // GET: Investor
+        // GET: InvestorTesting
         public ActionResult Index()
         {
             var tb_investor = db.tb_investor.Include(t => t.tb_user);
             return View(tb_investor.ToList());
         }
 
-        // GET: Investor/Details/5
+        // GET: InvestorTesting/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -41,11 +40,11 @@ namespace XyTech.Controllers
         // GET: Investor/Create
         public ActionResult Create()
         {
-            ViewBag.i_user = new SelectList(db.tb_user, "u_username", "u_pwd");
+            ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username");
             return View();
         }
 
-        // POST: Investor/Create
+
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -59,7 +58,7 @@ namespace XyTech.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.i_user = new SelectList(db.tb_user, "u_username", "u_pwd", tb_investor.i_user);
+            ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username", tb_investor.i_user);
             return View(tb_investor);
         }
 
@@ -75,7 +74,7 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.i_user = new SelectList(db.tb_user, "u_username", "u_pwd", tb_investor.i_user);
+            ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username", tb_investor.i_user);
             return View(tb_investor);
         }
 
@@ -92,7 +91,7 @@ namespace XyTech.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.i_user = new SelectList(db.tb_user, "u_username", "u_pwd", tb_investor.i_user);
+            ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username", tb_investor.i_user);
             return View(tb_investor);
         }
 

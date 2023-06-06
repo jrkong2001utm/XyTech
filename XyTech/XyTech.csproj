@@ -1993,6 +1993,7 @@
     <Content Include="Views\Floor\Edit.cshtml" />
     <Content Include="Views\Floor\Index.cshtml" />
     <Content Include="Views\Floor\FloorList.cshtml" />
+    <Content Include="Views\Investor\ChooseUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
