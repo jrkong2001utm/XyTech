@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -50,10 +52,26 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant)
+        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant, HttpPostedFileBase IcFile, HttpPostedFileBase ContractFile)
         {
             if (ModelState.IsValid)
             {
+                if (IcFile != null && IcFile.ContentLength > 0)
+                {
+                    string icFileName = Path.GetFileName(IcFile.FileName);
+                    string icFilePath = Path.Combine(Server.MapPath("~/Content/assets/vendors/images"), icFileName);
+                    IcFile.SaveAs(icFilePath);
+                    tb_tenant.t_uploadic = icFileName; // Save the original file name in the database
+                }
+
+                if (ContractFile != null && ContractFile.ContentLength > 0)
+                {
+                    string ContractFileName = Path.GetFileName(ContractFile.FileName);
+                    string ContractFilePath = Path.Combine(Server.MapPath("~/Content/assets/vendors/images"), ContractFileName);
+                    ContractFile.SaveAs(ContractFilePath);
+                    tb_tenant.t_uploadic = ContractFileName; // Save the original file name in the database
+                }
+
                 db.tb_tenant.Add(tb_tenant);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -122,11 +140,19 @@ namespace XyTech.Controllers
             return RedirectToAction("Index");
         }
 
-       /** public ActionResult FileUplaod()
+        public ActionResult GetFile(string floorLayoutFileName)
         {
-
+            string filePath = Server.MapPath("~/Content/assets/vendors/images/" + floorLayoutFileName);
+            if (System.IO.File.Exists(filePath))
+            {
+                return File(filePath, "image/png"); // Adjust the content type according to the actual file type
+            }
+            else
+            {
+                return HttpNotFound();
+            }
         }
-       **/
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

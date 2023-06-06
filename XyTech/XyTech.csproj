@@ -1996,6 +1996,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\assets\vendors\images\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
