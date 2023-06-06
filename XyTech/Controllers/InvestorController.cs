@@ -15,14 +15,14 @@ namespace XyTech.Controllers
     {
         private db_XyTechEntities db = new db_XyTechEntities();
 
-        // GET: InvestorTesting
+        // GET: Investor
         public ActionResult Index()
         {
             var tb_investor = db.tb_investor.Include(t => t.tb_user);
             return View(tb_investor.ToList());
         }
 
-        // GET: InvestorTesting/Details/5
+        // GET: Investor/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
