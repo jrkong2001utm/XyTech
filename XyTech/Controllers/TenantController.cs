@@ -13,7 +13,7 @@ using XyTech.Models;
 
 namespace XyTech.Controllers
 {
-    [CustomAuthorize]
+    //[CustomAuthorize]
     public class TenantController : Controller
     {
         private Entities db = new Entities();
@@ -59,7 +59,7 @@ namespace XyTech.Controllers
                 if (IcFile != null && IcFile.ContentLength > 0)
                 {
                     string icFileName = Path.GetFileName(IcFile.FileName);
-                    string icFilePath = Path.Combine(Server.MapPath("~/Content/assets/vendors/images"), icFileName);
+                    string icFilePath = Path.Combine(Server.MapPath("~/Content/assets/images/Ic-file"), icFileName);
                     IcFile.SaveAs(icFilePath);
                     tb_tenant.t_uploadic = icFileName; // Save the original file name in the database
                 }
@@ -67,7 +67,7 @@ namespace XyTech.Controllers
                 if (ContractFile != null && ContractFile.ContentLength > 0)
                 {
                     string ContractFileName = Path.GetFileName(ContractFile.FileName);
-                    string ContractFilePath = Path.Combine(Server.MapPath("~/Content/assets/vendors/images"), ContractFileName);
+                    string ContractFilePath = Path.Combine(Server.MapPath("~/Content/assets/images/Contract-file"), ContractFileName);
                     ContractFile.SaveAs(ContractFilePath);
                     tb_tenant.t_uploadic = ContractFileName; // Save the original file name in the database
                 }
@@ -102,10 +102,26 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant)
+        public ActionResult Edit([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant, HttpPostedFileBase IcFile, HttpPostedFileBase ContractFile)
         {
             if (ModelState.IsValid)
             {
+                if (IcFile != null && IcFile.ContentLength > 0)
+                {
+                    string icFileName = Path.GetFileName(IcFile.FileName);
+                    string icFilePath = Path.Combine(Server.MapPath("~/Content/assets/images/Ic-file"), icFileName);
+                    IcFile.SaveAs(icFilePath);
+                    tb_tenant.t_uploadic = icFileName; // Save the original file name in the database
+                }
+
+                if (ContractFile != null && ContractFile.ContentLength > 0)
+                {
+                    string ContractFileName = Path.GetFileName(ContractFile.FileName);
+                    string ContractFilePath = Path.Combine(Server.MapPath("~/Content/assets/images/Contract-file"), ContractFileName);
+                    ContractFile.SaveAs(ContractFilePath);
+                    tb_tenant.t_uploadic = ContractFileName; // Save the original file name in the database
+                }
+
                 db.Entry(tb_tenant).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -140,12 +156,14 @@ namespace XyTech.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult GetFile(string floorLayoutFileName)
+        public ActionResult GetFile(string FileName)
         {
-            string filePath = Server.MapPath("~/Content/assets/vendors/images/" + floorLayoutFileName);
-            if (System.IO.File.Exists(filePath))
+            string icfilePath = Server.MapPath("~/Content/assets/images/Ic-file/" + FileName);
+            string contractfilePath = Server.MapPath("~/Content/assets/images/Contract-file/" + FileName);
+
+            if (System.IO.File.Exists(icfilePath))
             {
-                return File(filePath, "image/png"); // Adjust the content type according to the actual file type
+                return File(icfilePath, "image/png"); // Adjust the content type according to the actual file type
             }
             else
             {

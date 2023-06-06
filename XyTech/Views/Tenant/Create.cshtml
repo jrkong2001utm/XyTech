@@ -8,7 +8,7 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Tenant", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -66,9 +66,9 @@
         </div>
 
         <div class="form-group">
-            <i class="mdi mdi-calendar-plus menu-icon"></i><span>
-                @Html.LabelFor(model => model.t_indate, "Check In Date", htmlAttributes: new { @class = "control-label col-md-2" })
-            </span>
+
+            @Html.LabelFor(model => model.t_indate, "Check In Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <i class="mdi mdi-calendar-plus menu-icon"></i>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.t_indate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.t_indate, "", new { @class = "text-danger" })
@@ -86,7 +86,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.t_outsession, "Out Session", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.t_outsession, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("t_outsession", new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "-- Select Out Session --", Selected = true, Disabled = true },
+                    new SelectListItem { Text = "Morning", Value = "Morning" },
+                    new SelectListItem { Text = "Afternoon", Value = "Afternoon" },
+                    new SelectListItem { Text = "Night", Value = "Night" },
+                    new SelectListItem { Text = "Wait", Value = "Wait" }
+                }, new { @class = "form-control", @required = true })
                 @Html.ValidationMessageFor(model => model.t_outsession, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -110,12 +117,13 @@
         <div class="form-group">
             @Html.LabelFor(model => model.t_paymentstatus, "Payment Status", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("t_paymentstatus", new SelectList(new[]
+                @Html.DropDownList("t_paymentstatus", new List<SelectListItem>
                 {
-                    "Successfully Paid",
-                    "Partially Paid",
-                    "Unpaid"
-                }), "Select Payment Status", new { @class = "form-control" })
+                    new SelectListItem { Text = "-- Select Payment Status --", Selected = true, Disabled = true },
+                    new SelectListItem { Text = "Successfully Paid", Value = "1" },
+                    new SelectListItem { Text = "Partially Paid", Value = "2" },
+                    new SelectListItem { Text = "Unpaid", Value = "3" }
+                }, new { @class = "form-control", @required = true })
                 @Html.ValidationMessageFor(model => model.t_paymentstatus, "", new { @class = "text-danger" })
             </div>
         </div>
