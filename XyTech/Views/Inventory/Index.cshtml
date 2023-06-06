@@ -4,48 +4,64 @@
     ViewBag.Title = "Index";
 }
 
+
+
+
 <h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.iv_item)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.iv_count)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.iv_active)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tb_floor.fl_bname)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.iv_item)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.iv_count)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.iv_active)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tb_floor.fl_bname)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.iv_id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.iv_id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.iv_id })
-        </td>
-    </tr>
+@foreach (var floorGroup in Model.GroupBy(item => item.iv_floor))
+{
+    <div class="card">
+        <div class="card-header" id="heading@floorGroup.Key">
+            <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse@floorGroup.Key" aria-expanded="true" aria-controls="collapse@floorGroup.Key">
+                    Floor ID: @floorGroup.Key
+                </button>
+            </h5>
+        </div>
+        <div id="collapse@floorGroup.Key" class="collapse show" aria-labelledby="heading@floorGroup.Key" data-parent="#accordion">
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.iv_item)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.iv_count)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.tb_floor.fl_bname)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in floorGroup)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.iv_item)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.iv_count)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.tb_floor.fl_bname)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.iv_id }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.iv_id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.iv_id })
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
 }
-
-</table>

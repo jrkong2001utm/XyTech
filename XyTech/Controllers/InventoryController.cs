@@ -115,7 +115,9 @@ namespace XyTech.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             tb_inventory tb_inventory = db.tb_inventory.Find(id);
-            db.tb_inventory.Remove(tb_inventory);
+            //db.tb_inventory.Remove(tb_inventory);
+            tb_inventory.iv_active = "0"; // Update l_active to "0"
+            db.Entry(tb_inventory).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

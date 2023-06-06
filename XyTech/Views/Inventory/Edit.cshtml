@@ -4,62 +4,60 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>tb_inventory</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.iv_id)
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Edit Inventory</h4>
+                <p class="card-description">
+                    Edit the inventory's details by filling the form below.
+                </p>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.iv_id)
+                <form class="forms-sample">
+                    <div class="form-group row">
+                        <label for="iv_floor" class="col-sm-3 col-form-label">Floor</label>
+                        <div class="col-sm-9">
+                            @Html.DropDownList("iv_floor", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.iv_floor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="iv_item" class="col-sm-3 col-form-label">Item</label>
+                        <div class="col-sm-9">
+                            @Html.EditorFor(model => model.iv_item, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.iv_item, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.iv_floor, "iv_floor", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("iv_floor", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.iv_floor, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="iv_count" class="col-sm-3 col-form-label">Amount</label>
+                        <div class="col-sm-9">
+                            @Html.EditorFor(model => model.iv_count, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.iv_count, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.iv_item, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.iv_item, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.iv_item, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.iv_count, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.iv_count, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.iv_count, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.iv_active, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.iv_active, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.iv_active, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    @Html.Hidden("iv_active", "1")
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+
+                    <button type="submit" class="btn btn-primary mr-2">Save</button>
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+                </form>
+
+
+
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

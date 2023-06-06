@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="l_bankname" class="col-sm-3 col-form-label">Bank account number</label>
+                        <label for="l_bankname" class="col-sm-3 col-form-label">Bank</label>
                         <div class="col-sm-9">
                             @Html.DropDownList("l_bankname", null, htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.l_bankname, "", new { @class = "text-danger" })
