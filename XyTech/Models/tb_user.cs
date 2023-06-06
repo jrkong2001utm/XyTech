@@ -11,9 +11,7 @@ namespace XyTech.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class tb_user
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,31 +20,14 @@ namespace XyTech.Models
             this.tb_finance = new HashSet<tb_finance>();
             this.tb_investor = new HashSet<tb_investor>();
         }
-        [Required(ErrorMessage = "Please enter username.")]
-        [DisplayName("Username")]
-        public string u_username { get; set; }
-
-        [Required(ErrorMessage = "Please enter password.")]
-        [DisplayName("Password")]
-        [DataType(DataType.Password)]
+    
+        public int u_id { get; set; }
         public string u_pwd { get; set; }
-
-        [Required(ErrorMessage = "Please enter email number.")]
-        [DataType(DataType.EmailAddress)]
-        [DisplayName("Email")]
         public string u_email { get; set; }
-
-        [Required(ErrorMessage = "Please enter phone number.")]
-        [DataType(DataType.PhoneNumber)]
-        [DisplayName("Phone Number")]
         public string u_phone { get; set; }
-
-        [Required(ErrorMessage = "Please enter user type.")]
-        [DisplayName("User Type")]
         public string u_usertype { get; set; }
-
-        [DisplayName("Status")]
         public string u_active { get; set; }
+        public string u_username { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_finance> tb_finance { get; set; }

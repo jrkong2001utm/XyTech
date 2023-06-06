@@ -15,7 +15,7 @@ namespace XyTech.Models
     public partial class tb_attendance
     {
         public int a_id { get; set; }
-        public string a_floor { get; set; }
+        public int a_floor { get; set; }
         public System.DateTime a_check { get; set; }
     
         public virtual tb_floor tb_floor { get; set; }

@@ -27,7 +27,7 @@ namespace XyTech.Models
         public int t_siri { get; set; }
         public double t_outstanding { get; set; }
         public int t_paymentstatus { get; set; }
-        public string t_room { get; set; }
+        public int t_room { get; set; }
     
         public virtual tb_room tb_room { get; set; }
     }
