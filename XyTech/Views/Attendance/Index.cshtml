@@ -4,36 +4,46 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <div class="d-flex justify-content-between">
+                    <p class="card-title mb-0" style="font-size: x-large;">Attendance</p>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.a_check)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tb_floor.fl_bid)
-        </th>
-        <th></th>
-    </tr>
+                    @Html.ActionLink("Create", "Create", "Attendance", null, new { @class = "btn btn-success btn-rounded btn-fw" })
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.a_check)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tb_floor.fl_bid)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.a_id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.a_id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.a_id })
-        </td>
-    </tr>
-}
+                </div>
+                <div class="table-responsive">
+                <thead>
+                    <tr>
+                        <th>Date and Time</th>
+                        <th>Floor ID</th>
+                    </tr>
+                </thead>
 
-</table>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.a_check)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.a_floor)
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Edit", new { id = item.a_id })" class="btn btn-link" title="edit">
+                                    <i class="fa fa-edit text-primary"></i>
+                                </a>
+                                <a href="@Url.Action("Delete", new { id = item.a_id })" class="btn btn-link" title="delete">
+                                    <i class="fa fa-trash text-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
