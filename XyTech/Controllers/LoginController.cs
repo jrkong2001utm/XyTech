@@ -20,7 +20,7 @@ namespace XyTech.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(tb_user objchk)
+        public ActionResult Index(login objchk)
         {
             if (ModelState.IsValid)
             {

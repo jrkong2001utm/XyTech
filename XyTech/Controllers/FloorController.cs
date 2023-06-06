@@ -13,6 +13,7 @@ using XyTech.Models;
 
 namespace XyTech.Controllers
 {
+    [CustomAuthorize]
     public class FloorController : Controller
     {
         private Entities db = new Entities();

@@ -61,15 +61,40 @@
                                                 @Html.DisplayFor(modelItem => item.t_outstanding)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.t_paymentstatus)
+                                                @if (item.t_paymentstatus == 1)
+                                                {
+                                                    <div class="badge badge-success">item.t_paymentstatus</div>
+                                                }
+                                                else if (item.t_paymentstatus == 2)
+                                                {
+                                                    <div class="badge badge-warning">item.t_paymentstatus</div>
+                                                }
+                                                else if (item.t_paymentstatus == 3)
+                                                {
+                                                    <div class="badge badge-danger">item.t_paymentstatus</div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="badge badge-offline">item.t_paymentstatus</div>
+                                                }
+
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.tb_room.r_floor)
                                             </td>
                                             <td>
+
                                                 @Html.ActionLink("Edit", "Edit", new { id = item.t_id }) |
                                                 @Html.ActionLink("Details", "Details", new { id = item.t_id }) |
-                                                @Html.ActionLink("Delete", "Delete", new { id = item.t_id })
+
+                                                @if (item.t_paymentstatus == 1)
+                                                {
+                                                    @Html.ActionLink("Delete", "Delete", new { id = item.t_id })
+                                                }
+                                                else
+                                                {
+
+                                                }
                                             </td>
                                         </tr>
                                     }
