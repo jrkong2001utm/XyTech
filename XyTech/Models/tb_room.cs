@@ -20,13 +20,14 @@ namespace XyTech.Models
             this.tb_tenant = new HashSet<tb_tenant>();
         }
     
-        public string r_id { get; set; }
-        public string r_floor { get; set; }
+        public int r_id { get; set; }
+        public int r_floor { get; set; }
         public double r_price { get; set; }
         public int r_availability { get; set; }
         public double r_size { get; set; }
         public string r_active { get; set; }
         public byte[] r_pic { get; set; }
+        public string r_no { get; set; }
     
         public virtual tb_floor tb_floor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

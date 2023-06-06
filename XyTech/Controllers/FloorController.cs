@@ -16,7 +16,7 @@ namespace XyTech.Controllers
 
     public class FloorController : Controller
     {
-        private Entities db = new Entities();
+        private db_XyTechEntities db = new db_XyTechEntities();
 
         // GET: Floor
         public ActionResult Index()
@@ -31,7 +31,7 @@ namespace XyTech.Controllers
         }
 
             // GET: Floor/Details/5
-            public ActionResult Details(string id)
+            public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -47,7 +47,7 @@ namespace XyTech.Controllers
 
         public ActionResult Details_DL1()
         {
-            using (var context = new Entities())
+            using (var context = new db_XyTechEntities())
             {
                 var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(1)).ToList();
                 return View(floor);
@@ -102,7 +102,7 @@ namespace XyTech.Controllers
                     floor.fl_cctvqr = qrimageData;
                 }
 
-                using (var context = new Entities())
+                using (var context = new db_XyTechEntities())
                 {
                     context.tb_floor.Add(tb_floor);
                     context.SaveChanges();
@@ -116,7 +116,7 @@ namespace XyTech.Controllers
         }
 
         // GET: Floor/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -179,7 +179,7 @@ namespace XyTech.Controllers
 
 
         // GET: Floor/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -196,9 +196,9 @@ namespace XyTech.Controllers
         // POST: Floor/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int? id)
         {
-            using (var context = new Entities())
+            using (var context = new db_XyTechEntities())
     {
         // Find the floor record with the specified id
         var floor = context.tb_floor.Find(id);

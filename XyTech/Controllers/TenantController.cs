@@ -16,7 +16,7 @@ namespace XyTech.Controllers
     //[CustomAuthorize]
     public class TenantController : Controller
     {
-        private Entities db = new Entities();
+        private db_XyTechEntities db = new db_XyTechEntities();
 
         // GET: Tenant
         public ActionResult Index()

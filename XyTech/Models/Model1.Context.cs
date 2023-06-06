@@ -13,10 +13,10 @@ namespace XyTech.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Entities : DbContext
+    public partial class db_XyTechEntities : DbContext
     {
-        public Entities()
-            : base("name=Entities")
+        public db_XyTechEntities()
+            : base("name=db_XyTechEntities")
         {
         }
     
@@ -25,16 +25,16 @@ namespace XyTech.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<tb_attendance> tb_attendance { get; set; }
+        public virtual DbSet<tb_bankname> tb_bankname { get; set; }
         public virtual DbSet<tb_finance> tb_finance { get; set; }
+        public virtual DbSet<tb_floor> tb_floor { get; set; }
         public virtual DbSet<tb_inventory> tb_inventory { get; set; }
         public virtual DbSet<tb_investor> tb_investor { get; set; }
         public virtual DbSet<tb_landlord> tb_landlord { get; set; }
         public virtual DbSet<tb_profit> tb_profit { get; set; }
+        public virtual DbSet<tb_room> tb_room { get; set; }
         public virtual DbSet<tb_tenant> tb_tenant { get; set; }
         public virtual DbSet<tb_user> tb_user { get; set; }
-        public virtual DbSet<tb_attendance> tb_attendance { get; set; }
-        public virtual DbSet<tb_floor> tb_floor { get; set; }
-        public virtual DbSet<tb_room> tb_room { get; set; }
-        public virtual DbSet<tb_bankname> tb_bankname { get; set; }
     }
 }

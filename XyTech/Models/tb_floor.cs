@@ -23,15 +23,16 @@ namespace XyTech.Models
             this.tb_room = new HashSet<tb_room>();
         }
     
-        public string fl_id { get; set; }
+        public int fl_id { get; set; }
         public string fl_bid { get; set; }
         public string fl_wifipwd { get; set; }
         public string fl_modemip { get; set; }
         public byte[] fl_cctvqr { get; set; }
-        public Nullable<int> fl_landlord { get; set; }
         public string fl_address { get; set; }
         public string fl_active { get; set; }
         public byte[] fl_layout { get; set; }
+        public string fl_bname { get; set; }
+        public Nullable<int> fl_landlord { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_attendance> tb_attendance { get; set; }
