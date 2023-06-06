@@ -1,0 +1,51 @@
+﻿@model IEnumerable<XyTech.Models.tb_inventory>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.iv_item)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.iv_count)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.iv_active)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tb_floor.fl_bid)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.iv_item)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.iv_count)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.iv_active)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tb_floor.fl_bid)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.iv_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.iv_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.iv_id })
+        </td>
+    </tr>
+}
+
+</table>

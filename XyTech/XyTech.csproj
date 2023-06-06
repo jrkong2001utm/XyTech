@@ -133,6 +133,7 @@
     <Compile Include="Controllers\FinanceController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\InvestorController.cs" />
     <Compile Include="Controllers\LandlordController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -1993,6 +1994,11 @@
     <Content Include="Views\Floor\Edit.cshtml" />
     <Content Include="Views\Floor\Index.cshtml" />
     <Content Include="Views\Floor\FloorList.cshtml" />
+    <Content Include="Views\Inventory\Create.cshtml" />
+    <Content Include="Views\Inventory\Delete.cshtml" />
+    <Content Include="Views\Inventory\Details.cshtml" />
+    <Content Include="Views\Inventory\Edit.cshtml" />
+    <Content Include="Views\Inventory\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
