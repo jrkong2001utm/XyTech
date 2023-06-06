@@ -17,8 +17,8 @@ namespace XyTech.Models
         public int t_id { get; set; }
         public string t_name { get; set; }
         public string t_ic { get; set; }
-        public string t_uploadic { get; set; }
-        public string t_contract { get; set; }
+        public byte[] t_uploadic { get; set; }
+        public byte[] t_contract { get; set; }
         public string t_phone { get; set; }
         public string t_emergency { get; set; }
         public System.DateTime t_indate { get; set; }
