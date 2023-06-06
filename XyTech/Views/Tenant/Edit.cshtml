@@ -6,44 +6,6 @@
 
 <h2>Edit</h2>
 
-@section Scripts {
-
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jqueryui")
-    @Styles.Render("~/Content/cssjqryUi")
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#t_indate').datepicker({
-                dateFormat: "dd/MM/yy",
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-60:+0",
-                minDate: "0D",
-                onSelect: function (selected) {
-                    var dt = new Date(selected);
-                    dt.setDate(dt.getDate() + 1);
-                    $("#t_outdate").datepicker("option", "minDate", dt);
-                }
-            });
-
-            $('#t_outdate').datepicker({
-                dateFormat: "dd/MM/yy",
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-60:+0",
-                onSelect: function (selected) {
-                    var dt = new Date(selected);
-                    dt.setDate(dt.getDate() - 1);
-                    $("#t_indate").datepicker("option", "maxDate", dt);
-                }
-            });
-
-        });
-    </script>
-
-}
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -105,7 +67,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.t_indate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.t_indate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.t_indate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.t_indate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -113,7 +75,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.t_outdate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.t_outdate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.t_outdate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.t_outdate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -171,5 +133,39 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.13.2.min.js"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#t_indate').datepicker({
+                dateFormat: "dd/MM/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0",
+                minDate: "0D",
+                onSelect: function (selected) {
+                    var dt = new Date(selected);
+                    dt.setDate(dt.getDate() + 1);
+                    $("#t_outdate").datepicker("option", "minDate", dt);
+                }
+            });
+
+            $('#t_outdate').datepicker({
+                dateFormat: "dd/MM/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0",
+                onSelect: function (selected) {
+                    var dt = new Date(selected);
+                    dt.setDate(dt.getDate() - 1);
+                    $("#t_indate").datepicker("option", "maxDate", dt);
+                }
+            });
+
+        });
+    </script>
+
 }
