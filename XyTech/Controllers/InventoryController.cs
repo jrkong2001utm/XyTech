@@ -17,7 +17,7 @@ namespace XyTech.Controllers
         // GET: Inventory
         public ActionResult Index()
         {
-            var tb_inventory = db.tb_inventory.Include(t => t.tb_floor);
+            var tb_inventory = db.tb_inventory.Where(t => t.iv_active == "1").Include(t => t.tb_floor);
             return View(tb_inventory.ToList());
         }
 
@@ -39,7 +39,7 @@ namespace XyTech.Controllers
         // GET: Inventory/Create
         public ActionResult Create()
         {
-            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid");
+            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace XyTech.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid", tb_inventory.iv_floor);
+            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_inventory.iv_floor);
             return View(tb_inventory);
         }
 
@@ -73,7 +73,7 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid", tb_inventory.iv_floor);
+            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_inventory.iv_floor);
             return View(tb_inventory);
         }
 
@@ -90,7 +90,7 @@ namespace XyTech.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid", tb_inventory.iv_floor);
+            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_inventory.iv_floor);
             return View(tb_inventory);
         }
 
