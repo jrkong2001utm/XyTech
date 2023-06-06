@@ -127,7 +127,9 @@ namespace XyTech.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             tb_landlord tb_landlord = db.tb_landlord.Find(id);
-            db.tb_landlord.Remove(tb_landlord);
+            //db.tb_landlord.Remove(tb_landlord);
+            tb_landlord.l_active = "4"; // Update l_active to "4"
+            db.Entry(tb_landlord).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
