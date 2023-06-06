@@ -8,7 +8,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using XyTech.Attributes;
 using XyTech.Models;
 
@@ -53,37 +52,24 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant)
+        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant, HttpPostedFileBase IcFile, HttpPostedFileBase ContractFile)
         {
             if (ModelState.IsValid)
             {
-                HttpPostedFileBase IcFile = Request.Files["IcFile"];
-                HttpPostedFileBase ContractFile = Request.Files["ContractFile"];
-
                 if (IcFile != null && IcFile.ContentLength > 0)
                 {
-                    // Read the image file into a byte array
-                    byte[] IcData;
-                    using (var binaryReader = new BinaryReader(IcFile.InputStream))
-                    {
-                        IcData = binaryReader.ReadBytes(IcFile.ContentLength);
-                    }
-
-                    // Assign the image data to the floor object
-                    tb_tenant.t_uploadic = IcData;
+                    string icFileName = Path.GetFileName(IcFile.FileName);
+                    string icFilePath = Path.Combine(Server.MapPath("~/Content/assets/images/Ic-file"), icFileName);
+                    IcFile.SaveAs(icFilePath);
+                    tb_tenant.t_uploadic = icFileName; // Save the original file name in the database
                 }
 
                 if (ContractFile != null && ContractFile.ContentLength > 0)
                 {
-                    // Read the image file into a byte array
-                    byte[] ContractData;
-                    using (var binaryReader = new BinaryReader(ContractFile.InputStream))
-                    {
-                        ContractData = binaryReader.ReadBytes(ContractFile.ContentLength);
-                    }
-
-                    // Assign the image data to the floor object
-                    tb_tenant.t_contract = ContractData;
+                    string ContractFileName = Path.GetFileName(ContractFile.FileName);
+                    string ContractFilePath = Path.Combine(Server.MapPath("~/Content/assets/images/Contract-file"), ContractFileName);
+                    ContractFile.SaveAs(ContractFilePath);
+                    tb_tenant.t_uploadic = ContractFileName; // Save the original file name in the database
                 }
 
                 db.tb_tenant.Add(tb_tenant);
@@ -116,37 +102,24 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant)
+        public ActionResult Edit([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant, HttpPostedFileBase IcFile, HttpPostedFileBase ContractFile)
         {
             if (ModelState.IsValid)
             {
-                HttpPostedFileBase IcFile = Request.Files["IcFile"];
-                HttpPostedFileBase ContractFile = Request.Files["ContractFile"];
-
                 if (IcFile != null && IcFile.ContentLength > 0)
                 {
-                    // Read the image file into a byte array
-                    byte[] IcData;
-                    using (var binaryReader = new BinaryReader(IcFile.InputStream))
-                    {
-                        IcData = binaryReader.ReadBytes(IcFile.ContentLength);
-                    }
-
-                    // Assign the image data to the floor object
-                    tb_tenant.t_uploadic = IcData;
+                    string icFileName = Path.GetFileName(IcFile.FileName);
+                    string icFilePath = Path.Combine(Server.MapPath("~/Content/assets/images/Ic-file"), icFileName);
+                    IcFile.SaveAs(icFilePath);
+                    tb_tenant.t_uploadic = icFileName; // Save the original file name in the database
                 }
 
                 if (ContractFile != null && ContractFile.ContentLength > 0)
                 {
-                    // Read the image file into a byte array
-                    byte[] ContractData;
-                    using (var binaryReader = new BinaryReader(ContractFile.InputStream))
-                    {
-                        ContractData = binaryReader.ReadBytes(ContractFile.ContentLength);
-                    }
-
-                    // Assign the image data to the floor object
-                    tb_tenant.t_contract = ContractData;
+                    string ContractFileName = Path.GetFileName(ContractFile.FileName);
+                    string ContractFilePath = Path.Combine(Server.MapPath("~/Content/assets/images/Contract-file"), ContractFileName);
+                    ContractFile.SaveAs(ContractFilePath);
+                    tb_tenant.t_uploadic = ContractFileName; // Save the original file name in the database
                 }
 
                 db.Entry(tb_tenant).State = EntityState.Modified;

@@ -4,94 +4,69 @@
     ViewBag.Title = "Delete";
 }
 
+<h2>Delete</h2>
 
-<div align="center">
-    <div align="left" class="col-lg-9 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Delete Landlord</h4>
-                <p class="card-description">
-                    Are you sure to delete this landlord?
-                </p>
-                <!--<hr />-->
-                <div class="table-responsive">
-                    <table class="table table-striped table-borderless">
-                        <tbody>
-                            <tr>
-                                <th class="col-3">
-                                    Name
-                                </th>
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>tb_landlord</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.l_name)
+        </dt>
 
-                                <td class="col-6">
-                                    @Html.DisplayFor(model => model.l_name)
-                                </td>
-                            </tr>
+        <dd>
+            @Html.DisplayFor(model => model.l_name)
+        </dd>
 
-                            <tr>
-                                <th class="col-3">
-                                    Contact Number
-                                </th>
+        <dt>
+            @Html.DisplayNameFor(model => model.l_phone)
+        </dt>
 
-                                <td class="col-6">
-                                    @Html.DisplayFor(model => model.l_phone)
-                                </td>
-                            </tr>
+        <dd>
+            @Html.DisplayFor(model => model.l_phone)
+        </dd>
 
-                            <tr>
-                                <th class="col-3">
-                                    Amount of Rental (RM)
-                                </th>
+        <dt>
+            @Html.DisplayNameFor(model => model.l_fee)
+        </dt>
 
-                                <td class="col-6">
-                                    @Html.DisplayFor(model => model.l_fee)
-                                </td>
-                            </tr>
+        <dd>
+            @Html.DisplayFor(model => model.l_fee)
+        </dd>
 
-                            <tr>
-                                <th class="col-3">
-                                    Rental Due (DD-MM-YYYY)
-                                </th>
+        <dt>
+            @Html.DisplayNameFor(model => model.l_due)
+        </dt>
 
-                                <td class="col-6">
-                                    @Html.DisplayFor(model => model.l_due)
-                                </td>
-                            </tr>
+        <dd>
+            @Html.DisplayFor(model => model.l_due)
+        </dd>
 
-                            <tr>
-                                <th class="col-3">
-                                    Bank
-                                </th>
+        <dt>
+            @Html.DisplayNameFor(model => model.l_bank)
+        </dt>
 
-                                <td class="col-6">
-                                    @Html.DisplayFor(model => model.tb_bankname.bn_description)
-                                </td>
-                            </tr>
+        <dd>
+            @Html.DisplayFor(model => model.l_bank)
+        </dd>
 
-                            <tr>
-                                <th class="col-3">
-                                    Bank Account Number
-                                </th>
+        <dt>
+            @Html.DisplayNameFor(model => model.l_active)
+        </dt>
 
-                                <td class="col-6">
-                                    @Html.DisplayFor(model => model.l_bank)
-                                </td>
-                            </tr>
+        <dd>
+            @Html.DisplayFor(model => model.l_active)
+        </dd>
 
-                        </tbody>
-                    </table>
-                </div>
+    </dl>
 
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
 
-            <div class="form-actions no-color" style="margin-top: 25px;">
-                <input type="submit" value="Delete" class="btn btn-danger btn-rounded btn-fw" onclick="return confirm('Are you sure to delete this landlord?');" />
-                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
-            </div>
-                }
-
-            </div>
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
         </div>
-    </div>
+    }
 </div>

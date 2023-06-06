@@ -48,16 +48,10 @@
                                     
 
                                     <td>
-                                        <a href="@Url.Action("Edit", new { id = item.l_id })" class="btn btn-link" title="edit">
-                                            <i class="fa fa-edit text-primary"></i>
-                                        </a>
-                                        <a href="@Url.Action("Details", new { id = item.l_id })" class="btn btn-link" title="details">
-                                            <i class="fa fa-info-circle text-info"></i>
-                                        </a>
-                                        <a href="@Url.Action("Delete", new { id = item.l_id })" class="btn btn-link" title="delete">
-                                            <i class="fa fa-trash text-danger"></i>
-                                        </a>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.l_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
                                         
+                                        @Html.ActionLink("Details", "Details", new { id = item.l_id }, new { @class = "btn btn-dark btn-rounded btn-fw" }) 
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.l_id }, new { @class = "btn btn-danger btn-rounded btn-fw" })
                                     </td>
                                 </tr>
                             }
