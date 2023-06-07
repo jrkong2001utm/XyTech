@@ -8,23 +8,23 @@
         <EntityTypeShape EntityType="db_XyTechModel.tb_attendance" Width="1.5" PointX="7.5" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="db_XyTechModel.tb_bankname" Width="1.5" PointX="0.75" PointY="8.375" IsExpanded="true" />
         <EntityTypeShape EntityType="db_XyTechModel.tb_finance" Width="1.5" PointX="10.5" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_XyTechModel.tb_floor" Width="1.5" PointX="5.25" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="db_XyTechModel.tb_inventory" Width="1.5" PointX="7.5" PointY="10.875" IsExpanded="true" />
         <EntityTypeShape EntityType="db_XyTechModel.tb_investor" Width="1.5" PointX="10.5" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="db_XyTechModel.tb_landlord" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
         <EntityTypeShape EntityType="db_XyTechModel.tb_profit" Width="1.5" PointX="12.75" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_XyTechModel.tb_room" Width="1.5" PointX="7.5" PointY="14.25" IsExpanded="true" />
         <EntityTypeShape EntityType="db_XyTechModel.tb_user" Width="1.5" PointX="8.25" PointY="0.75" IsExpanded="true" />
-        <AssociationConnector Association="db_XyTechModel.FK_tb_floor_tb_attendance" ManuallyRouted="false" />
         <AssociationConnector Association="db_XyTechModel.FK_tb_landlord_tb_bankname" ManuallyRouted="false" />
-        <AssociationConnector Association="db_XyTechModel.FK_tb_finance_tb_floor" ManuallyRouted="false" />
         <AssociationConnector Association="db_XyTechModel.FK_tb_finance_tb_user" ManuallyRouted="false" />
-        <AssociationConnector Association="db_XyTechModel.FK_tb_floor_tb_landlord" ManuallyRouted="false" />
-        <AssociationConnector Association="db_XyTechModel.FK_tb_inventory_tb_floor" ManuallyRouted="false" />
-        <AssociationConnector Association="db_XyTechModel.FK_tb_room_tb_floor" ManuallyRouted="false" />
         <AssociationConnector Association="db_XyTechModel.FK_tb_investor_tb_user" ManuallyRouted="false" />
         <AssociationConnector Association="db_XyTechModel.FK_tb_profit_tb_investor" ManuallyRouted="false" />
         <EntityTypeShape EntityType="db_XyTechModel.tb_tenant" Width="1.5" PointX="9.75" PointY="13.75" />
+        <EntityTypeShape EntityType="db_XyTechModel.tb_floor" Width="1.5" PointX="5.25" PointY="14.125" />
+        <EntityTypeShape EntityType="db_XyTechModel.tb_room" Width="1.5" PointX="7.5" PointY="14.625" />
+        <AssociationConnector Association="db_XyTechModel.FK_tb_floor_tb_attendance" />
+        <AssociationConnector Association="db_XyTechModel.FK_tb_finance_tb_floor" />
+        <AssociationConnector Association="db_XyTechModel.FK_tb_floor_tb_landlord" />
+        <AssociationConnector Association="db_XyTechModel.FK_tb_inventory_tb_floor" />
+        <AssociationConnector Association="db_XyTechModel.FK_tb_room_tb_floor" />
         <AssociationConnector Association="db_XyTechModel.FK_tb_tenant_tb_room" />
       </Diagram>
     </edmx:Diagrams>

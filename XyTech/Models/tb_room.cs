@@ -26,7 +26,7 @@ namespace XyTech.Models
         public int r_availability { get; set; }
         public double r_size { get; set; }
         public string r_active { get; set; }
-        public byte[] r_pic { get; set; }
+        public string r_pic { get; set; }
         public string r_no { get; set; }
     
         public virtual tb_floor tb_floor { get; set; }

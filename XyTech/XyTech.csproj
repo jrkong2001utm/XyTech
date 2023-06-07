@@ -2016,8 +2016,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\assets\images\Contract-file\" />
-    <Folder Include="Content\assets\images\Ic-file\" />
+    <Folder Include="Content\assets\images\Contractfile\" />
+    <Folder Include="Content\assets\images\Icfile\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>

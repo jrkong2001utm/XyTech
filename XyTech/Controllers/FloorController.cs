@@ -138,53 +138,37 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_address,fl_active,fl_layout")] tb_floor tb_floor)
+        public ActionResult Create([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_address,fl_active,fl_layout")] tb_floor tb_floor, HttpPostedFileBase uploadqr, HttpPostedFileBase uploadly)
         {
-            tb_floor floor = new tb_floor();
 
-            HttpPostedFileBase imageFile = Request.Files["imageFile"];
-            HttpPostedFileBase qrimageFile = Request.Files["qrimageFile"];
+            //HttpPostedFileBase imageFile = Request.Files["imageFile"];
+            //ttpPostedFileBase qrimageFile = Request.Files["qrimageFile"];
 
             if (ModelState.IsValid)
             {
-
-                if (imageFile != null && imageFile.ContentLength > 0)
+                if (uploadqr != null && uploadqr.ContentLength > 0)
                 {
-                    // Read the image file into a byte array
-                    byte[] imageData;
-                    using (var binaryReader = new BinaryReader(imageFile.InputStream))
-                    {
-                        imageData = binaryReader.ReadBytes(imageFile.ContentLength);
-                    }
-
-                    // Assign the image data to the floor object
-                    floor.fl_layout = imageData;
+                    var fileNameqr = Path.GetFileName(uploadqr.FileName);
+                    var pathqr = Path.Combine(Server.MapPath("~/Content/assets/images/"), fileNameqr);
+                    uploadqr.SaveAs(pathqr);
+                    tb_floor.fl_cctvqr = fileNameqr;
                 }
 
-                if (qrimageFile != null && qrimageFile.ContentLength > 0)
+                if (uploadly != null && uploadly.ContentLength > 0)
                 {
-                    // Read the image file into a byte array
-                    byte[] qrimageData;
-                    using (var binaryReader = new BinaryReader(qrimageFile.InputStream))
-                    {
-                        qrimageData = binaryReader.ReadBytes(qrimageFile.ContentLength);
-                    }
-
-                    // Assign the image data to the floor object
-                    floor.fl_cctvqr = qrimageData;
+                    var fileNamely = Path.GetFileName(uploadly.FileName);
+                    var pathly = Path.Combine(Server.MapPath("~/Content/assets/images/"), fileNamely);
+                    uploadly.SaveAs(pathly);
+                    tb_floor.fl_layout = fileNamely;
                 }
 
-                using (var context = new db_XyTechEntities())
-                {
-                    context.tb_floor.Add(tb_floor);
-                    context.SaveChanges();
-                }
-
-                return RedirectToAction("FloorList");
+                db.tb_floor.Add(tb_floor);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-               
+
             ViewBag.fl_landlord = new SelectList(db.tb_landlord, "l_id", "l_name", tb_floor.fl_landlord);
-            return View(floor);
+            return View(tb_floor);
         }
 
         // GET: Floor/Edit/5
@@ -206,42 +190,29 @@ namespace XyTech.Controllers
         // POST: Floor/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_address,fl_active,fl_layout")] tb_floor tb_floor)
+        public ActionResult Edit([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_address,fl_active,fl_layout")] tb_floor tb_floor, HttpPostedFileBase uploadqr, HttpPostedFileBase uploadly)
         {
-            HttpPostedFileBase imageFile = Request.Files["imageFile"];
-            HttpPostedFileBase qrimageFile = Request.Files["qrimageFile"];
 
             if (ModelState.IsValid)
             {
-                if (imageFile != null && imageFile.ContentLength > 0)
+                if (uploadqr != null && uploadqr.ContentLength > 0)
                 {
-                    // Read the image file into a byte array
-                    byte[] imageData;
-                    using (var binaryReader = new BinaryReader(imageFile.InputStream))
-                    {
-                        imageData = binaryReader.ReadBytes(imageFile.ContentLength);
-                    }
-
-                    // Assign the image data to the floor object
-                    tb_floor.fl_layout = imageData;
+                    var fileNameqr = Path.GetFileName(uploadqr.FileName);
+                    var pathqr = Path.Combine(Server.MapPath("~/Content/assets/images/"), fileNameqr);
+                    uploadqr.SaveAs(pathqr);
+                    tb_floor.fl_cctvqr = fileNameqr;
                 }
 
-                if (qrimageFile != null && qrimageFile.ContentLength > 0)
+                if (uploadly != null && uploadly.ContentLength > 0)
                 {
-                    // Read the image file into a byte array
-                    byte[] qrimageData;
-                    using (var binaryReader = new BinaryReader(qrimageFile.InputStream))
-                    {
-                        qrimageData = binaryReader.ReadBytes(qrimageFile.ContentLength);
-                    }
-
-                    // Assign the image data to the floor object
-                    tb_floor.fl_cctvqr = qrimageData;
+                    var fileNamely = Path.GetFileName(uploadly.FileName);
+                    var pathly = Path.Combine(Server.MapPath("~/Content/assets/images/"), fileNamely);
+                    uploadly.SaveAs(pathly);
+                    tb_floor.fl_layout = fileNamely;
                 }
 
                 db.Entry(tb_floor).State = EntityState.Modified;
                 db.SaveChanges();
-
                 return RedirectToAction("FloorList");
             }
 
