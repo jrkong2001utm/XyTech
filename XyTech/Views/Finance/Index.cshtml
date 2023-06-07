@@ -4,6 +4,8 @@
 
 <p>
     @Html.ActionLink("New Transaction", "Create")
+
+    @Html.ActionLink("Summary", "Summary", "Finance", null, new { @class = "btn btn-success btn-rounded btn-fw" })
 </p>
 <div class="card">
     <div class="card-body">
@@ -39,10 +41,6 @@
                     </th>
                     <th></th>
                 </tr>
-                @{
-                    int previousYear = 0;
-                    int previousMonth = -1;
-                }
 
                 @foreach (var item in Model)
                 {
@@ -50,39 +48,28 @@
                     var year = item.f_date.Year;
                     var month = item.f_date.Month;
                     var day = item.f_date.Day;
-                    <tr>
-                        @{
-                            if (year == previousYear)
-                            {
-                                <td rowspan="2">@year</td>
-                            }
-                            else
-                            {
-                                <td>@year</td>
-                            }
 
-                            if (month == previousMonth)
-                            {
-                                <td rowspan="2">@month</td>
-                            }
-                            else
-                            {
-                                <td>@month</td>
-                            }
-                        }
+                    <tr>
+                       
+                        <td>
+                            @year
+                        </td>
+                        <td>
+                            @month
+                        </td>                     
                         <td>
                             @day
                         </td>
                         <td class="text-success">
                             @if (item.f_transactiontype == "Inflow")
                             {
-                                <span id="inflowAmount">@item.f_transaction</span>
+                                <span class="inflow-amount">@item.f_transaction</span>
                             }
                         </td>
                         <td class="text-danger">
                             @if (item.f_transactiontype == "Outflow")
                             {
-                                <span id="outflowAmount">@item.f_transaction</span>
+                                <span class="inflow-amount">@item.f_transaction</span>
                             }
                         </td>
 
@@ -115,7 +102,10 @@
                             @Html.ActionLink("Delete", "Delete", new { id = item.f_id })
                         </td>
                     </tr>
+
+
                 }
+
 
             </table>
         </div>
@@ -124,38 +114,16 @@
 
 <script>
     // Format the inflow and outflow amounts with 2 decimal places
-    var inflowAmount = document.getElementById("inflowAmount");
-    if (inflowAmount) {
-        inflowAmount.textContent = parseFloat(inflowAmount.textContent).toFixed(2);
-    }
+    var inflowAmounts = document.querySelectorAll(".inflow-amount");
+    inflowAmounts.forEach(function (element) {
+        element.textContent = parseFloat(element.textContent).toFixed(2);
+    });
 
-    var outflowAmount = document.getElementById("outflowAmount");
-    if (outflowAmount) {
-        outflowAmount.textContent = parseFloat(outflowAmount.textContent).toFixed(2);
-    }
-
-    function GetRowColor(transactionType) {
-        if (transactionType === "Inflow") {
-            return "inflow-row";
-        }
-        else if (transactionType === "Outflow") {
-            return "outflow-row";
-        }
-        else {
-            return ""; // Default row color
-        }
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+        var allOption = document.querySelector('#f_floor option[value="select"]');
+        allOption.disabled = true;
+    });
 </script>
-
-<style>
-    .inflow-row {
-        background-color: lightgreen;
-    }
-
-    .outflow-row {
-        background-color: lightcoral;
-    }
-</style>
 
 
 
