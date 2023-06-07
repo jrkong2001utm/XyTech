@@ -4,8 +4,6 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
-
 @using (Html.BeginForm(Html.BeginForm("Create", "Room", FormMethod.Post, new { enctype = "multipart/form-data" })))
 {
     @Html.AntiForgeryToken()
@@ -63,7 +61,7 @@
                             <button type="submit" class="btn btn-primary btn-rounded btn-fw">Submit</button>
                         </div>
                         <div class="col-auto">
-                            @Html.ActionLink("Cancel", "Create", null, new { type = "reset", @class = "btn btn-light btn-rounded btn-fw" })
+                            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
                         </div>
                     </div>
                 </form>
@@ -71,7 +69,3 @@
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
