@@ -7,8 +7,13 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <div>
-        <img class="floorlayout" src="~/Content/assets/images/floor_layout_trim/DL1-1.jpeg" alt="DL1" usemap="#DL1map" width="300" height="800">
+   
+       <p class="card-title mb-0" style="font-size: x-large; font-weight:bold">Floor Information</p>
+       
+       <br />
+
+        <div>
+            <img class="floorlayout" src="~/Content/assets/images/floor_layout_trim/DL1-1.jpeg" alt="DL1" usemap="#DL1map" width="300" height="800">
 
         <map name="DL1map">
             <area shape="rect" coords="43,29,121,87" alt="Room1" href="@Url.Action("Details", "Room", new { id = 1 })" id="r_id">
@@ -27,68 +32,86 @@
             <area shape="rect" coords="147,29,222,122" alt="Room14" href="@Url.Action("Details", "Room", new { id = 14 })" id="r_id">
         </map>
     </div>
+            <map name="DL1map">
+                <area shape="rect" coords="43,29,121,87" alt="Room1" href="@Url.Action("Details", "Room", new { id = 1 })" id="r_id">
+                <area shape="rect" coords="45,91,117,151" alt="Room2" href="@Url.Action("Details", "Room", new { id = 2 })" id="r_id">
+                <area shape="rect" coords="45,156,117,208" alt="Room3" href="@Url.Action("Details", "Room", new { id = 3 })" id="r_id">
+                <area shape="rect" coords="45,218,116,272" alt="Room4" href="@Url.Action("Details", "Room", new { id = 4 })" id="r_id">
+                <area shape="rect" coords="44,278,115,334" alt="Room5" href="@Url.Action("Details", "Room", new { id = 5 })" id="r_id">
+                <area shape="rect" coords="46,341,117,396" alt="Room6" href="@Url.Action("Details", "Room", new { id = 6 })" id="r_id">
+                <area shape="rect" coords="44,404,118,456" alt="Room7" href="@Url.Action("Details", "Room", new { id = 7 })" id="r_id">
+                <area shape="rect" coords="47,469,116,520" alt="Room8" href="@Url.Action("Details", "Room", new { id = 8 })" id="r_id">
+                <area shape="rect" coords="45,528,115,580" alt="Room9" href="@Url.Action("Details", "Room", new { id = 9 })" id="r_id">
+                <area shape="rect" coords="44,590,117,644" alt="Room10" href="@Url.Action("Details", "Room", new { id = 10 })" id="r_id">
+                <area shape="rect" coords="147,514,220,568" alt="Room11" href="@Url.Action("Details", "Room", new { id = 11 })" id="r_id">
+                <area shape="rect" coords="149,428,222,504" alt="Room12" href="@Url.Action("Details", "Room", new { id = 12 })" id="r_id">
+                <area shape="rect" coords="149,129,222,210" alt="Room13" href="@Url.Action("Details", "Room", new { id = 13 })" id="r_id">
+                <area shape="rect" coords="147,29,222,122" alt="Room14" href="@Url.Action("Details", "Room", new { id = 14 })" id="r_id">
 
-    @foreach (var item in Model)
-    {
-        <div class="col-8 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <form class="forms-sample">
-                        <div class="form-group row">
-                            <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Building Name</label>
-                            <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(modelItem => item.fl_bname)
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Floor Level</label>
-                            <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(modelItem => item.fl_bid)
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="exampleInputMobile" class="col-sm-4 col-form-label">Address</label>
-                            <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(modelItem => item.fl_address)
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="exampleInputPassword2" class="col-sm-4 col-form-label">Landlord Name</label>
-                            <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(modelItem => item.fl_landlord)
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">WiFi Password</label>
-                            <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(modelItem => item.fl_wifipwd)
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">Modem IP</label>
-                            <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(modelItem => item.fl_modemip)
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">CCTV QR Code</label>
-                            <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(modelItem => item.fl_cctvqr)
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-auto">
-                                @Html.ActionLink("Edit", "FloorList", null, new { @class = "btn btn-primary btn-rounded btn-fw" })
-                            </div>
-                            <div class="col-auto">
-                                @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            </map>
         </div>
 
-    }
+        @foreach (var item in Model)
+        {
+            <div class="col-8 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <form class="forms-sample">
+                            <div class="form-group row">
+                                <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Building Name</label>
+                                <div class="col-sm-7 col-form-label">
+                                    @Html.DisplayFor(modelItem => item.fl_bname)
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Floor Level</label>
+                                <div class="col-sm-7 col-form-label">
+                                    @Html.DisplayFor(modelItem => item.fl_bid)
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="exampleInputMobile" class="col-sm-4 col-form-label">Address</label>
+                                <div class="col-sm-7 col-form-label">
+                                    @Html.DisplayFor(modelItem => item.fl_address)
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="exampleInputPassword2" class="col-sm-4 col-form-label">Landlord Name</label>
+                                <div class="col-sm-7 col-form-label">
+                                    @Html.DisplayFor(modelItem => item.fl_landlord)
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">WiFi Password</label>
+                                <div class="col-sm-7 col-form-label">
+                                    @Html.DisplayFor(modelItem => item.fl_wifipwd)
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">Modem IP</label>
+                                <div class="col-sm-7 col-form-label">
+                                    @Html.DisplayFor(modelItem => item.fl_modemip)
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">CCTV QR Code</label>
+                                <div class="col-sm-7 col-form-label">
+                                    @Html.DisplayFor(modelItem => item.fl_cctvqr)
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-auto">
+                                    @Html.ActionLink("Edit", "FloorList", null, new { @class = "btn btn-primary btn-rounded btn-fw" })
+                                </div>
+                                <div class="col-auto">
+                                    @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        }
 </body>
 </html>
