@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -11,112 +10,114 @@ using XyTech.Models;
 
 namespace XyTech.Controllers
 {
-    public class InvestorController : Controller
+    public class InventoryController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();
 
-        // GET: Investor
+        // GET: Inventory
         public ActionResult Index()
         {
-            var tb_investor = db.tb_investor.Include(t => t.tb_user);
-            return View(tb_investor.ToList());
+            var tb_inventory = db.tb_inventory.Where(t => t.iv_active == "1").Include(t => t.tb_floor);
+            return View(tb_inventory.ToList());
         }
 
-        // GET: Investor/Details/5
+        // GET: Inventory/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_investor tb_investor = db.tb_investor.Find(id);
-            if (tb_investor == null)
+            tb_inventory tb_inventory = db.tb_inventory.Find(id);
+            if (tb_inventory == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_investor);
+            return View(tb_inventory);
         }
 
-        // GET: Investor/Create
+        // GET: Inventory/Create
         public ActionResult Create()
         {
-            ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username");
+            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname");
             return View();
         }
 
-
+        // POST: Inventory/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "i_id,i_user,i_lot,i_amount,i_active")] tb_investor tb_investor)
+        public ActionResult Create([Bind(Include = "iv_id,iv_floor,iv_item,iv_count,iv_active")] tb_inventory tb_inventory)
         {
             if (ModelState.IsValid)
             {
-                db.tb_investor.Add(tb_investor);
+                db.tb_inventory.Add(tb_inventory);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username", tb_investor.i_user);
-            return View(tb_investor);
+            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_inventory.iv_floor);
+            return View(tb_inventory);
         }
 
-        // GET: Investor/Edit/5
+        // GET: Inventory/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_investor tb_investor = db.tb_investor.Find(id);
-            if (tb_investor == null)
+            tb_inventory tb_inventory = db.tb_inventory.Find(id);
+            if (tb_inventory == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username", tb_investor.i_user);
-            return View(tb_investor);
+            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_inventory.iv_floor);
+            return View(tb_inventory);
         }
 
-        // POST: Investor/Edit/5
+        // POST: Inventory/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "i_id,i_user,i_lot,i_amount,i_active")] tb_investor tb_investor)
+        public ActionResult Edit([Bind(Include = "iv_id,iv_floor,iv_item,iv_count,iv_active")] tb_inventory tb_inventory)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tb_investor).State = EntityState.Modified;
+                db.Entry(tb_inventory).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username", tb_investor.i_user);
-            return View(tb_investor);
+            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_inventory.iv_floor);
+            return View(tb_inventory);
         }
 
-        // GET: Investor/Delete/5
+        // GET: Inventory/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_investor tb_investor = db.tb_investor.Find(id);
-            if (tb_investor == null)
+            tb_inventory tb_inventory = db.tb_inventory.Find(id);
+            if (tb_inventory == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_investor);
+            return View(tb_inventory);
         }
 
-        // POST: Investor/Delete/5
+        // POST: Inventory/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            tb_investor tb_investor = db.tb_investor.Find(id);
-            db.tb_investor.Remove(tb_investor);
+            tb_inventory tb_inventory = db.tb_inventory.Find(id);
+            //db.tb_inventory.Remove(tb_inventory);
+            tb_inventory.iv_active = "0"; // Update l_active to "0"
+            db.Entry(tb_inventory).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -54,6 +54,78 @@ namespace XyTech.Controllers
             }
         }
 
+        public ActionResult Details_DL5()
+        {
+            using (var context = new db_XyTechEntities())
+            {
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(2)).ToList();
+                return View(floor);
+            }
+        }
+
+        public ActionResult Details_GE1()
+        {
+            using (var context = new db_XyTechEntities())
+            {
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(3)).ToList();
+                return View(floor);
+            }
+        }
+
+        public ActionResult Details_GE2()
+        {
+            using (var context = new db_XyTechEntities())
+            {
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(4)).ToList();
+                return View(floor);
+            }
+        }
+
+        public ActionResult Details_GE3()
+        {
+            using (var context = new db_XyTechEntities())
+            {
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(5)).ToList();
+                return View(floor);
+            }
+        }
+
+        public ActionResult Details_TN1()
+        {
+            using (var context = new db_XyTechEntities())
+            {
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(6)).ToList();
+                return View(floor);
+            }
+        }
+
+        public ActionResult Details_TN2()
+        {
+            using (var context = new db_XyTechEntities())
+            {
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(7)).ToList();
+                return View(floor);
+            }
+        }
+
+        public ActionResult Details_TN3()
+        {
+            using (var context = new db_XyTechEntities())
+            {
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(8)).ToList();
+                return View(floor);
+            }
+        }
+
+        public ActionResult Details_TN4()
+        {
+            using (var context = new db_XyTechEntities())
+            {
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(9)).ToList();
+                return View(floor);
+            }
+        }
+
         // GET: Floor/Create
         public ActionResult Create()
         {

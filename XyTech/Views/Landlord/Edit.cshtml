@@ -3,82 +3,6 @@
 @{
     ViewBag.Title = "Edit";
 }
-<!--
-<h2>Edit</h2>
-
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>tb_landlord</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.l_id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.l_name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.l_name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.l_name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.l_phone, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.l_phone, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.l_phone, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.l_fee, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.l_fee, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.l_fee, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.l_due, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.l_due, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.l_due, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.l_bank, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.l_bank, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.l_bank, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.l_active, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.l_active, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.l_active, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-
--->
 
 @using (Html.BeginForm())
 {
@@ -124,13 +48,16 @@
                     </div>
                 </div>
 
+
                 <div class="form-group row">
-                    <label for="l_bankname" class="col-sm-3 col-form-label">Bank account number</label>
+                    <label for="l_bankname" class="col-sm-3 col-form-label">Bank</label>
                     <div class="col-sm-9">
                         @Html.DropDownList("l_bankname", null, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.l_bankname, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
+
 
 
                 <div class="form-group row">
@@ -149,16 +76,12 @@
                 @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
             </form>
 
-                
+
 
             </div>
         </div>
     </div>
 }
-
-
-
-
 @section Scripts {
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>

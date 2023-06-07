@@ -1,0 +1,63 @@
+﻿@model XyTech.Models.tb_inventory
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div align="center">
+    <div align="left" class="col-lg-9 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Inventory</h4>
+                <p class="card-description">
+                    Details of linventory
+                </p>
+                <!--<hr />-->
+                <div class="table-responsive">
+                    <table class="table table-striped table-borderless">
+                        <tbody>
+                            <tr>
+                                <th class="col-3">
+                                    Floor
+                                </th>
+
+                                <td class="col-6">
+                                    @Html.DisplayFor(model => model.tb_floor.fl_bname)
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th class="col-3">
+                                    Item
+                                </th>
+
+                                <td class="col-6">
+                                    @Html.DisplayFor(model => model.iv_item)
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th class="col-3">
+                                    Amount
+                                </th>
+
+                                <td class="col-6">
+                                    @Html.DisplayFor(model => model.iv_count)
+                                </td>
+                            </tr>
+
+                            
+
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 25px;">
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.iv_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-dark btn-rounded btn-fw" })
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

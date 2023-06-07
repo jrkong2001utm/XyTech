@@ -11,7 +11,8 @@ namespace XyTech.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tb_landlord
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,6 +25,7 @@ namespace XyTech.Models
         public string l_name { get; set; }
         public string l_phone { get; set; }
         public double l_fee { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = false)]
         public System.DateTime l_due { get; set; }
         public string l_bank { get; set; }
         public string l_active { get; set; }

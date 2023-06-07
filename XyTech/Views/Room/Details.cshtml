@@ -1,0 +1,74 @@
+﻿@model XyTech.Models.tb_room
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tb_room</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.r_price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.r_price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.r_availability)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.r_availability)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.r_size)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.r_size)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.r_active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.r_active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.r_pic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.r_pic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.r_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.r_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tb_floor.fl_bid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tb_floor.fl_bid)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.r_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

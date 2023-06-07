@@ -1,16 +1,18 @@
-﻿@model XyTech.Models.tb_landlord
+﻿@model XyTech.Models.tb_inventory
 
 @{
     ViewBag.Title = "Delete";
 }
 
+
+
 <div align="center">
     <div align="left" class="col-lg-9 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Delete Landlord</h4>
+                <h4 class="card-title">Delete Inventory</h4>
                 <p class="card-description">
-                    Are you sure to delete this landlord?
+                    Are you sure to delete this inventory?
                 </p>
                 <!--<hr />-->
                 <div class="table-responsive">
@@ -18,63 +20,35 @@
                         <tbody>
                             <tr>
                                 <th class="col-3">
-                                    Name
+                                    Floor
                                 </th>
 
                                 <td class="col-6">
-                                    @Html.DisplayFor(model => model.l_name)
+                                    @Html.DisplayFor(model => model.tb_floor.fl_bname)
                                 </td>
                             </tr>
 
                             <tr>
                                 <th class="col-3">
-                                    Contact Number
+                                    Item
                                 </th>
 
                                 <td class="col-6">
-                                    @Html.DisplayFor(model => model.l_phone)
+                                    @Html.DisplayFor(model => model.iv_item)
                                 </td>
                             </tr>
 
                             <tr>
                                 <th class="col-3">
-                                    Amount of Rental (RM)
+                                    Amount
                                 </th>
 
                                 <td class="col-6">
-                                    @Html.DisplayFor(model => model.l_fee)
+                                    @Html.DisplayFor(model => model.iv_count)
                                 </td>
                             </tr>
 
-                            <tr>
-                                <th class="col-3">
-                                    Rental Due (DD-MM-YYYY)
-                                </th>
 
-                                <td class="col-6">
-                                    @Html.DisplayFor(model => model.l_due)
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th class="col-3">
-                                    Bank
-                                </th>
-
-                                <td class="col-6">
-                                    @Html.DisplayFor(model => model.tb_bankname.bn_description)
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th class="col-3">
-                                    Bank Account Number
-                                </th>
-
-                                <td class="col-6">
-                                    @Html.DisplayFor(model => model.l_bank)
-                                </td>
-                            </tr>
 
                         </tbody>
                     </table>
@@ -91,6 +65,6 @@
                 }
 
             </div>
-</div>
-</div>
+        </div>
+    </div>
 </div>
