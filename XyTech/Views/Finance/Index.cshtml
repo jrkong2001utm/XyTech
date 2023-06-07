@@ -73,16 +73,16 @@
                         <td>
                             @day
                         </td>
-                        <td>
+                        <td class="text-success">
                             @if (item.f_transactiontype == "Inflow")
                             {
                                 <span id="inflowAmount">@item.f_transaction</span>
                             }
                         </td>
-                        <td>
+                        <td class="text-danger">
                             @if (item.f_transactiontype == "Outflow")
                             {
-                                <span id="inflowAmount">@item.f_transaction</span>
+                                <span id="outflowAmount">@item.f_transaction</span>
                             }
                         </td>
 
@@ -127,6 +127,11 @@
     var inflowAmount = document.getElementById("inflowAmount");
     if (inflowAmount) {
         inflowAmount.textContent = parseFloat(inflowAmount.textContent).toFixed(2);
+    }
+
+    var outflowAmount = document.getElementById("outflowAmount");
+    if (outflowAmount) {
+        outflowAmount.textContent = parseFloat(outflowAmount.textContent).toFixed(2);
     }
 
     function GetRowColor(transactionType) {

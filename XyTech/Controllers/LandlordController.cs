@@ -82,6 +82,10 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.l_bankname = new SelectList(db.tb_bankname, "bn_id", "bn_description", tb_landlord.l_bankname);
+            
+            ViewBag.l_active = tb_landlord.l_active;
             return View(tb_landlord);
         }
 
@@ -90,7 +94,7 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "l_id,l_name,l_phone,l_fee,l_due,l_bank,l_active")] tb_landlord tb_landlord)
+        public ActionResult Edit([Bind(Include = "l_id,l_name,l_phone,l_fee,l_due,l_bank,l_active,l_bankname")] tb_landlord tb_landlord)
         {
             if (ModelState.IsValid)
             {
@@ -98,6 +102,8 @@ namespace XyTech.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.l_bankname = new SelectList(db.tb_bankname, "bn_id", "bn_description", tb_landlord.l_bankname);
+            ViewBag.l_active = tb_landlord.l_active;
             return View(tb_landlord);
         }
 
@@ -108,24 +114,30 @@ namespace XyTech.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_landlord tb_landlord = db.tb_landlord.Find(id);
-            if (tb_landlord == null)
+            var landlord = db.tb_landlord
+                .Where(l => l.l_id == id && l.l_active != "4")
+                .Include(l => l.tb_bankname)
+                .FirstOrDefault();
+            if (landlord == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_landlord);
+            return View(landlord);
         }
-
+        
         // POST: Landlord/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             tb_landlord tb_landlord = db.tb_landlord.Find(id);
-            db.tb_landlord.Remove(tb_landlord);
+            //db.tb_landlord.Remove(tb_landlord);
+            tb_landlord.l_active = "4"; // Update l_active to "4"
+            db.Entry(tb_landlord).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
 
         protected override void Dispose(bool disposing)
         {

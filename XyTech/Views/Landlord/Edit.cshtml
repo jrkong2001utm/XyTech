@@ -4,79 +4,100 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>tb_landlord</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.l_id)
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Edit Landlord</h4>
+                <p class="card-description">
+                    Edit the landlord's information by filling the form below.
+                </p>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.l_id)
+            <form class="forms-sample">
+                <div class="form-group row">
+                    <label for="l_name" class="col-sm-3 col-form-label">Name</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.l_name, new { htmlAttributes = new { @class = "form-control", placeholder = "Landlord's name" } })
+                        @Html.ValidationMessageFor(model => model.l_name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="l_contact" class="col-sm-3 col-form-label">Contact Number</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.l_phone, new { htmlAttributes = new { @class = "form-control", placeholder = "Contact number of landlord" } })
+                        @Html.ValidationMessageFor(model => model.l_phone, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.l_name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.l_name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.l_name, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="l_fee" class="col-sm-3 col-form-label">Amount of rental (RM)</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.l_fee, new { htmlAttributes = new { @class = "form-control", placeholder = "Rental fee per month (RM)" } })
+                        @Html.ValidationMessageFor(model => model.l_fee, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.l_phone, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.l_phone, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.l_phone, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="l_due" class="col-sm-3 col-form-label">Rental due date</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.l_due, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.l_due, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.l_fee, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.l_fee, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.l_fee, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.l_due, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.l_due, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.l_due, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <div class="form-group row">
+                    <label for="l_bankname" class="col-sm-3 col-form-label">Bank</label>
+                    <div class="col-sm-9">
+                        @Html.DropDownList("l_bankname", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.l_bankname, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.l_bank, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.l_bank, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.l_bank, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.l_active, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.l_active, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.l_active, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+
+                <div class="form-group row">
+                    <label for="l_bank" class="col-sm-3 col-form-label">Bank account number</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.l_bank, new { htmlAttributes = new { @class = "form-control", placeholder = "Bank account number" } })
+                        @Html.ValidationMessageFor(model => model.l_bank, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                <input type="hidden" name="l_active" value="@ViewBag.l_active" />
+
+
+                <button type="submit" class="btn btn-primary mr-2">Save</button>
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+            </form>
+
+
+
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.13.2.min.js"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#l_due').datepicker({
+                dateFormat: "dd/MM/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0",
+                minDate: "0D"
+            });
+
+        });
+    </script>
 }

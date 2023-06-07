@@ -5,7 +5,7 @@
     ViewBag.Title = "Create";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(Html.BeginForm("Create", "Floor", FormMethod.Post, new { enctype = "multipart/form-data" })))
 {
     @Html.AntiForgeryToken()
     <div class="col-md-12 grid-margin stretch-card">
@@ -71,7 +71,7 @@
                     <div class="col-sm-9">
                         @Html.TextBoxFor(model => model.fl_cctvqr, new { type = "file", accept = ".jpg" })
                         @Html.ValidationMessageFor(model => model.fl_cctvqr, "", new { @class = "text-danger" })
-</div>
+                    </div>
                 </div>
 
                 <div class="form-group row">

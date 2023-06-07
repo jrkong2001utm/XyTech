@@ -6,125 +6,118 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using XyTech.Attributes;
 using XyTech.Models;
 
 namespace XyTech.Controllers
 {
-    //[CustomAuthorize]
-    public class UserController : Controller
+    public class InventoryController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();
 
-        // GET: User
+        // GET: Inventory
         public ActionResult Index()
         {
-            return View(db.tb_user.ToList());
+            var tb_inventory = db.tb_inventory.Where(t => t.iv_active == "1").Include(t => t.tb_floor);
+            return View(tb_inventory.ToList());
         }
 
-        // GET: User/Details/5
+        // GET: Inventory/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_user tb_user = db.tb_user.Find(id);
-            if (tb_user == null)
+            tb_inventory tb_inventory = db.tb_inventory.Find(id);
+            if (tb_inventory == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_user);
+            return View(tb_inventory);
         }
 
-        // GET: User/Create
+        // GET: Inventory/Create
         public ActionResult Create()
         {
+            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname");
             return View();
         }
 
-        // POST: User/Create
+        // POST: Inventory/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "u_username,u_pwd,u_email,u_phone,u_usertype,u_active")] tb_user tb_user)
+        public ActionResult Create([Bind(Include = "iv_id,iv_floor,iv_item,iv_count,iv_active")] tb_inventory tb_inventory)
         {
-            bool isUsernameExists = db.tb_user.Any(u => u.u_username == tb_user.u_username);
-
-            if (isUsernameExists)
-            {
-                ModelState.AddModelError("u_username", "Username already exists.");
-            }
-
             if (ModelState.IsValid)
             {
-                db.tb_user.Add(tb_user);
+                db.tb_inventory.Add(tb_inventory);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(tb_user);
+            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_inventory.iv_floor);
+            return View(tb_inventory);
         }
 
-        // GET: User/Edit/5
+        // GET: Inventory/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_user tb_user = db.tb_user.Find(id);
-            if (tb_user == null)
+            tb_inventory tb_inventory = db.tb_inventory.Find(id);
+            if (tb_inventory == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_user);
+            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_inventory.iv_floor);
+            return View(tb_inventory);
         }
 
-        // POST: User/Edit/5
+        // POST: Inventory/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "u_id,u_username,u_pwd,u_email,u_phone,u_usertype,u_active")] tb_user tb_user)
+        public ActionResult Edit([Bind(Include = "iv_id,iv_floor,iv_item,iv_count,iv_active")] tb_inventory tb_inventory)
         {
             if (ModelState.IsValid)
             {
-                if (string.IsNullOrWhiteSpace(tb_user.u_pwd))
-                {
-                    ModelState.Remove("u_pwd");
-                }
-
-                db.Entry(tb_user).State = EntityState.Modified;
+                db.Entry(tb_inventory).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(tb_user);
+            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_inventory.iv_floor);
+            return View(tb_inventory);
         }
 
-        // GET: User/Delete/5
+        // GET: Inventory/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_user tb_user = db.tb_user.Find(id);
-            if (tb_user == null)
+            tb_inventory tb_inventory = db.tb_inventory.Find(id);
+            if (tb_inventory == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_user);
+            return View(tb_inventory);
         }
 
-        // POST: User/Delete/5
+        // POST: Inventory/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int? id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            tb_user tb_user = db.tb_user.Find(id);
-            db.tb_user.Remove(tb_user);
+            tb_inventory tb_inventory = db.tb_inventory.Find(id);
+            //db.tb_inventory.Remove(tb_inventory);
+            tb_inventory.iv_active = "0"; // Update l_active to "0"
+            db.Entry(tb_inventory).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
