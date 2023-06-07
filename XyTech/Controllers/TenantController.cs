@@ -53,19 +53,19 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant)
+        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant, HttpPostedFileBase uploadic, HttpPostedFileBase contract)
         {
             if (ModelState.IsValid)
             {
-                HttpPostedFileBase uploadic = Request.Files["t_uploadic"];
-                HttpPostedFileBase contract = Request.Files["t_contract"];
+                //HttpPostedFileBase uploadic = Request.Files["t_uploadic"];
+                //HttpPostedFileBase contract = Request.Files["t_contract"];
 
                 if (uploadic != null && uploadic.ContentLength > 0)
                 {
                     if (uploadic.ContentType.Contains("image"))
                     {
-                        string _FileName = Path.GetFileName(uploadic.FileName);
-                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Icfile"), _FileName);
+                        var _FileName = Path.GetFileName(uploadic.FileName);
+                        var _path = Path.Combine(Server.MapPath("~/Content/assets/images/Icfile"), _FileName);
                         uploadic.SaveAs(_path);
                         tb_tenant.t_uploadic = _FileName;
                     }
