@@ -57,33 +57,39 @@ namespace XyTech.Controllers
         {
             if (ModelState.IsValid)
             {
-                HttpPostedFileBase IcFile = Request.Files["IcFile"];
-                HttpPostedFileBase ContractFile = Request.Files["ContractFile"];
+                HttpPostedFileBase uploadic = Request.Files["t_uploadic"];
+                HttpPostedFileBase contract = Request.Files["t_contract"];
 
-                if (IcFile != null && IcFile.ContentLength > 0)
+                if (uploadic != null && uploadic.ContentLength > 0)
                 {
-                    // Read the image file into a byte array
-                    byte[] IcData;
-                    using (var binaryReader = new BinaryReader(IcFile.InputStream))
+                    if (uploadic.ContentType.Contains("image"))
                     {
-                        IcData = binaryReader.ReadBytes(IcFile.ContentLength);
+                        string _FileName = Path.GetFileName(uploadic.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Icfile"), _FileName);
+                        uploadic.SaveAs(_path);
+                        tb_tenant.t_uploadic = _FileName;
                     }
-
-                    // Assign the image data to the floor object
-                    tb_tenant.t_uploadic = IcData;
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_tenant);
+                    }
                 }
 
-                if (ContractFile != null && ContractFile.ContentLength > 0)
+                if (contract != null && contract.ContentLength > 0)
                 {
-                    // Read the image file into a byte array
-                    byte[] ContractData;
-                    using (var binaryReader = new BinaryReader(ContractFile.InputStream))
+                    if (uploadic.ContentType.Contains("image"))
                     {
-                        ContractData = binaryReader.ReadBytes(ContractFile.ContentLength);
+                        string _FileName = Path.GetFileName(contract.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contractfile"), _FileName);
+                        contract.SaveAs(_path);
+                        tb_tenant.t_contract = _FileName;
                     }
-
-                    // Assign the image data to the floor object
-                    tb_tenant.t_contract = ContractData;
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_tenant);
+                    }
                 }
 
                 db.tb_tenant.Add(tb_tenant);
@@ -120,33 +126,39 @@ namespace XyTech.Controllers
         {
             if (ModelState.IsValid)
             {
-                HttpPostedFileBase IcFile = Request.Files["IcFile"];
-                HttpPostedFileBase ContractFile = Request.Files["ContractFile"];
+                HttpPostedFileBase uploadic = Request.Files["t_uploadic"];
+                HttpPostedFileBase contract = Request.Files["t_contract"];
 
-                if (IcFile != null && IcFile.ContentLength > 0)
+                if (uploadic != null && uploadic.ContentLength > 0)
                 {
-                    // Read the image file into a byte array
-                    byte[] IcData;
-                    using (var binaryReader = new BinaryReader(IcFile.InputStream))
+                    if (uploadic.ContentType.Contains("image"))
                     {
-                        IcData = binaryReader.ReadBytes(IcFile.ContentLength);
+                        string _FileName = Path.GetFileName(uploadic.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Ic-file"), _FileName);
+                        uploadic.SaveAs(_path);
+                        tb_tenant.t_uploadic = _FileName;
                     }
-
-                    // Assign the image data to the floor object
-                    tb_tenant.t_uploadic = IcData;
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_tenant);
+                    }
                 }
 
-                if (ContractFile != null && ContractFile.ContentLength > 0)
+                if (contract != null && contract.ContentLength > 0)
                 {
-                    // Read the image file into a byte array
-                    byte[] ContractData;
-                    using (var binaryReader = new BinaryReader(ContractFile.InputStream))
+                    if (uploadic.ContentType.Contains("image"))
                     {
-                        ContractData = binaryReader.ReadBytes(ContractFile.ContentLength);
+                        string _FileName = Path.GetFileName(contract.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contract-file"), _FileName);
+                        contract.SaveAs(_path);
+                        tb_tenant.t_contract = _FileName;
                     }
-
-                    // Assign the image data to the floor object
-                    tb_tenant.t_contract = ContractData;
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_tenant);
+                    }
                 }
 
                 db.Entry(tb_tenant).State = EntityState.Modified;
