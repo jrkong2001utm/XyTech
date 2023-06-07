@@ -34,6 +34,22 @@
                 <span class="menu-title">Floor</span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <i class="mdi mdi-domain menu-icon"></i>
+                <span class="menu-title">Floor and Rooms</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Floor")">Floor</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("FloorList","Floor")">Floor List</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Room")">Room List</a></li>
+                </ul>
+            </div>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link" href="@Url.Action("Index","Tenant")">
                 <i class="mdi mdi-clipboard-account menu-icon"></i>
@@ -61,19 +77,19 @@
             </a>
         </li>
         <!--
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#error" aria-expanded="false" aria-controls="error">
-                <i class="icon-ban menu-icon"></i>
-                <span class="menu-title">For Future Use</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="error">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="#"> 404 </a></li>
-                    <li class="nav-item"> <a class="nav-link" href="#"> 500 </a></li>
-                </ul>
-            </div>
-        </li>
-        -->
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#error" aria-expanded="false" aria-controls="error">
+            <i class="icon-ban menu-icon"></i>
+            <span class="menu-title">For Future Use</span>
+            <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="error">
+            <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="#"> 404 </a></li>
+                <li class="nav-item"> <a class="nav-link" href="#"> 500 </a></li>
+            </ul>
+        </div>
+    </li>
+    -->
     </ul>
 </nav>
