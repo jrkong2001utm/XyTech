@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="db_XyTechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="db_XyTechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tb_attendance">
           <Key>
             <PropertyRef Name="a_id" />
@@ -42,10 +42,10 @@
           <Property Name="fl_bid" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="fl_wifipwd" Type="varchar" MaxLength="50" />
           <Property Name="fl_modemip" Type="varchar" MaxLength="50" />
-          <Property Name="fl_cctvqr" Type="varbinary(max)" />
+          <Property Name="fl_cctvqr" Type="varchar(max)" />
           <Property Name="fl_address" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="fl_active" Type="varchar" MaxLength="10" />
-          <Property Name="fl_layout" Type="varbinary(max)" />
+          <Property Name="fl_layout" Type="varchar(max)" />
           <Property Name="fl_bname" Type="varchar" MaxLength="50" />
           <Property Name="fl_landlord" Type="int" />
         </EntityType>
@@ -101,7 +101,7 @@
           <Property Name="r_availability" Type="int" Nullable="false" />
           <Property Name="r_size" Type="float" Nullable="false" />
           <Property Name="r_active" Type="varchar" MaxLength="10" />
-          <Property Name="r_pic" Type="varbinary(max)" />
+          <Property Name="r_pic" Type="varchar(max)" />
           <Property Name="r_no" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tb_tenant">
@@ -111,8 +111,8 @@
           <Property Name="t_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="t_name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="t_ic" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="t_uploadic" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="t_contract" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="t_uploadic" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="t_contract" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="t_phone" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="t_emergency" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="t_indate" Type="datetime" Nullable="false" />
@@ -310,8 +310,7 @@
             <End Role="tb_tenant" EntitySet="tb_tenant" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="db_XyTechModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -429,27 +428,7 @@
           <Property Name="r_pic" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="r_no" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tb_floor" Relationship="Self.FK_tb_room_tb_floor" FromRole="tb_room" ToRole="tb_floor" />
-          <NavigationProperty Name="tb_tenant" Relationship="Self.FK_tb_tenant_tb_room" FromRole="tb_room" ToRole="tb_tenant" />
-        </EntityType>
-        <EntityType Name="tb_tenant">
-          <Key>
-            <PropertyRef Name="t_id" />
-          </Key>
-          <Property Name="t_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="t_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="t_ic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="t_uploadic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="t_contract" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="t_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="t_emergency" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="t_indate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="t_outdate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="t_outsession" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="t_siri" Type="Int32" Nullable="false" />
-          <Property Name="t_outstanding" Type="Double" Nullable="false" />
-          <Property Name="t_paymentstatus" Type="Int32" Nullable="false" />
-          <Property Name="t_room" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tb_room" Relationship="Self.FK_tb_tenant_tb_room" FromRole="tb_tenant" ToRole="tb_room" />
+          <NavigationProperty Name="tb_tenant" Relationship="db_XyTechModel.FK_tb_tenant_tb_room" FromRole="tb_room" ToRole="tb_tenant" />
         </EntityType>
         <EntityType Name="tb_user">
           <Key>
@@ -575,18 +554,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tb_tenant_tb_room">
-          <End Role="tb_room" Type="Self.tb_room" Multiplicity="1" />
-          <End Role="tb_tenant" Type="Self.tb_tenant" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_room">
-              <PropertyRef Name="r_id" />
-            </Principal>
-            <Dependent Role="tb_tenant">
-              <PropertyRef Name="t_room" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="db_XyTechEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tb_attendance" EntityType="Self.tb_attendance" />
           <EntitySet Name="tb_bankname" EntityType="Self.tb_bankname" />
@@ -597,7 +564,6 @@
           <EntitySet Name="tb_landlord" EntityType="Self.tb_landlord" />
           <EntitySet Name="tb_profit" EntityType="Self.tb_profit" />
           <EntitySet Name="tb_room" EntityType="Self.tb_room" />
-          <EntitySet Name="tb_tenant" EntityType="Self.tb_tenant" />
           <EntitySet Name="tb_user" EntityType="Self.tb_user" />
           <AssociationSet Name="FK_tb_floor_tb_attendance" Association="Self.FK_tb_floor_tb_attendance">
             <End Role="tb_floor" EntitySet="tb_floor" />
@@ -635,11 +601,44 @@
             <End Role="tb_investor" EntitySet="tb_investor" />
             <End Role="tb_profit" EntitySet="tb_profit" />
           </AssociationSet>
-          <AssociationSet Name="FK_tb_tenant_tb_room" Association="Self.FK_tb_tenant_tb_room">
+          <EntitySet Name="tb_tenant" EntityType="db_XyTechModel.tb_tenant" />
+          <AssociationSet Name="FK_tb_tenant_tb_room" Association="db_XyTechModel.FK_tb_tenant_tb_room">
             <End Role="tb_room" EntitySet="tb_room" />
             <End Role="tb_tenant" EntitySet="tb_tenant" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="tb_tenant">
+          <Key>
+            <PropertyRef Name="t_id" />
+          </Key>
+          <Property Name="t_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="t_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="t_ic" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="t_uploadic" Type="Binary" Nullable="false" MaxLength="100" FixedLength="false" />
+          <Property Name="t_contract" Type="Binary" Nullable="false" MaxLength="100" FixedLength="false" />
+          <Property Name="t_phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="t_emergency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="t_indate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="t_outdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="t_outsession" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="t_siri" Type="Int32" Nullable="false" />
+          <Property Name="t_outstanding" Type="Double" Nullable="false" />
+          <Property Name="t_paymentstatus" Type="Int32" Nullable="false" />
+          <Property Name="t_room" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_room" Relationship="db_XyTechModel.FK_tb_tenant_tb_room" FromRole="tb_tenant" ToRole="tb_room" />
+        </EntityType>
+        <Association Name="FK_tb_tenant_tb_room">
+          <End Type="db_XyTechModel.tb_room" Role="tb_room" Multiplicity="1" />
+          <End Type="db_XyTechModel.tb_tenant" Role="tb_tenant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_room">
+              <PropertyRef Name="r_id" />
+            </Principal>
+            <Dependent Role="tb_tenant">
+              <PropertyRef Name="t_room" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -754,26 +753,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_tenant">
-            <EntityTypeMapping TypeName="db_XyTechModel.tb_tenant">
-              <MappingFragment StoreEntitySet="tb_tenant">
-                <ScalarProperty Name="t_id" ColumnName="t_id" />
-                <ScalarProperty Name="t_name" ColumnName="t_name" />
-                <ScalarProperty Name="t_ic" ColumnName="t_ic" />
-                <ScalarProperty Name="t_uploadic" ColumnName="t_uploadic" />
-                <ScalarProperty Name="t_contract" ColumnName="t_contract" />
-                <ScalarProperty Name="t_phone" ColumnName="t_phone" />
-                <ScalarProperty Name="t_emergency" ColumnName="t_emergency" />
-                <ScalarProperty Name="t_indate" ColumnName="t_indate" />
-                <ScalarProperty Name="t_outdate" ColumnName="t_outdate" />
-                <ScalarProperty Name="t_outsession" ColumnName="t_outsession" />
-                <ScalarProperty Name="t_siri" ColumnName="t_siri" />
-                <ScalarProperty Name="t_outstanding" ColumnName="t_outstanding" />
-                <ScalarProperty Name="t_paymentstatus" ColumnName="t_paymentstatus" />
-                <ScalarProperty Name="t_room" ColumnName="t_room" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tb_user">
             <EntityTypeMapping TypeName="db_XyTechModel.tb_user">
               <MappingFragment StoreEntitySet="tb_user">
@@ -784,6 +763,26 @@
                 <ScalarProperty Name="u_usertype" ColumnName="u_usertype" />
                 <ScalarProperty Name="u_active" ColumnName="u_active" />
                 <ScalarProperty Name="u_username" ColumnName="u_username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_tenant">
+            <EntityTypeMapping TypeName="db_XyTechModel.tb_tenant">
+              <MappingFragment StoreEntitySet="tb_tenant">
+                <ScalarProperty Name="t_room" ColumnName="t_room" />
+                <ScalarProperty Name="t_paymentstatus" ColumnName="t_paymentstatus" />
+                <ScalarProperty Name="t_outstanding" ColumnName="t_outstanding" />
+                <ScalarProperty Name="t_siri" ColumnName="t_siri" />
+                <ScalarProperty Name="t_outsession" ColumnName="t_outsession" />
+                <ScalarProperty Name="t_outdate" ColumnName="t_outdate" />
+                <ScalarProperty Name="t_indate" ColumnName="t_indate" />
+                <ScalarProperty Name="t_emergency" ColumnName="t_emergency" />
+                <ScalarProperty Name="t_phone" ColumnName="t_phone" />
+                <ScalarProperty Name="t_contract" ColumnName="t_contract" />
+                <ScalarProperty Name="t_uploadic" ColumnName="t_uploadic" />
+                <ScalarProperty Name="t_ic" ColumnName="t_ic" />
+                <ScalarProperty Name="t_name" ColumnName="t_name" />
+                <ScalarProperty Name="t_id" ColumnName="t_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

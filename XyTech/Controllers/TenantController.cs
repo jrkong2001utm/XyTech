@@ -6,8 +6,10 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
 using XyTech.Attributes;
 using XyTech.Models;
 
@@ -52,30 +54,51 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant, HttpPostedFileBase IcFile, HttpPostedFileBase ContractFile)
+        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant)
         {
+
+            HttpPostedFileBase uploadic = Request.Files["t_uploadic"];
+            HttpPostedFileBase contract = Request.Files["t_contract"];
+
             if (ModelState.IsValid)
             {
-                if (IcFile != null && IcFile.ContentLength > 0)
+                if (uploadic != null && uploadic.ContentLength > 0)
                 {
-                    string icFileName = Path.GetFileName(IcFile.FileName);
-                    string icFilePath = Path.Combine(Server.MapPath("~/Content/assets/images/Ic-file"), icFileName);
-                    IcFile.SaveAs(icFilePath);
-                    tb_tenant.t_uploadic = icFileName; // Save the original file name in the database
+                    if (uploadic.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(uploadic.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Ic-file"), _FileName);
+                        uploadic.SaveAs(_path);
+                        tb_tenant.t_uploadic = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_tenant);
+                    }
                 }
 
-                if (ContractFile != null && ContractFile.ContentLength > 0)
+                if (contract != null && contract.ContentLength > 0)
                 {
-                    string ContractFileName = Path.GetFileName(ContractFile.FileName);
-                    string ContractFilePath = Path.Combine(Server.MapPath("~/Content/assets/images/Contract-file"), ContractFileName);
-                    ContractFile.SaveAs(ContractFilePath);
-                    tb_tenant.t_uploadic = ContractFileName; // Save the original file name in the database
+                    if (contract.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(contract.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contract-file"), _FileName);
+                        uploadic.SaveAs(_path);
+                        tb_tenant.t_contract = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_tenant);
+                    }
                 }
 
                 db.tb_tenant.Add(tb_tenant);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
 
             ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_floor", tb_tenant.t_room);
             return View(tb_tenant);
@@ -102,24 +125,43 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant, HttpPostedFileBase IcFile, HttpPostedFileBase ContractFile)
+        public ActionResult Edit([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant)
         {
+            HttpPostedFileBase uploadic = Request.Files["t_uploadic"];
+            HttpPostedFileBase contract = Request.Files["t_contract"];
+
             if (ModelState.IsValid)
             {
-                if (IcFile != null && IcFile.ContentLength > 0)
+                if (uploadic != null && uploadic.ContentLength > 0)
                 {
-                    string icFileName = Path.GetFileName(IcFile.FileName);
-                    string icFilePath = Path.Combine(Server.MapPath("~/Content/assets/images/Ic-file"), icFileName);
-                    IcFile.SaveAs(icFilePath);
-                    tb_tenant.t_uploadic = icFileName; // Save the original file name in the database
+                    if (uploadic.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(uploadic.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Ic-file"), _FileName);
+                        uploadic.SaveAs(_path);
+                        tb_tenant.t_uploadic = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_tenant);
+                    }
                 }
 
-                if (ContractFile != null && ContractFile.ContentLength > 0)
+                if (contract != null && contract.ContentLength > 0)
                 {
-                    string ContractFileName = Path.GetFileName(ContractFile.FileName);
-                    string ContractFilePath = Path.Combine(Server.MapPath("~/Content/assets/images/Contract-file"), ContractFileName);
-                    ContractFile.SaveAs(ContractFilePath);
-                    tb_tenant.t_uploadic = ContractFileName; // Save the original file name in the database
+                    if (contract.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(contract.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contract-file"), _FileName);
+                        uploadic.SaveAs(_path);
+                        tb_tenant.t_contract = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_tenant);
+                    }
                 }
 
                 db.Entry(tb_tenant).State = EntityState.Modified;

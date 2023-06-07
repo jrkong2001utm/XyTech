@@ -36,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.t_uploadic, "Upload IC Picture", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" name="IcFile" id="IcFile" />
+                @Html.TextBoxFor(model => model.t_uploadic, new { type = "file", accept = "image/*" })
                 @Html.ValidationMessageFor(model => model.t_uploadic, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -44,7 +44,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.t_contract, "Uplaod Contract", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" name="ContractFile" id="ContractFile" />
+                @Html.TextBoxFor(model => model.t_contract, new { type = "file", accept = "image/*" })
                 @Html.ValidationMessageFor(model => model.t_contract, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -118,10 +118,9 @@
             <div class="col-md-10">
                 @Html.DropDownList("t_paymentstatus", new List<SelectListItem>
                 {
-                    new SelectListItem { Text = "-- Select Payment Status --", Selected = true, Disabled = true },
                     new SelectListItem { Text = "Successfully Paid", Value = "1" },
                     new SelectListItem { Text = "Partially Paid", Value = "2" },
-                    new SelectListItem { Text = "Unpaid", Value = "3" }
+                    new SelectListItem { Text = "Unpaid", Value = "3", Selected = true }
                 }, new { @class = "form-control", @required = true })
                 @Html.ValidationMessageFor(model => model.t_paymentstatus, "", new { @class = "text-danger" })
             </div>

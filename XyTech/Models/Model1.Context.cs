@@ -34,7 +34,7 @@ namespace XyTech.Models
         public virtual DbSet<tb_landlord> tb_landlord { get; set; }
         public virtual DbSet<tb_profit> tb_profit { get; set; }
         public virtual DbSet<tb_room> tb_room { get; set; }
-        public virtual DbSet<tb_tenant> tb_tenant { get; set; }
         public virtual DbSet<tb_user> tb_user { get; set; }
+        public virtual DbSet<tb_tenant> tb_tenant { get; set; }
     }
 }
