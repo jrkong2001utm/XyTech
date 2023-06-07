@@ -42,10 +42,10 @@
           <Property Name="fl_bid" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="fl_wifipwd" Type="varchar" MaxLength="50" />
           <Property Name="fl_modemip" Type="varchar" MaxLength="50" />
-          <Property Name="fl_cctvqr" Type="varbinary(max)" />
+          <Property Name="fl_cctvqr" Type="varchar(max)" />
           <Property Name="fl_address" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="fl_active" Type="varchar" MaxLength="10" />
-          <Property Name="fl_layout" Type="varbinary(max)" />
+          <Property Name="fl_layout" Type="varchar(max)" />
           <Property Name="fl_bname" Type="varchar" MaxLength="50" />
           <Property Name="fl_landlord" Type="int" />
         </EntityType>
@@ -101,7 +101,7 @@
           <Property Name="r_availability" Type="int" Nullable="false" />
           <Property Name="r_size" Type="float" Nullable="false" />
           <Property Name="r_active" Type="varchar" MaxLength="10" />
-          <Property Name="r_pic" Type="varbinary(max)" />
+          <Property Name="r_pic" Type="varchar(max)" />
           <Property Name="r_no" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tb_tenant">
@@ -111,8 +111,8 @@
           <Property Name="t_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="t_name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="t_ic" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="t_uploadic" Type="varbinary(max)" Nullable="false" />
-          <Property Name="t_contract" Type="varbinary(max)" Nullable="false" />
+          <Property Name="t_uploadic" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="t_contract" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="t_phone" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="t_emergency" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="t_indate" Type="datetime" Nullable="false" />
@@ -614,8 +614,8 @@
           <Property Name="t_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="t_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="t_ic" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="t_uploadic" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
-          <Property Name="t_contract" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="t_uploadic" Type="Binary" Nullable="false" MaxLength="100" FixedLength="false" />
+          <Property Name="t_contract" Type="Binary" Nullable="false" MaxLength="100" FixedLength="false" />
           <Property Name="t_phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="t_emergency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="t_indate" Type="DateTime" Nullable="false" Precision="3" />
