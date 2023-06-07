@@ -6,73 +6,67 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm(Html.BeginForm("Create", "Room", FormMethod.Post, new { enctype = "multipart/form-data" })))
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>tb_room</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.r_floor, "r_floor", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("r_floor", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.r_floor, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Add New Floor</h4>
+                <p class="card-description">
+                    Add a new floor by filling the form below.
+                </p>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <form class="forms-sample">
+                    <div class="form-group row">
+                        <label for="l_name" class="col-sm-3 col-form-label">Room No.</label>
+                        <div class="col-sm-9">
+                            @Html.EditorFor(model => model.r_no, new { htmlAttributes = new { @class = "form-control", placeholder = "Building Code" } })
+                            @Html.ValidationMessageFor(model => model.r_no, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="l_contact" class="col-sm-3 col-form-label">Building Name</label>
+                        <div class="col-sm-9">
+                            @Html.EditorFor(model => model.tb_floor.fl_bid, new { htmlAttributes = new { @class = "form-control", placeholder = "Floor Level" } })
+                            @Html.ValidationMessageFor(model => model.tb_floor.fl_bid, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="l_fee" class="col-sm-3 col-form-label">Size (ft)</label>
+                        <div class="col-sm-9">
+                            @Html.EditorFor(model => model.r_size, new { htmlAttributes = new { @class = "form-control", placeholder = "Floor Building Address" } })
+                            @Html.ValidationMessageFor(model => model.r_size, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.r_price, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.r_price, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.r_price, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="l_due" class="col-sm-3 col-form-label">Availability</label>
+                        <div class="col-sm-9">
+                            @Html.EditorFor(model => model.r_availability, new { htmlAttributes = new { @class = "form-control", placeholder = "Landlord Name" } })
+                            @Html.ValidationMessageFor(model => model.r_availability, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.r_availability, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.r_availability, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.r_availability, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="form-group row">
+                        <label for="l_bankname" class="col-sm-3 col-form-label">Room Picture</label>
+                        <div class="col-sm-9">
+                            @Html.EditorFor(model => model.r_pic, new { htmlAttributes = new { @class = "form-control", placeholder = "WiFi Password" } })
+                            @Html.ValidationMessageFor(model => model.r_pic, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.r_size, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.r_size, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.r_size, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    @Html.Hidden("r_active", "active")
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.r_active, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.r_active, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.r_active, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.r_pic, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.r_pic, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.r_pic, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.r_no, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.r_no, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.r_no, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                    <div class="form-group row">
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary btn-rounded btn-fw">Submit</button>
+                        </div>
+                        <div class="col-auto">
+                            @Html.ActionLink("Cancel", "Create", null, new { type = "reset", @class = "btn btn-light btn-rounded btn-fw" })
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
