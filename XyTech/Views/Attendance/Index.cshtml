@@ -12,6 +12,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.a_id)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.a_check)
         </th>
         <th>
@@ -22,6 +25,9 @@
 
 @foreach (var item in Model) {
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.a_id)
+        </th>
         <td>
             @Html.DisplayFor(modelItem => item.a_check)
         </td>
@@ -29,9 +35,9 @@
             @Html.DisplayFor(modelItem => item.tb_floor.fl_bid)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.a_id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.a_id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.a_id })
+            @Html.ActionLink("Edit", "Edit", new { id = item.a_id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.a_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.a_id })
         </td>
     </tr>
 }

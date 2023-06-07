@@ -30,6 +30,7 @@ namespace XyTech.Controllers
 
                     if (obj != null)
                     {
+                        Session["id"] = obj.u_id.ToString();
                         Session["u_username"] = obj.u_username.ToString();
                         Session["usertype"] = obj.u_usertype.ToString();
                         return RedirectToAction("Index", "Home");
