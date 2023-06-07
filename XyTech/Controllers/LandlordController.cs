@@ -114,14 +114,17 @@ namespace XyTech.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_landlord tb_landlord = db.tb_landlord.Find(id);
-            if (tb_landlord == null)
+            var landlord = db.tb_landlord
+                .Where(l => l.l_id == id && l.l_active != "4")
+                .Include(l => l.tb_bankname)
+                .FirstOrDefault();
+            if (landlord == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_landlord);
+            return View(landlord);
         }
-
+        
         // POST: Landlord/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -134,6 +137,7 @@ namespace XyTech.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
 
         protected override void Dispose(bool disposing)
         {

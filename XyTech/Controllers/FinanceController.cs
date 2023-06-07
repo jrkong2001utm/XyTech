@@ -11,7 +11,7 @@ using XyTech.Models;
 
 namespace XyTech.Controllers
 {
-    [CustomAuthorize]
+    //[CustomAuthorize]
     public class FinanceController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();
@@ -41,8 +41,8 @@ namespace XyTech.Controllers
         // GET: Finance/Create
         public ActionResult Create()
         {
-            ViewBag.f_user = Session["u_username"];
-            ViewBag.f_floor = new SelectList(db.tb_floor, "fl_id", "fl_id");
+            ViewBag.f_user = Session["id"];
+            ViewBag.f_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname");
             return View();
         }
 
@@ -60,8 +60,8 @@ namespace XyTech.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.f_user = new SelectList(db.tb_user, "u_username", "u_pwd", tb_finance.f_user);
-            ViewBag.f_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid", tb_finance.f_floor);
+            ViewBag.f_user = Session["id"];
+            ViewBag.f_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname");
             return View(tb_finance);
         }
 
@@ -77,8 +77,8 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.f_user = new SelectList(db.tb_user, "u_username", "u_pwd", tb_finance.f_user);
-            ViewBag.f_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid", tb_finance.f_floor);
+            ViewBag.f_user = Session["id"];
+            ViewBag.f_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_finance.f_floor);
             return View(tb_finance);
         }
 
@@ -95,8 +95,8 @@ namespace XyTech.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.f_user = new SelectList(db.tb_user, "u_username", "u_pwd", tb_finance.f_user);
-            ViewBag.f_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid", tb_finance.f_floor);
+            ViewBag.f_user = Session["id"];
+            ViewBag.f_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_finance.f_floor);
             return View(tb_finance);
         }
 

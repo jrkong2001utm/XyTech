@@ -11,12 +11,12 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>tb_finance</h4>
+        <h4>Finance</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.f_transactiontype, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.f_transactiontype, "Transaction Type", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("f_transactiontype", new List<SelectListItem>
                 {
@@ -104,5 +104,5 @@
 </div>
 
 <script>
-    document.getElementById('f_date').valueAsDate = @Model.f_date;
+    document.getElementById('f_date').valueAsDate = new Date;
 </script>
