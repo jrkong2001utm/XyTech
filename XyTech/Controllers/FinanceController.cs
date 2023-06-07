@@ -23,11 +23,6 @@ namespace XyTech.Controllers
             return View(tb_finance.ToList());
         }
 
-        public ActionResult Summary()
-        {
-            return View() 
-        }
-
         // GET: Finance/Details/5
         public ActionResult Details(int? id)
         {

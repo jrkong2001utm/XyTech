@@ -2013,7 +2013,6 @@
     <Content Include="Views\Inventory\Details.cshtml" />
     <Content Include="Views\Inventory\Edit.cshtml" />
     <Content Include="Views\Inventory\Index.cshtml" />
-    <Content Include="Views\Finance\Summary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
