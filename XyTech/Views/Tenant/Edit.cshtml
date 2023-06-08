@@ -35,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.t_uploadic, "Upload IC Picture", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" name="IcFile" id="IcFile" />
+                @Html.TextBoxFor(model => model.t_uploadic, new { type = "file", accept = "image/*" })
                 @Html.ValidationMessageFor(model => model.t_uploadic, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -43,7 +43,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.t_contract, "Uplaod Contract", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.t_contract, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBoxFor(model => model.t_uploadic, new { type = "file", accept = "image/*" })
                 @Html.ValidationMessageFor(model => model.t_contract, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -157,7 +157,6 @@
                 dateFormat: "dd/MM/yy",
                 changeMonth: true,
                 changeYear: true,
-                yearRange: "-60:+0",
                 minDate: "0D",
                 onSelect: function (selected) {
                     var dt = new Date(selected);
@@ -170,7 +169,6 @@
                 dateFormat: "dd/MM/yy",
                 changeMonth: true,
                 changeYear: true,
-                yearRange: "-60:+0",
                 onSelect: function (selected) {
                     var dt = new Date(selected);
                     dt.setDate(dt.getDate() - 1);

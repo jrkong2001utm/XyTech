@@ -25,6 +25,13 @@ namespace XyTech.Controllers
             var tb_tenant = db.tb_tenant.Include(t => t.tb_room);
             return View(tb_tenant.ToList());
         }
+        [HttpGet]
+        public ActionResult getTenantData() 
+        {
+            //var tenantData = from tenant in db.tb_tenant select new { tenant.t_name, tenant.t_ic, tenant.t_phone, tenant.t_indate, tenant.t_outdate, tenant.t_outstanding, tenant.t_paymentstatus, tenant.tb_room.r_floor}; // Retrieve data from the tb_tenant table
+            var data = db.tb_tenant.ToList();
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet); // Return the data as JSON; 
+        }
 
         // GET: Tenant/Details/5
         public ActionResult Details(int? id)
@@ -64,10 +71,11 @@ namespace XyTech.Controllers
                 {
                     if (uploadic.ContentType.Contains("image"))
                     {
-                        var _FileName = Path.GetFileName(uploadic.FileName);
-                        var _path = Path.Combine(Server.MapPath("~/Content/assets/images/Icfile"), _FileName);
+                        string _FileName = Path.GetFileName(uploadic.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Icfile"), _FileName);
                         uploadic.SaveAs(_path);
                         tb_tenant.t_uploadic = _FileName;
+
                     }
                     else
                     {
@@ -147,18 +155,10 @@ namespace XyTech.Controllers
 
                 if (contract != null && contract.ContentLength > 0)
                 {
-                    if (uploadic.ContentType.Contains("image"))
-                    {
-                        string _FileName = Path.GetFileName(contract.FileName);
-                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contract-file"), _FileName);
-                        contract.SaveAs(_path);
-                        tb_tenant.t_contract = _FileName;
-                    }
-                    else
-                    {
-                        ViewBag.Message = "Please choose image only.";
-                        return View(tb_tenant);
-                    }
+                    string _FileName = Path.GetFileName(contract.FileName);
+                    string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contract-file"), _FileName);
+                    contract.SaveAs(_path);
+                    tb_tenant.t_contract = _FileName;
                 }
 
                 db.Entry(tb_tenant).State = EntityState.Modified;
