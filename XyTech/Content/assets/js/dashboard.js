@@ -630,7 +630,7 @@
       '</table>';
   }
   var table = $('#example').DataTable( {
-    "ajax": "js/data.txt",
+    "ajax": "~/Content/assets/js/data.txt",
     "columns": [
         { "data": "Quote" },
         { "data": "Product" },
@@ -647,10 +647,10 @@
         }
     ],
     "order": [[1, 'asc']],
-    "paging":   false,
+    "paging":   true,
     "ordering": true,
     "info":     false,
-    "filter": false,
+    "filter": true,
     columnDefs: [{
       orderable: false,
       className: 'select-checkbox',
