@@ -9,6 +9,17 @@
 <hr />
 
 <div class="row">
+    @{
+        if (TempData["success"] != null)
+        {
+            <div class="alert alert-success">
+                <strong>Success!</strong> @TempData["success"]
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>x</span>
+                </button>
+            </div>
+        }
+    }
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
@@ -18,11 +29,10 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="table-responsive">
-                            <table id="tenant" class="display expandable-table" style="width:100%">
+                            <table class="display expandable-table dataTable no-footer" style="width:100%" role="grid">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>IC</th>
                                         <th>Phone</th>
                                         <th>Check In</th>
                                         <th>Check Out</th>
@@ -33,6 +43,73 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.t_name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.t_phone)
+                                            </td>
+                                            <td>
+                                                @item.t_indate.ToString("dd-MM-yyyy")
+                                            </td>
+                                            <td>
+                                                @item.t_outdate.ToString("dd-MM-yyyy")
+                                            </td>
+                                            <td style="text-align: center">
+                                                @Html.DisplayFor(modelItem => item.t_outstanding)
+                                            </td>
+                                            <td style="text-align: center">
+                                                @{
+                                                    var paymentStatusText = "";
+
+                                                    switch (item.t_paymentstatus)
+                                                    {
+                                                        case 1:
+                                                            paymentStatusText = "Successfully Paid";
+                                                            <div class="badge badge-success">
+                                                                @Html.DisplayFor(modelItem => paymentStatusText)
+                                                            </div>
+                                                            break;
+                                                        case 2:
+                                                            paymentStatusText = "Partially Paid";
+                                                            <div class="badge badge-warning">
+                                                                @Html.DisplayFor(modelItem => paymentStatusText)
+                                                            </div>
+                                                            break;
+                                                        case 3:
+                                                            paymentStatusText = "Unpaid";
+                                                            <div class="badge badge-danger">
+                                                                @Html.DisplayFor(modelItem => paymentStatusText)
+                                                            </div>
+                                                            break;
+                                                    }
+                                                }
+                                            </td>
+                                            <td style="text-align: center">
+                                                @Html.DisplayFor(modelItem => item.tb_room.r_floor)
+                                            </td>
+
+                                            @if (item.t_paymentstatus == 1)
+                                            {
+                                                <td>
+                                                    @Html.ActionLink(" ", "Edit", new { id = item.t_id }, new { @class = "fa fa-pencil text-primary" }) |
+                                                    @Html.ActionLink(" ", "Details", new { id = item.t_id }, new { @class = "fa fa-info-circle text-info" }) |
+                                                    @Html.ActionLink(" ", "Delete", new { id = item.t_id }, new { @class = " fa fa-trash text-danger" })
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    @Html.ActionLink(" ", "Edit", new { id = item.t_id }, new { @class = "fa fa-pencil text-primary" }) |
+                                                    @Html.ActionLink(" ", "Details", new { id = item.t_id }, new { @class = "fa fa-info-circle text-info" })
+                                                </td>
+                                            }
+
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -42,71 +119,4 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            $('#tenant').DataTable({
-                "ajax": {
-                    "url": "/tenant/getTenantData",
-                    "type": "GET",
-                    "datatype": "json"
-                },
-                "columns": [
-                    { "data": "t_name" },
-                    { "data": "t_ic" },
-                    { "data": "t_phone" },
-                    { "data": "t_indate" },
-                    { "data": "t_outdate" },
-                    { "data": "t_outstanding" },
-                    {
-                        "data": "t_paymentstatus",
-                        "render": function (data, type, full, meta) {
-                            var paymentStatusText = "";
-
-                            switch (data) {
-                                case 1:
-                                    paymentStatusText = "Successfully Paid";
-                                    return '<div class="badge badge-success">' + paymentStatusText + '</div>';
-                                case 2:
-                                    paymentStatusText = "Partially Paid";
-                                    return '<div class="badge badge-warning">' + paymentStatusText + '</div>';
-                                case 3:
-                                    paymentStatusText = "Unpaid";
-                                    return '<div class="badge badge-danger">' + paymentStatusText + '</div>';
-                                default:
-                                    return " ";
-                            }
-                        }
-                    },
-                    { "data": "tb_room.r_floor" },
-                    {
-                        "data": "t_paymentstatus",
-                        "render": function (data, type, full, meta) {
-                            if (data == 1) {
-                                return '<td>' +
-                                    '<a href="/tb_tenant/Edit/' + full.t_id + '" class="fa fa-pencil text-primary"></a> | ' +
-                                    '<a href="/tb_tenant/Details/' + full.t_id + '" class="fa fa-info-circle text-info"></a> | ' +
-                                    '<a href="/tb_tenant/Delete/' + full.t_id + '" class="fa fa-trash text-danger"></a>' +
-                                    '</td>';
-                            } else {
-                                return '<td>' +
-                                    '<a href="/tb_tenant/Edit/' + full.t_id + '" class="fa fa-pencil text-primary"></a> | ' +
-                                    '<a href="/tb_tenant/Details/' + full.t_id + '" class="fa fa-info-circle text-info"></a>' +
-                                    '</td>';
-                            }
-                        }
-                    }
-                ],
-                "order": [[1, 'asc']],
-                "paging": true,
-                "ordering": true,
-                "info": false,
-                "filter": true
-            });
-        });
-
-    </script>
-}
 

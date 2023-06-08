@@ -630,7 +630,7 @@
       '</table>';
   }
   var table = $('#example').DataTable( {
-    "ajax": "~/Content/assets/js/data.txt",
+    "ajax": "/Content/assets/js/data.txt",
     "columns": [
         { "data": "Quote" },
         { "data": "Product" },

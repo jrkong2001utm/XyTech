@@ -36,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.t_uploadic, "Upload IC Picture", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.t_uploadic, new { type = "file", accept = "image/*" })
+                @Html.TextBox("icfile", "", new { type = "file", @class = "form-control", accept = "image/*" })
                 @Html.ValidationMessageFor(model => model.t_uploadic, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -44,7 +44,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.t_contract, "Uplaod Contract", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.t_contract, new { type = "file", accept = "image/*" })
+                @Html.TextBox("contractfile", "", new { type = "file", @class = "form-control", accept = "image/*" })
                 @Html.ValidationMessageFor(model => model.t_contract, "", new { @class = "text-danger" })
             </div>
         </div>

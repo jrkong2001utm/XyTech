@@ -60,22 +60,19 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant, HttpPostedFileBase uploadic, HttpPostedFileBase contract)
+        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant, HttpPostedFileBase icfile, HttpPostedFileBase contractfile)
         {
             if (ModelState.IsValid)
             {
-                //HttpPostedFileBase uploadic = Request.Files["t_uploadic"];
-                //HttpPostedFileBase contract = Request.Files["t_contract"];
 
-                if (uploadic != null && uploadic.ContentLength > 0)
+                if (icfile != null && icfile.ContentLength > 0)
                 {
-                    if (uploadic.ContentType.Contains("image"))
+                    if (icfile.ContentType.Contains("image"))
                     {
-                        string _FileName = Path.GetFileName(uploadic.FileName);
+                        string _FileName = Path.GetFileName(icfile.FileName);
                         string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Icfile"), _FileName);
-                        uploadic.SaveAs(_path);
+                        icfile.SaveAs(_path);
                         tb_tenant.t_uploadic = _FileName;
-
                     }
                     else
                     {
@@ -84,13 +81,13 @@ namespace XyTech.Controllers
                     }
                 }
 
-                if (contract != null && contract.ContentLength > 0)
+                if (contractfile != null && contractfile.ContentLength > 0)
                 {
-                    if (uploadic.ContentType.Contains("image"))
+                    if (contractfile.ContentType.Contains("image"))
                     {
-                        string _FileName = Path.GetFileName(contract.FileName);
+                        string _FileName = Path.GetFileName(contractfile.FileName);
                         string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contractfile"), _FileName);
-                        contract.SaveAs(_path);
+                        contractfile.SaveAs(_path);
                         tb_tenant.t_contract = _FileName;
                     }
                     else
@@ -102,6 +99,7 @@ namespace XyTech.Controllers
 
                 db.tb_tenant.Add(tb_tenant);
                 db.SaveChanges();
+                TempData["success"] = "Tenant saved successfully!";
                 return RedirectToAction("Index");
             }
 
@@ -130,20 +128,18 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant)
+        public ActionResult Edit([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant, HttpPostedFileBase icfile, HttpPostedFileBase contractfile)
         {
             if (ModelState.IsValid)
             {
-                HttpPostedFileBase uploadic = Request.Files["t_uploadic"];
-                HttpPostedFileBase contract = Request.Files["t_contract"];
-
-                if (uploadic != null && uploadic.ContentLength > 0)
+                if (icfile != null && icfile.ContentLength > 0)
                 {
-                    if (uploadic.ContentType.Contains("image"))
+                    System.IO.File.Delete(Path.Combine(Server.MapPath("~/Content/assets/images/Icfile"), tb_tenant.t_uploadic));
+                    if (icfile.ContentType.Contains("image"))
                     {
-                        string _FileName = Path.GetFileName(uploadic.FileName);
-                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Ic-file"), _FileName);
-                        uploadic.SaveAs(_path);
+                        string _FileName = Path.GetFileName(icfile.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Icfile"), _FileName);
+                        icfile.SaveAs(_path);
                         tb_tenant.t_uploadic = _FileName;
                     }
                     else
@@ -153,16 +149,25 @@ namespace XyTech.Controllers
                     }
                 }
 
-                if (contract != null && contract.ContentLength > 0)
+                if (contractfile != null && contractfile.ContentLength > 0)
                 {
-                    string _FileName = Path.GetFileName(contract.FileName);
-                    string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contract-file"), _FileName);
-                    contract.SaveAs(_path);
-                    tb_tenant.t_contract = _FileName;
+                    if (icfile.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(contractfile.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contractfile"), _FileName);
+                        contractfile.SaveAs(_path);
+                        tb_tenant.t_contract = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_tenant);
+                    }
                 }
 
                 db.Entry(tb_tenant).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["success"] = "Tenant updated successfully!";
                 return RedirectToAction("Index");
             }
             ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_floor", tb_tenant.t_room);
@@ -197,8 +202,8 @@ namespace XyTech.Controllers
 
         public ActionResult GetFile(string FileName)
         {
-            string icfilePath = Server.MapPath("~/Content/assets/images/Ic-file/" + FileName);
-            string contractfilePath = Server.MapPath("~/Content/assets/images/Contract-file/" + FileName);
+            string icfilePath = Server.MapPath("~/Content/assets/images/Icfile/" + FileName);
+            string contractfilePath = Server.MapPath("~/Content/assets/images/Contractfile/" + FileName);
 
             if (System.IO.File.Exists(icfilePath))
             {
