@@ -19,9 +19,55 @@ namespace XyTech.Controllers
         // GET: Finance
         public ActionResult Index()
         {
-            var tb_finance = db.tb_finance.Include(t => t.tb_user).Include(t => t.tb_floor);
+            var tb_finance = db.tb_finance
+                .Include(t => t.tb_user)
+                .Include(t => t.tb_floor)
+                .OrderByDescending(t => t.f_date); // Order by f_date in descending order
             return View(tb_finance.ToList());
         }
+
+        public ActionResult Summary()
+        {
+            var financeData = db.tb_finance
+                .GroupBy(t => new { t.f_date.Year, t.f_date.Month, t.f_floor })
+                .Select(g => new {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    FloorId = g.Key.f_floor,
+                    Profit = g.Sum(t => t.f_transaction * (t.f_transactiontype == "Inflow" ? 1 : -1))
+                })
+                .OrderBy(t => t.FloorId)
+                .ToList();
+
+            var profitByFloor = new Dictionary<int, Dictionary<int, Dictionary<string, double>>>();
+
+            var floorNames = db.tb_floor.ToDictionary(f => f.fl_id, f => f.fl_bname);
+
+            foreach (var financeEntry in financeData)
+            {
+                var year = financeEntry.Year;
+                var month = financeEntry.Month;
+                var floorId = financeEntry.FloorId.HasValue ? financeEntry.FloorId.Value : 0;
+                var floorName = floorNames.TryGetValue(floorId, out var name) ? name : "General";
+                var profit = financeEntry.Profit;
+
+                if (!profitByFloor.ContainsKey(year))
+                {
+                    profitByFloor[year] = new Dictionary<int, Dictionary<string, double>>();
+                }
+
+                if (!profitByFloor[year].ContainsKey(month))
+                {
+                    profitByFloor[year][month] = new Dictionary<string, double>();
+                }
+
+                profitByFloor[year][month][floorName] = profit;
+            }
+
+            return View(profitByFloor);
+        }
+
+
 
         // GET: Finance/Details/5
         public ActionResult Details(int? id)
@@ -42,7 +88,16 @@ namespace XyTech.Controllers
         public ActionResult Create()
         {
             ViewBag.f_user = Session["id"];
-            ViewBag.f_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname");
+
+            var floorList = db.tb_floor.ToList();
+            var selectList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "select", Text = "-- Select Floor --", Disabled = true },
+                new SelectListItem { Value = "0", Text = "General" }
+            };
+            selectList.AddRange(floorList.Select(f => new SelectListItem { Value = f.fl_id.ToString(), Text = f.fl_bname }));
+            ViewBag.f_floor = new SelectList(selectList, "Value", "Text");
+
             return View();
         }
 
@@ -53,6 +108,10 @@ namespace XyTech.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "f_id,f_floor,f_user,f_transaction,f_desc,f_transactiontype,f_paymentmethod,f_date,f_receipt")] tb_finance tb_finance)
         {
+            if(tb_finance.f_floor == 0)
+            {
+                tb_finance.f_floor = null;
+            }
             if (ModelState.IsValid)
             {
                 db.tb_finance.Add(tb_finance);
@@ -61,7 +120,15 @@ namespace XyTech.Controllers
             }
 
             ViewBag.f_user = Session["id"];
-            ViewBag.f_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname");
+
+            var floorList = db.tb_floor.ToList();
+            var selectList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "select", Text = "-- Select Floor --", Disabled = true },
+                new SelectListItem { Value = "0", Text = "General" }
+            };
+            selectList.AddRange(floorList.Select(f => new SelectListItem { Value = f.fl_id.ToString(), Text = f.fl_bname }));
+            ViewBag.f_floor = new SelectList(selectList, "Value", "Text");
             return View(tb_finance);
         }
 

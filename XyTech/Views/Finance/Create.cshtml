@@ -16,6 +16,22 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
+            @Html.LabelFor(model => model.f_date, "Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.f_date, new
+               {
+                   htmlAttributes = new
+                   {
+                       @class = "form-control",
+                       @type = "date",
+                       @required = true
+                   }
+               })
+                @Html.ValidationMessageFor(model => model.f_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.f_transactiontype, "Transaction Type", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("f_transactiontype", new List<SelectListItem>
@@ -31,7 +47,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.f_floor, "Transaction Floor", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("f_floor", null, "General", new { @class = "form-control"})
+                @Html.DropDownList("f_floor", null, new { @class = "form-control", @required = true })
 
                 @Html.ValidationMessageFor(model => model.f_floor, "", new { @class = "text-danger" })
             </div>
@@ -60,26 +76,11 @@
             <div class="col-md-10">
                 @Html.DropDownList("f_paymentmethod", new List<SelectListItem>
                 {
+                    new SelectListItem { Text = "-- Payment Method --", Selected = true, Disabled = true },
                     new SelectListItem { Text = "Bank", Value = "Bank" },
                     new SelectListItem { Text = "Cash", Value = "Cash" }
-                }, "-- Payment Method --", new { @class = "form-control", @required = true })
+                }, new { @class = "form-control", @required = true })
                 @Html.ValidationMessageFor(model => model.f_paymentmethod, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.f_date, "Date", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.f_date, new
-               {
-                   htmlAttributes = new
-                   {
-                       @class = "form-control",
-                       @type = "date",
-                       @required = true
-                   }
-               })
-                @Html.ValidationMessageFor(model => model.f_date, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -105,4 +106,9 @@
 
 <script>
     document.getElementById('f_date').valueAsDate = new Date;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var allOption = document.querySelector('#f_floor option[value="select"]');
+        allOption.disabled = true;
+    });
 </script>
