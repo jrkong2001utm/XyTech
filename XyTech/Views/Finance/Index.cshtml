@@ -10,38 +10,42 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive pt-3">
-            <table class="table table-bordered">
-                <tr>
-                    <th>
-                        Year
-                    </th>
-                    <th>
-                        Month
-                    </th>
-                    <th>
-                        Day
-                    </th>
-                    <th>
-                        Inflow
-                    </th>
-                    <th>
-                        Outflow
-                    </th>
-                    <th>
-                        Bank/Cash
-                    </th>
-                    <th>
-                        Details
-                    </th>
-                    <th>
-                        Receipts
-                    </th>
-                    <th>
-                        Floor ID
-                    </th>
-                    <th></th>
-                </tr>
-
+            <table class="table table-bordered" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Year
+                        </th>
+                        <th>
+                            Month
+                        </th>
+                        <th>
+                            Day
+                        </th>
+                        <th>
+                            Inflow
+                        </th>
+                        <th>
+                            Outflow
+                        </th>
+                        <th>
+                            Bank/Cash
+                        </th>
+                        <th>
+                            Details
+                        </th>
+                        <th>
+                            Receipts
+                        </th>
+                        <th>
+                            Floor ID
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
                 @foreach (var item in Model)
                 {
                     // Extract year, month, and day from f_date
@@ -50,13 +54,13 @@
                     var day = item.f_date.Day;
 
                     <tr>
-                       
+
                         <td>
                             @year
                         </td>
                         <td>
                             @month
-                        </td>                     
+                        </td>
                         <td>
                             @day
                         </td>
@@ -105,6 +109,7 @@
 
 
                 }
+                </tbody>
 
 
             </table>
@@ -112,18 +117,25 @@
     </div>
 </div>
 
-<script>
-    // Format the inflow and outflow amounts with 2 decimal places
-    var inflowAmounts = document.querySelectorAll(".inflow-amount");
-    inflowAmounts.forEach(function (element) {
-        element.textContent = parseFloat(element.textContent).toFixed(2);
-    });
 
-    document.addEventListener("DOMContentLoaded", function () {
-        var allOption = document.querySelector('#f_floor option[value="select"]');
-        allOption.disabled = true;
-    });
-</script>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            jQuery('#dataTable').DataTable();
+        });
+        
+        var inflowAmounts = document.querySelectorAll(".inflow-amount");
+        inflowAmounts.forEach(function (element) {
+            element.textContent = parseFloat(element.textContent).toFixed(2);
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var allOption = document.querySelector('#f_floor option[value="select"]');
+            allOption.disabled = true;
+        });
+    </script>
+}
 
 
 
