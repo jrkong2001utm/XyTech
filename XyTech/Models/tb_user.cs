@@ -11,9 +11,7 @@ namespace XyTech.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class tb_user
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,25 +22,11 @@ namespace XyTech.Models
         }
     
         public int u_id { get; set; }
-        [Required (ErrorMessage = "Enter Password")]
-        [DisplayName ("Password")]
-        [DataType(DataType.Password)]
         public string u_pwd { get; set; }
-        [Required(ErrorMessage = "Enter Email Address")]
-        [DisplayName("Email Address")]
-        [DataType(DataType.EmailAddress)]
         public string u_email { get; set; }
-        [Required(ErrorMessage = "Enter Phone Number")]
-        [DisplayName("Phone Number")]
-        [DataType(DataType.PhoneNumber)]
         public string u_phone { get; set; }
-        [Required(ErrorMessage = "Enter User Type")]
-        [DisplayName("User Type")]
         public string u_usertype { get; set; }
-        [DisplayName("Status")]
         public string u_active { get; set; }
-        [Required(ErrorMessage = "Enter Username")]
-        [DisplayName("Username")]
         public string u_username { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
