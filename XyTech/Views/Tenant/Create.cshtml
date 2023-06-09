@@ -136,15 +136,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary btn-rounded btn-fw" />
+                <input type="submit" value="Create" class="btn btn-primary btn-rounded btn-fw" /> |
+                <spanc class="btn btn-dark btn-rounded btn-fw">
+                    @Html.ActionLink("Back to List", "Index")
+                </spanc>
             </div>
         </div>
     </div>
 }
-
-<div class="btn btn-dark btn-rounded btn-fw">
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
 

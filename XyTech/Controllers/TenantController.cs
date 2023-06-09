@@ -99,7 +99,7 @@ namespace XyTech.Controllers
 
                 db.tb_tenant.Add(tb_tenant);
                 db.SaveChanges();
-                TempData["success"] = "Tenant saved successfully!";
+                ViewBag.Message = "Tenant saved successfully!";
                 return RedirectToAction("Index");
             }
 
@@ -167,7 +167,7 @@ namespace XyTech.Controllers
 
                 db.Entry(tb_tenant).State = EntityState.Modified;
                 db.SaveChanges();
-                TempData["success"] = "Tenant updated successfully!";
+                ViewBag.Message = "Tenant updated successfully!";
                 return RedirectToAction("Index");
             }
             ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_floor", tb_tenant.t_room);
@@ -195,6 +195,8 @@ namespace XyTech.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             tb_tenant tb_tenant = db.tb_tenant.Find(id);
+            System.IO.File.Delete(Path.Combine(Server.MapPath("~/Content/assets/images/Icfile"), tb_tenant.t_uploadic));
+            System.IO.File.Delete(Path.Combine(Server.MapPath("~/Content/assets/images/Contractfile"), tb_tenant.t_contract));
             db.tb_tenant.Remove(tb_tenant);
             db.SaveChanges();
             return RedirectToAction("Index");
