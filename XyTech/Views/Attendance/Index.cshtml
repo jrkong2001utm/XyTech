@@ -19,6 +19,7 @@
                     <tr>
                         <th>Date and Time</th>
                         <th>Floor ID</th>
+                        <th>Floor Name</th>
                     </tr>
                 </thead>
 
@@ -31,6 +32,9 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.a_floor)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.tb_floor.fl_bname)
                             </td>
                             <td>
                                 <a href="@Url.Action("Edit", new { id = item.a_id })" class="btn btn-link" title="edit">

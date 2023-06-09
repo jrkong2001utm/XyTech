@@ -1,55 +1,43 @@
 ﻿@model XyTech.Models.tb_attendance
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-
 @{
     ViewBag.Title = "Create";
 }
 
 <h2>Add attendance</h2>
 
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>tb_attendance</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>Please select the floor name and date to add attendance.</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.a_floor, "Floor Name", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("a_floor", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.a_floor, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.tb_floor.fl_bname, "Floor Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("a_floor", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.a_floor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.a_check, "Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <i class="mdi mdi-calendar-plus menu-icon"></i>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.a_check, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.a_check, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.a_check, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.a_check, "Date", new { htmlAttributes = new { @class = "datepicker form-control" } })
-            @Html.ValidationMessageFor(model => model.a_check, "", new { @class = "text-danger" })
-            <script>
-                $(document).ready(function () {
-                    $(".datepicker").datepicker({
-                        format: "yyyy-mm-dd",
-                        autoclose: true,
-                        todayHighlight: true
-                    });
-                });
-            </script>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
 <div>
@@ -57,6 +45,28 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.13.2.min.js"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#a_check').datepicker({
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                minDate: 0,
+                onSelect: function (selected) {
+                    var dt = new Date(selected);
+                    dt.setDate(dt.getDate() + 1);
+
+                    dt.setHours(currentDate.getHours());
+                    dt.setMinutes(currentDate.getMinutes());
+
+                    $("#a_check").datepicker("option", "minDate", dt);
+                }
+            });
+        });
+    </script>
 }
