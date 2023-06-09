@@ -17,6 +17,7 @@
                 <div class="table-responsive">
                 <thead>
                     <tr>
+                        <th>Username</th>
                         <th>Investor ID</th>
                         <th>Lot ID</th>
                         <th>Amount (RM)</th>
@@ -27,6 +28,9 @@
                     @foreach (var item in Model)
                     {
                         <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.tb_user.u_username)
+                            </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.i_id)
                             </td>
