@@ -11,15 +11,16 @@
                 <p class="card-title mb-0" style="font-size: x-large;">Attendance</p>
                 @Html.ActionLink("Create", "Create", "Attendance", null, new { @class = "btn btn-success btn-rounded btn-fw" })
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive mt-3">
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <div class="input-group">
-                            <input type="text" id="startDatePicker" class="form-control datepicker" autocomplete="off" placeholder="Date Range" />
+                            <input type="text" id="dateRangePicker" class="form-control" autocomplete="off" placeholder="Select Date To View" />
                             <div class="input-group-append">
                             </div>
                         </div>
                     </div>
+                </div>
                 <table id="dataTable" class="table table-hover">
                     <thead>
                         <tr>
@@ -51,20 +52,28 @@
                     dataSrc: ''
                 },
                 columns: [
-                    { data: 'a_check' },
-                    { data: 'a_floor' },
-                    { data: 'fl_bname' },
+                    {
+                        data: 'a_check',
+                        render: function (data, type, row) {
+                            var date = moment(data).format('YYYY-MM-DD HH:mm:ss');
+                            return date;
+                        },
+                        width: '25%'
+                    },
+                    { data: 'a_floor', width: '15%' },
+                    { data: 'fl_bname', width: '30%' },
                     {
                         data: null,
                         render: function (data, type, row) {
                             return '<a href="@Url.Action("Edit", "Attendance")/' + row.a_id + '" class="btn btn-link" title="edit"><i class="fa fa-edit text-primary"></i></a>'
                                 + '<a href="@Url.Action("Delete", "Attendance")/' + row.a_id + '" class="btn btn-link" title="delete"><i class="fa fa-trash text-danger"></i></a>';
-                        }
+                        },
+                        width: '10%'
                     }
                 ]
             });
 
-            $('#startDatePicker, #endDatePicker').daterangepicker({
+            $('#dateRangePicker').daterangepicker({
                 autoUpdateInput: false,
                 locale: {
                     cancelLabel: 'Clear',
@@ -72,13 +81,13 @@
                 }
             });
 
-            $('#startDatePicker, #endDatePicker').on('apply.daterangepicker', function (ev, picker) {
+            $('#dateRangePicker').on('apply.daterangepicker', function (ev, picker) {
                 var startDate = picker.startDate.format('YYYY-MM-DD');
                 var endDate = picker.endDate.format('YYYY-MM-DD');
                 table.ajax.url('@Url.Action("GetFilteredData", "Attendance")?startDate=' + startDate + '&endDate=' + endDate).load();
             });
 
-            $('#startDatePicker, #endDatePicker').on('cancel.daterangepicker', function (ev, picker) {
+            $('#dateRangePicker').on('cancel.daterangepicker', function (ev, picker) {
                 $(this).val('');
                 table.ajax.url('@Url.Action("GetFilteredData", "Attendance")').load();
             });
