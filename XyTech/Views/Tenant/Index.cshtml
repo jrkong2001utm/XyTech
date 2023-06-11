@@ -9,20 +9,28 @@
 <hr />
 
 <div class="row">
-    @{
-        if (TempData["success"] != null)
-        {
-            <div class="alert alert-success">
-                <strong>Success!</strong> @TempData["success"]
-                <button type="button" class="close" data-dismiss="alert">
-                    <span>x</span>
-                </button>
-            </div>
-        }
-    }
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
+            
             <div class="card-body">
+                @if (ViewBag.Message == "Tenant saved successfully!")
+                {
+                    <div class="alert alert-success">
+                        <strong>@ViewBag.Message</strong>
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span class="mdi mdi-eye-off"></span>
+                        </button>
+                    </div>
+                 }
+                 @if (ViewBag.Message == "Tenant deleted.")
+                 {
+                    <div class="alert alert-danger">
+                        <strong>@ViewBag.Message</strong>
+                        <button type = "button" class="close" data-dismiss="alert">
+                            <span class="mdi mdi-eye-off"></span>
+                        </button>
+                    </div>
+                  }
                 <p class="btn btn-success btn-rounded btn-fw">
                     @Html.ActionLink("Create New", "Create")
                 </p>
@@ -109,14 +117,22 @@
                                             }
                                         </tr>
                                     }
-                                    </tbody>
-                                </table>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            jQuery('#dataTable').DataTable();
+        });
+    </script>
+}
 
 

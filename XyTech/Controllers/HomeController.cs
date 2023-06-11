@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,15 +15,27 @@ namespace XyTech.Controllers
         private db_XyTechEntities db = new db_XyTechEntities();
         public ActionResult Index()
         {
-            ViewBag.tenant = db.tb_tenant.ToList();
-            ViewBag.attendance = db.tb_attendance.ToList();
-            ViewBag.finance = db.tb_finance.ToList();
-            ViewBag.floor = db.tb_floor.ToList();
-            ViewBag.inventory = db.tb_inventory.ToList();
-            ViewBag.investor = db.tb_investor.ToList();
-            ViewBag.landlord = db.tb_landlord.ToList();
-            ViewBag.room = db.tb_room.ToList();
-            ViewBag.user = db.tb_user.ToList();
+            DateTime currentDate = DateTime.Today;
+            int totalAttendance = db.tb_attendance.Count(a => a.a_check.Year == currentDate.Year && a.a_check.Month == currentDate.Month);
+            ViewBag.TotalAttendance = totalAttendance;
+
+            double totalInflow = db.tb_finance.Where(f => f.f_transactiontype == "Inflow").Sum(f => f.f_transaction);
+            ViewBag.TotalInflow = totalInflow;
+
+            ViewBag.tenant = db.tb_tenant.Where(t => t.t_outdate >= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3)).ToList();
+            ViewBag.landlord = db.tb_landlord.Where(l => l.l_due <= DateTime.Today && l.l_active == "1").ToList();
+            ViewBag.lenroom = db.tb_room.Count(r => r.r_availability == 1);
+            ViewBag.lentenant = db.tb_tenant.Count();
+
+            double totalOutflow = db.tb_finance.Where(f => f.f_transactiontype == "Outflow").Sum(f => f.f_transaction);
+            ViewBag.TotalOutflow = totalOutflow;
+
+            double totalProfit = totalInflow - totalOutflow;
+            ViewBag.TotalProfit = totalProfit;
+
+            double percentProfit = (totalInflow / (totalInflow + totalOutflow)) * 100;
+            string formattedPercentProfit = percentProfit.ToString("F2");
+            ViewBag.PercentProfit = formattedPercentProfit;
             return View();
             
         }

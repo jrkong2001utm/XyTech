@@ -9,6 +9,7 @@
 <body>
     <div>
         <div class="floorlayout" width="300" height="800">
+            <img src="@Url.Content("~/Content/assets/images/roomPicture/" + Model.r_pic)" alt="Uploaded Image"/>
             @Html.DisplayFor(model => model.r_pic)
         </div>
     </div>
@@ -22,7 +23,7 @@
                 </p>
                 <form class="forms-sample">
                     <div class="form-group row">
-                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Building Code</label>
+                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Room Number</label>
                         <div class="col-sm-7 col-form-label">
                             @Html.DisplayFor(model => model.r_no)
                         </div>
@@ -34,21 +35,15 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="exampleInputMobile" class="col-sm-4 col-form-label">Address</label>
+                        <label for="exampleInputMobile" class="col-sm-4 col-form-label">Number of Beds</label>
                         <div class="col-sm-7 col-form-label">
                             @Html.DisplayFor(model => model.r_size)
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="exampleInputPassword2" class="col-sm-4 col-form-label">Landlord Name</label>
+                        <label for="exampleInputPassword2" class="col-sm-4 col-form-label">Room Availability</label>
                         <div class="col-sm-7 col-form-label">
                             @Html.DisplayFor(model => model.r_availability)
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">WiFi Password</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.r_pic)
                         </div>
                     </div>
                     <div class="form-group row">
