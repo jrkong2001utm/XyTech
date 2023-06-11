@@ -19,29 +19,29 @@
                     <div class="form-group row">
                         <label for="l_name" class="col-sm-3 col-form-label">Room No.</label>
                         <div class="col-sm-9">
-                            @Html.EditorFor(model => model.r_no, new { htmlAttributes = new { @class = "form-control", placeholder = "Building Code" } })
+                            @Html.EditorFor(model => model.r_no, new { htmlAttributes = new { @class = "form-control", placeholder = "Building Code", required = "required" } })
                             @Html.ValidationMessageFor(model => model.r_no, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="l_contact" class="col-sm-3 col-form-label">Building Name</label>
                         <div class="col-sm-9">
-                            @Html.EditorFor(model => model.tb_floor.fl_bid, new { htmlAttributes = new { @class = "form-control", placeholder = "Floor Level" } })
+                            @Html.EditorFor(model => model.tb_floor.fl_bid, new { htmlAttributes = new { @class = "form-control", placeholder = "Floor Level", required = "required" } })
                             @Html.ValidationMessageFor(model => model.tb_floor.fl_bid, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="l_fee" class="col-sm-3 col-form-label">Size (ft)</label>
+                        <label for="l_fee" class="col-sm-3 col-form-label">Number of Beds</label>
                         <div class="col-sm-9">
-                            @Html.EditorFor(model => model.r_size, new { htmlAttributes = new { @class = "form-control", placeholder = "Floor Building Address" } })
+                            @Html.EditorFor(model => model.r_size, new { htmlAttributes = new { @class = "form-control", placeholder = "Floor Building Address", required = "required" } })
                             @Html.ValidationMessageFor(model => model.r_size, "", new { @class = "text-danger" })
 
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="l_due" class="col-sm-3 col-form-label">Availability</label>
+                        <label for="l_due" class="col-sm-3 col-form-label">Room Availability</label>
                         <div class="col-sm-9">
-                            @Html.EditorFor(model => model.r_availability, new { htmlAttributes = new { @class = "form-control", placeholder = "Landlord Name" } })
+                            @Html.EditorFor(model => model.r_availability, new { htmlAttributes = new { @class = "form-control", placeholder = "Landlord Name", required = "required" } })
                             @Html.ValidationMessageFor(model => model.r_availability, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                     <div class="form-group row">
                         <label for="l_bankname" class="col-sm-3 col-form-label">Room Picture</label>
                         <div class="col-sm-9">
-                            @Html.EditorFor(model => model.r_pic, new { htmlAttributes = new { @class = "form-control", placeholder = "WiFi Password" } })
+                            @Html.TextBox("roompic", new { type = "file", accept = "image/*", required = "required" })
                             @Html.ValidationMessageFor(model => model.r_pic, "", new { @class = "text-danger" })
                         </div>
                     </div>

@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using XyTech.Models;
+using static System.Net.WebRequestMethods;
 
 namespace XyTech.Controllers
 {
@@ -148,22 +149,39 @@ namespace XyTech.Controllers
             {
                 if (uploadqr != null && uploadqr.ContentLength > 0)
                 {
-                    var fileNameqr = Path.GetFileName(uploadqr.FileName);
-                    var pathqr = Path.Combine(Server.MapPath("~/Content/assets/images/"), fileNameqr);
-                    uploadqr.SaveAs(pathqr);
-                    tb_floor.fl_cctvqr = fileNameqr;
+                    if (uploadqr.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(uploadqr.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/cctvqr"), _FileName);
+                        uploadqr.SaveAs(_path);
+                        tb_floor.fl_cctvqr = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_floor);
+                    }
                 }
 
                 if (uploadly != null && uploadly.ContentLength > 0)
                 {
-                    var fileNamely = Path.GetFileName(uploadly.FileName);
-                    var pathly = Path.Combine(Server.MapPath("~/Content/assets/images/"), fileNamely);
-                    uploadly.SaveAs(pathly);
-                    tb_floor.fl_layout = fileNamely;
+                    if (uploadly.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(uploadly.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/floorlayout"), _FileName);
+                        uploadly.SaveAs(_path);
+                        tb_floor.fl_layout = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_floor);
+                    }
                 }
 
                 db.tb_floor.Add(tb_floor);
                 db.SaveChanges();
+                TempData["success"] = "Tenant saved successfully!";
                 return RedirectToAction("Index");
             }
 
@@ -197,22 +215,40 @@ namespace XyTech.Controllers
             {
                 if (uploadqr != null && uploadqr.ContentLength > 0)
                 {
-                    var fileNameqr = Path.GetFileName(uploadqr.FileName);
-                    var pathqr = Path.Combine(Server.MapPath("~/Content/assets/images/"), fileNameqr);
-                    uploadqr.SaveAs(pathqr);
-                    tb_floor.fl_cctvqr = fileNameqr;
+                    System.IO.File.Delete(Path.Combine(Server.MapPath("~/Content/assets/images/cctvqr"), tb_floor.fl_cctvqr));
+                    if (uploadqr.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(uploadqr.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/cctvqr"), _FileName);
+                        uploadqr.SaveAs(_path);
+                        tb_floor.fl_cctvqr = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_floor);
+                    }
                 }
 
                 if (uploadly != null && uploadly.ContentLength > 0)
                 {
-                    var fileNamely = Path.GetFileName(uploadly.FileName);
-                    var pathly = Path.Combine(Server.MapPath("~/Content/assets/images/"), fileNamely);
-                    uploadly.SaveAs(pathly);
-                    tb_floor.fl_layout = fileNamely;
+                    if (uploadqr.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(uploadly.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/floorlayout"), _FileName);
+                        uploadly.SaveAs(_path);
+                        tb_floor.fl_layout = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_floor);
+                    }
                 }
 
                 db.Entry(tb_floor).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["success"] = "Floor updated successfully!";
                 return RedirectToAction("FloorList");
             }
 
@@ -259,7 +295,20 @@ namespace XyTech.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult GetFile(string FileName)
+        {
+            string qrfilePath = Server.MapPath("~/Content/assets/images/cctvqr/" + FileName);
+            string layoutfilePath = Server.MapPath("~/Content/assets/images/floorlayout/" + FileName);
 
+            if (System.IO.File.Exists(qrfilePath))
+            {
+                return File(layoutfilePath, "image/png"); // Adjust the content type according to the actual file type
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
