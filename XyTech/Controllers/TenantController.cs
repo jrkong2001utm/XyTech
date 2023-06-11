@@ -23,14 +23,11 @@ namespace XyTech.Controllers
         public ActionResult Index()
         {
             var tb_tenant = db.tb_tenant.Include(t => t.tb_room);
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
             return View(tb_tenant.ToList());
-        }
-        [HttpGet]
-        public ActionResult getTenantData() 
-        {
-            //var tenantData = from tenant in db.tb_tenant select new { tenant.t_name, tenant.t_ic, tenant.t_phone, tenant.t_indate, tenant.t_outdate, tenant.t_outstanding, tenant.t_paymentstatus, tenant.tb_room.r_floor}; // Retrieve data from the tb_tenant table
-            var data = db.tb_tenant.ToList();
-            return Json(new { data = data }, JsonRequestBehavior.AllowGet); // Return the data as JSON; 
         }
 
         // GET: Tenant/Details/5
@@ -48,10 +45,27 @@ namespace XyTech.Controllers
             return View(tb_tenant);
         }
 
+        [HttpPost]
+        public ActionResult GetRoomNumbers(int floorId)
+        {
+            var roomNumbers = db.tb_room
+             .Where(r => r.r_floor == floorId && r.r_availability == 1)
+                .Select(r => new SelectListItem
+                {
+                    Value = r.r_id.ToString(),
+                    Text = r.r_no.ToString()
+                })
+                .ToList();
+
+            return Json(roomNumbers);
+        }
+
         // GET: Tenant/Create
         public ActionResult Create()
         {
-            ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_floor");
+            ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_no");
+            var uniqueFloorIds = db.tb_room.Select(r => r.r_floor).Distinct().ToList();
+            ViewBag.fl_id = new SelectList(uniqueFloorIds);
             return View();
         }
 
@@ -97,13 +111,20 @@ namespace XyTech.Controllers
                     }
                 }
 
+                var room = db.tb_room.FirstOrDefault(r => r.r_id == tb_tenant.t_room);
+                if (room != null)
+                {
+                    room.r_availability = 2;
+                    db.SaveChanges();
+                }
+
                 db.tb_tenant.Add(tb_tenant);
                 db.SaveChanges();
-                ViewBag.Message = "Tenant saved successfully!";
+                TempData["success"] = "Tenant saved successfully!";
                 return RedirectToAction("Index");
             }
 
-            ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_floor", tb_tenant.t_room);
+            ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_no", tb_tenant.t_room);
             return View(tb_tenant);
         }
 
@@ -119,7 +140,9 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_floor", tb_tenant.t_room);
+            var uniqueFloorIds = db.tb_floor.Select(r => r.fl_id).Distinct().ToList();
+            ViewBag.fl_id = new SelectList(uniqueFloorIds);
+            ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_no", tb_tenant.t_room);
             return View(tb_tenant);
         }
 
@@ -128,8 +151,14 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant, HttpPostedFileBase icfile, HttpPostedFileBase contractfile)
+        public ActionResult Edit(int id, tb_tenant updatetenant, HttpPostedFileBase icfile, HttpPostedFileBase contractfile)
         {
+            tb_tenant tb_tenant = db.tb_tenant.Find(id);
+            if (tb_tenant == null)
+            {
+                return HttpNotFound();
+            }
+
             if (ModelState.IsValid)
             {
                 if (icfile != null && icfile.ContentLength > 0)
@@ -165,12 +194,42 @@ namespace XyTech.Controllers
                     }
                 }
 
+                if (updatetenant.t_paymentstatus == 2 && tb_tenant.t_paymentstatus == 3)
+                {
+                    updatetenant.t_outstanding = tb_tenant.t_outstanding / 2;
+                }
+
+                if ((updatetenant.t_paymentstatus == 1 && tb_tenant.t_paymentstatus == 3) || (updatetenant.t_paymentstatus == 1 && tb_tenant.t_paymentstatus == 2))
+                {
+                    updatetenant.t_outstanding = 0;
+                }
+
+                tb_tenant.t_id = updatetenant.t_id;
+                tb_tenant.t_name = updatetenant.t_name;
+                tb_tenant.t_ic = updatetenant.t_ic;
+                tb_tenant.t_phone = updatetenant.t_phone;
+                tb_tenant.t_emergency = updatetenant.t_emergency;
+                tb_tenant.t_indate = updatetenant.t_indate;
+                tb_tenant.t_outdate = updatetenant.t_outdate;
+                tb_tenant.t_outsession = updatetenant.t_outsession;
+                tb_tenant.t_siri = updatetenant.t_siri;
+                tb_tenant.t_outstanding = updatetenant.t_outstanding;
+                tb_tenant.t_paymentstatus = updatetenant.t_paymentstatus;
+                tb_tenant.t_room = updatetenant.t_room;
+
+                var previousRoom = db.tb_room.FirstOrDefault(r => r.r_id == tb_tenant.t_room);
+                if (previousRoom != null)
+                {
+                    previousRoom.r_availability = 1;
+                    db.SaveChanges();
+                }
+
                 db.Entry(tb_tenant).State = EntityState.Modified;
                 db.SaveChanges();
-                ViewBag.Message = "Tenant updated successfully!";
+                TempData["success"] = "Tenant updated successfully!";
                 return RedirectToAction("Index");
             }
-            ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_floor", tb_tenant.t_room);
+            ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_no", tb_tenant.t_room);
             return View(tb_tenant);
         }
 
@@ -186,6 +245,10 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
             return View(tb_tenant);
         }
 
@@ -199,6 +262,7 @@ namespace XyTech.Controllers
             System.IO.File.Delete(Path.Combine(Server.MapPath("~/Content/assets/images/Contractfile"), tb_tenant.t_contract));
             db.tb_tenant.Remove(tb_tenant);
             db.SaveChanges();
+            TempData["success"] = "Tenant deleted.";
             return RedirectToAction("Index");
         }
 
