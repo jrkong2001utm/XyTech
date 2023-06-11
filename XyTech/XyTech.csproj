@@ -2017,7 +2017,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\assets\images\cctvqr\" />
     <Folder Include="Content\assets\images\Contractfile\" />
+    <Folder Include="Content\assets\images\floorlayout\" />
     <Folder Include="Content\assets\images\Icfile\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -23,6 +21,37 @@ namespace XyTech.Controllers
         {
             var tb_attendance = db.tb_attendance.Include(t => t.tb_floor);
             return View(tb_attendance.ToList());
+        }
+
+        public ActionResult GetFilteredData(DateTime? startDate, DateTime? endDate)
+        {
+            var query = db.tb_attendance.AsQueryable();
+
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                query = query.Where(a => a.a_check >= startDate && a.a_check <= endDate);
+            }
+
+            var data = query.Select(a => new
+            {
+                a_check = a.a_check,
+                a_floor = a.a_floor,
+                fl_bname = a.tb_floor.fl_bname,
+                a_id = a.a_id
+            }).ToList();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        // Other controller methods...
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
         // GET: Attendance/Details/5
@@ -122,15 +151,6 @@ namespace XyTech.Controllers
             db.tb_attendance.Remove(tb_attendance);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

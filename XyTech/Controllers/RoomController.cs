@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -48,10 +49,26 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "r_id,r_floor,r_price,r_availability,r_size,r_active,r_pic,r_no")] tb_room tb_room)
+        public ActionResult Create([Bind(Include = "r_id,r_floor,r_price,r_availability,r_size,r_active,r_pic,r_no")] tb_room tb_room, HttpPostedFileBase roompic)
         {
             if (ModelState.IsValid)
             {
+                if (roompic != null && roompic.ContentLength > 0)
+                {
+                    if (roompic.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(roompic.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/roomPicture"), _FileName);
+                        roompic.SaveAs(_path);
+                        tb_room.r_pic = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_room);
+                    }
+                }
+
                 db.tb_room.Add(tb_room);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,10 +99,27 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "r_id,r_floor,r_price,r_availability,r_size,r_active,r_pic,r_no")] tb_room tb_room)
+        public ActionResult Edit([Bind(Include = "r_id,r_floor,r_price,r_availability,r_size,r_active,r_pic,r_no")] tb_room tb_room, HttpPostedFileBase roompic)
         {
             if (ModelState.IsValid)
             {
+                if (roompic != null && roompic.ContentLength > 0)
+                {
+                    System.IO.File.Delete(Path.Combine(Server.MapPath("~/Content/assets/images/roomPicture"), tb_room.r_pic));
+                    if (roompic.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(roompic.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/roomPicture"), _FileName);
+                        roompic.SaveAs(_path);
+                        tb_room.r_pic = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_room);
+                    }
+                }
+
                 db.Entry(tb_room).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -118,6 +152,20 @@ namespace XyTech.Controllers
             db.tb_room.Remove(tb_room);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult GetFile(string FileName)
+        {
+            string qrfilePath = Server.MapPath("~/Content/assets/images/cctvqr/" + FileName);
+
+            if (System.IO.File.Exists(qrfilePath))
+            {
+                return File(qrfilePath, "image/png"); // Adjust the content type according to the actual file type
+            }
+            else
+            {
+                return HttpNotFound();
+            }
         }
 
         protected override void Dispose(bool disposing)
