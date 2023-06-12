@@ -198,7 +198,7 @@ namespace XyTech.Controllers
 
                 db.tb_floor.Add(tb_floor);
                 db.SaveChanges();
-                TempData["success"] = "Floor has been created successfully!";
+                TempData["success"] = " Floor has been created successfully!";
                 return RedirectToAction("FloorList");
             }
 
@@ -265,7 +265,7 @@ namespace XyTech.Controllers
 
                 db.Entry(tb_floor).State = EntityState.Modified;
                 db.SaveChanges();
-                TempData["success"] = "Floor has been updated successfully!";
+                TempData["success"] = " Floor has been updated successfully!";
                 return RedirectToAction("FloorList");
             }
 
@@ -302,7 +302,7 @@ namespace XyTech.Controllers
             tb_floor.fl_active = "inactive";
             db.Entry(tb_floor).State = EntityState.Modified;
             db.SaveChanges();
-            TempData["success"] = "Floor has been deleted successfully!";
+            TempData["success"] = " Floor has been deleted successfully!";
             return RedirectToAction("FloorList");
         }
 

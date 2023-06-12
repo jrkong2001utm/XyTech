@@ -20,7 +20,10 @@ namespace XyTech.Controllers
         {
             ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
             ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
-
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
             var tb_room = db.tb_room.Include(t => t.tb_floor).Where(p => p.r_active.Equals("active"));
             return View(tb_room.ToList());
         }
@@ -74,7 +77,7 @@ namespace XyTech.Controllers
 
                 db.tb_room.Add(tb_room);
                 db.SaveChanges();
-                TempData["success"] = "Floor has been created successfully!";
+                TempData["success"] = " Room has been created successfully!";
                 return RedirectToAction("Index");
             }
 
@@ -109,7 +112,7 @@ namespace XyTech.Controllers
             {
                 if (roompic != null && roompic.ContentLength > 0)
                 {
-                    System.IO.File.Delete(Path.Combine(Server.MapPath("~/Content/assets/images/roomPicture"), tb_room.r_pic));
+                    
                     if (roompic.ContentType.Contains("image"))
                     {
                         string _FileName = Path.GetFileName(roompic.FileName);
@@ -126,7 +129,7 @@ namespace XyTech.Controllers
 
                 db.Entry(tb_room).State = EntityState.Modified;
                 db.SaveChanges();
-                TempData["success"] = "Floor has been updated successfully!";
+                TempData["success"] = " Room has been updated successfully!";
                 return RedirectToAction("Index");
             }
             ViewBag.r_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_room.r_floor);
@@ -145,6 +148,10 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
             return View(tb_room);
         }
 
@@ -157,7 +164,8 @@ namespace XyTech.Controllers
             tb_room.r_active = "inactive"; 
             db.Entry(tb_room).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("FloorList");
+            TempData["success"] = " Room has been deleted successfully!";
+            return RedirectToAction("Index");
         }
 
         public ActionResult GetFile(string FileName)

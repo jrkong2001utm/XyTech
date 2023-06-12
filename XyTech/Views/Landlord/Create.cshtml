@@ -19,14 +19,14 @@
                 <div class="form-group row">
                     <label for="l_name" class="col-sm-3 col-form-label">Name</label>
                     <div class="col-sm-9">
-                        @Html.EditorFor(model => model.l_name, new { htmlAttributes = new { @class = "form-control", placeholder = "Landlord's name" } })
+                        @Html.EditorFor(model => model.l_name, new { htmlAttributes = new { @class = "form-control", placeholder = "Landlord's name", required = "required" } })
                         @Html.ValidationMessageFor(model => model.l_name, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="l_contact" class="col-sm-3 col-form-label">Contact Number</label>
                     <div class="col-sm-9">
-                        @Html.EditorFor(model => model.l_phone, new { htmlAttributes = new { @class = "form-control", placeholder = "Contact number of landlord" } })
+                        @Html.EditorFor(model => model.l_phone, new { htmlAttributes = new { @class = "form-control", placeholder = "Contact number of landlord", required = "required" } })
                         @Html.ValidationMessageFor(model => model.l_phone, "", new { @class = "text-danger" })
 
                     </div>
@@ -34,7 +34,7 @@
                 <div class="form-group row">
                     <label for="l_fee" class="col-sm-3 col-form-label">Amount of rental (RM)</label>
                     <div class="col-sm-9">
-                        @Html.EditorFor(model => model.l_fee, new { htmlAttributes = new { @class = "form-control", placeholder = "Rental fee per month (RM)" } })
+                        @Html.EditorFor(model => model.l_fee, new { htmlAttributes = new { @class = "form-control", placeholder = "Rental fee per month (RM)", required = "required" } })
                         @Html.ValidationMessageFor(model => model.l_fee, "", new { @class = "text-danger" })
 
                     </div>
@@ -42,7 +42,7 @@
                 <div class="form-group row">
                     <label for="l_due" class="col-sm-3 col-form-label">Rental due date</label>
                     <div class="col-sm-9">
-                        @Html.EditorFor(model => model.l_due, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
+                        @Html.EditorFor(model => model.l_due, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off", required = "required" } })
                         @Html.ValidationMessageFor(model => model.l_due, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                     <div class="form-group row">
                         <label for="l_bankname" class="col-sm-3 col-form-label">Bank</label>
                         <div class="col-sm-9">
-                            @Html.DropDownList("l_bankname", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.DropDownList("l_bankname", null, htmlAttributes: new { @class = "form-control", required = "required" })
                             @Html.ValidationMessageFor(model => model.l_bankname, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                 <div class="form-group row">
                     <label for="l_bank" class="col-sm-3 col-form-label">Bank account number</label>
                     <div class="col-sm-9">
-                        @Html.EditorFor(model => model.l_bank, new { htmlAttributes = new { @class = "form-control", placeholder = "Bank account number" } })
+                        @Html.EditorFor(model => model.l_bank, new { htmlAttributes = new { @class = "form-control", placeholder = "Bank account number", required = "required" } })
                         @Html.ValidationMessageFor(model => model.l_bank, "", new { @class = "text-danger" })
 
                     </div>
