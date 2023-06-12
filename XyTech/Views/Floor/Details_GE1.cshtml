@@ -1,4 +1,4 @@
-﻿@model IEnumerable<XyTech.Models.tb_floor>
+﻿@model XyTech.Models.tb_floor
 
 @{
     ViewBag.Title = "Details_GE1";
@@ -29,67 +29,63 @@
         </map>
     </div>
 
-    @foreach (var item in Model)
-    {
-        <div class="col-8 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <form class="forms-sample">
-                        <div class="form-group row">
-                            <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Building Name</label>
-                            <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(modelItem => item.fl_bname)
-                            </div>
+    <div class="col-7 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <form class="forms-sample">
+                    <div class="form-group row">
+                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Building Name</label>
+                        <div class="col-sm-7 col-form-label">
+                            @Html.DisplayFor(model => model.fl_bname)
                         </div>
-                        <div class="form-group row">
-                            <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Floor Level</label>
-                            <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(modelItem => item.fl_bid)
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Floor Level</label>
+                        <div class="col-sm-7 col-form-label">
+                            @Html.DisplayFor(model => model.fl_bid)
                         </div>
-                        <div class="form-group row">
-                            <label for="exampleInputMobile" class="col-sm-4 col-form-label">Address</label>
-                            <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(modelItem => item.fl_address)
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputMobile" class="col-sm-4 col-form-label">Address</label>
+                        <div class="col-sm-7 col-form-label">
+                            @Html.DisplayFor(model => model.fl_address)
                         </div>
-                        <div class="form-group row">
-                            <label for="exampleInputPassword2" class="col-sm-4 col-form-label">Landlord Name</label>
-                            <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(modelItem => item.fl_landlord)
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputPassword2" class="col-sm-4 col-form-label">Landlord Name</label>
+                        <div class="col-sm-7 col-form-label">
+                            @Html.DisplayFor(model => model.tb_landlord.l_name)
                         </div>
-                        <div class="form-group row">
-                            <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">WiFi Password</label>
-                            <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(modelItem => item.fl_wifipwd)
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">WiFi Password</label>
+                        <div class="col-sm-7 col-form-label">
+                            @Html.DisplayFor(model => model.fl_wifipwd)
                         </div>
-                        <div class="form-group row">
-                            <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">Modem IP</label>
-                            <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(modelItem => item.fl_modemip)
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">Modem IP</label>
+                        <div class="col-sm-7 col-form-label">
+                            @Html.DisplayFor(model => model.fl_modemip)
                         </div>
-                        <div class="form-group row">
-                            <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">CCTV QR Code</label>
-                            <div class="col-sm-7 col-form-label">
-                                <img src="@Url.Content("~/Content/assets/images/cctvqr/" + item.fl_cctvqr)" alt="Uploaded Image" style="width: 400px; height: auto;" />
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">CCTV QR Code</label>
+                        <div class="col-sm-7 col-form-label">
+                            <img src="@Url.Content("~/Content/assets/images/cctvqr/" + Model.fl_cctvqr)" alt="Uploaded Image" style="width: 300px; height: auto;" />
                         </div>
-                        <div class="form-group row">
-                            <div class="col-auto">
-                                @Html.ActionLink("Edit", "FloorList", null, new { @class = "btn btn-primary btn-rounded btn-fw" })
-                            </div>
-                            <div class="col-auto">
-                                @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-auto">
+                            @Html.ActionLink("Edit", "FloorList", null, new { @class = "btn btn-primary btn-rounded btn-fw" })
                         </div>
-                    </form>
-                </div>
+                        <div class="col-auto">
+                            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-
-    }
+    </div>
 </body>
 </html>

@@ -30,7 +30,11 @@ namespace XyTech.Controllers
 
         public ActionResult FloorList()
         {
-            var tb_floor = db.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_active.Equals("active"));
+            var tb_floor = db.tb_floor.Include(t => t.tb_landlord).Where(t => t.fl_active.Equals("active"));
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
             return View(tb_floor.ToList());
         }
 
@@ -46,6 +50,7 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.fl_landlord = new SelectList(db.tb_landlord, "l_id", "l_name", tb_floor.fl_landlord);
             return View(tb_floor);
         }
 
@@ -53,7 +58,8 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
-                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(1)).ToList();
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(1)).FirstOrDefault();
+                ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
             }
         }
@@ -62,7 +68,8 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
-                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(2)).ToList();
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(2)).FirstOrDefault();
+                ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
             }
         }
@@ -71,7 +78,8 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
-                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(3)).ToList();
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(3)).FirstOrDefault();
+                ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
             }
         }
@@ -80,7 +88,8 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
-                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(4)).ToList();
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(4)).FirstOrDefault();
+                ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
             }
         }
@@ -89,7 +98,8 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
-                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(5)).ToList();
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(5)).FirstOrDefault();
+                ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
             }
         }
@@ -98,7 +108,8 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
-                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(6)).ToList();
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(6)).FirstOrDefault();
+                ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
             }
         }
@@ -107,7 +118,8 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
-                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(7)).ToList();
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(7)).FirstOrDefault();
+                ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
             }
         }
@@ -116,7 +128,8 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
-                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(8)).ToList();
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(8)).FirstOrDefault();
+                ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
             }
         }
@@ -125,7 +138,8 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
-                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(9)).ToList();
+                var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(9)).FirstOrDefault();
+                ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
             }
         }
@@ -185,7 +199,7 @@ namespace XyTech.Controllers
                 db.tb_floor.Add(tb_floor);
                 db.SaveChanges();
                 TempData["success"] = "Floor has been created successfully!";
-                return RedirectToAction("Index");
+                return RedirectToAction("FloorList");
             }
 
             ViewBag.fl_landlord = new SelectList(db.tb_landlord, "l_id", "l_name", tb_floor.fl_landlord);
@@ -278,25 +292,13 @@ namespace XyTech.Controllers
         // POST: Floor/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int? id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            using (var context = new db_XyTechEntities())
-            {
-                // Find the floor record with the specified id
-                var floor = context.tb_floor.Find(id);
-
-                if (floor != null)
-                {
-                    // Set the fl_active attribute to "inactive"
-                    floor.fl_active = "inactive";
-
-                    // Save the changes to the database
-                    context.SaveChanges();
-                }
-            }
-
-            TempData["success"] = "Floor has been deleted successfully.";
-            return RedirectToAction("Index");
+            tb_floor tb_floor = db.tb_floor.Find(id);
+            tb_floor.fl_active = "inactive";
+            db.Entry(tb_floor).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("FloorList");
         }
 
         public ActionResult GetFile(string FileName)
