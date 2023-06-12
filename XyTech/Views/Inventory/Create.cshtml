@@ -20,14 +20,14 @@
                 <div class="form-group row">
                     <label for="iv_floor" class="col-sm-3 col-form-label">Floor</label>
                     <div class="col-sm-9">
-                        @Html.DropDownList("iv_floor", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("iv_floor", null, htmlAttributes: new { @class = "form-control", required = "required" })
                         @Html.ValidationMessageFor(model => model.iv_floor, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="iv_item" class="col-sm-3 col-form-label">Item</label>
                     <div class="col-sm-9">
-                        @Html.EditorFor(model => model.iv_item, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.iv_item, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                         @Html.ValidationMessageFor(model => model.iv_item, "", new { @class = "text-danger" })
 
                     </div>
@@ -35,7 +35,7 @@
                 <div class="form-group row">
                     <label for="iv_count" class="col-sm-3 col-form-label">Quantity</label>
                     <div class="col-sm-9">
-                        @Html.EditorFor(model => model.iv_count, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.iv_count, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                         @Html.ValidationMessageFor(model => model.iv_count, "", new { @class = "text-danger" })
 
                     </div>

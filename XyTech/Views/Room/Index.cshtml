@@ -8,31 +8,31 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                @if (ViewBag.Message == "Room has been updated successfully!")
+                @if (ViewBag.Message == " Room has been updated successfully!")
                 {
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="bi bi-check-circle me-1"></i>
-                        <strong>Success!</strong> @ViewBag.Message
-
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="alert alert-success">
+                        <strong>Success!</strong>@ViewBag.Message
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span class="mdi mdi-close"></span>
+                        </button>
                     </div>
                 }
-                @if (ViewBag.Message == "Room has been created successfully!")
+                @if (ViewBag.Message == " Room has been created successfully!")
                 {
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="bi bi-check-circle me-1"></i>
-                        <strong>Success!</strong> @ViewBag.Message
-
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="alert alert-success">
+                        <strong>Success!</strong>@ViewBag.Message
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span class="mdi mdi-close"></span>
+                        </button>
                     </div>
                 }
-                @if (ViewBag.Message == "Room has been deleted successfully.")
+                @if (ViewBag.Message == " Room has been deleted successfully.")
                 {
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="bi bi-check-circle me-1"></i>
-                        <strong>Alert!</strong> @ViewBag.Message
-
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="alert alert-danger">
+                        <strong>Alert!</strong>@ViewBag.Message
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span class="mdi mdi-close"></span>
+                        </button>
                     </div>
                 }
                 <div class="d-flex justify-content-between">

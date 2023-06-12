@@ -34,6 +34,13 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="l_name" class="col-sm-3 col-form-label">Price (RM)</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.r_price, new { htmlAttributes = new { @class = "form-control", placeholder = "Room Rental Price", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.r_price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="l_fee" class="col-sm-3 col-form-label">Number of Beds</label>
                     <div class="col-sm-9">
                         @Html.EditorFor(model => model.r_size, new { htmlAttributes = new { @class = "form-control", placeholder = "Number of Beds", required = "required" } })
@@ -47,7 +54,7 @@
                     <div class="col-sm-9">
                         @{
                             List<SelectListItem> availabilityOptions = new List<SelectListItem>
-                                        {
+                                                                {
                                 new SelectListItem { Text = "Available", Value = "1" },
                                 new SelectListItem { Text = "Unavailable", Value = "0" }
                             };

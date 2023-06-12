@@ -102,30 +102,3 @@
         </div>
     </div>
 }
-
-<script>
-    $(function () {
-        $('#editForm').submit(function (e) {
-            e.preventDefault();
-
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
-                success: function () {
-                    // Show success message popup
-                    alert('Floor record updated successfully!');
-
-                    // Redirect to the index page
-                    window.location.href = '@Url.Action("FloorList", "Floor")';
-                },
-                error: function () {
-                    // Show error message popup
-                    alert('Error updating floor record.');
-                }
-            });
-        });
-    });
-</script>
