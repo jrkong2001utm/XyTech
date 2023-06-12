@@ -286,6 +286,10 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
             return View(tb_floor);
         }
 
@@ -298,6 +302,7 @@ namespace XyTech.Controllers
             tb_floor.fl_active = "inactive";
             db.Entry(tb_floor).State = EntityState.Modified;
             db.SaveChanges();
+            TempData["success"] = "Floor has been deleted successfully.";
             return RedirectToAction("FloorList");
         }
 

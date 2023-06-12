@@ -69,7 +69,7 @@
                         @Html.AntiForgeryToken()
 
                         <div class="form-actions no-color" style="margin-top: 25px;">
-                            <input type="submit" value="Delete" class="btn btn-danger btn-rounded btn-fw" onclick="return confirm('Are you sure to delete this floor?');" />
+                            <input type="submit" value="Delete" class="btn btn-danger btn-rounded btn-fw" />
                             @Html.ActionLink("Back", "FloorList", null, new { @class = "btn btn-light btn-rounded btn-fw" })
                         </div>
                     }
