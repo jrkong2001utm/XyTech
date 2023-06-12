@@ -21,16 +21,25 @@
                             <span class="mdi mdi-eye-off"></span>
                         </button>
                     </div>
-                 }
-                 @if (ViewBag.Message == "Tenant deleted.")
-                 {
+                }
+                else if (ViewBag.Message == "Tenant deleted.")
+                {
                     <div class="alert alert-danger">
                         <strong>@ViewBag.Message</strong>
-                        <button type = "button" class="close" data-dismiss="alert">
+                        <button type="button" class="close" data-dismiss="alert">
                             <span class="mdi mdi-eye-off"></span>
                         </button>
                     </div>
-                  }
+                }
+                else if (ViewBag.Message == "Tenant updated successfully!")
+                {
+                    <div class="alert alert-info">
+                        <strong>@ViewBag.Message</strong>
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span class="mdi mdi-eye-off"></span>
+                        </button>
+                    </div>
+                }
                 <p class="btn btn-success btn-rounded btn-fw">
                     @Html.ActionLink("Create New", "Create")
                 </p>

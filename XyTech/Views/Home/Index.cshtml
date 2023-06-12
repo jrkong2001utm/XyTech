@@ -3,24 +3,6 @@
 }
 
 <div class="row">
-    @*<div class="col-md-6 grid-margin stretch-card">
-            <div class="card tale-bg">
-                <div class="card-people mt-auto">
-                    <img src="~/Content/assets/images/dashboard/people.svg" alt="people">
-                    <div class="weather-info">
-                        <div class="d-flex">
-                            <div>
-                                <h2 class="mb-0 font-weight-normal"><i class="icon-sun mr-2"></i>31<sup>C</sup></h2>
-                            </div>
-                            <div class="ml-2">
-                                <h4 class="location font-weight-normal">Bangalore</h4>
-                                <h6 class="font-weight-normal">India</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>*@
     <div class="col-md-6 grid-margin transparent">
         <div class="row">
             <div class="col-md-6 mb-4 stretch-card transparent">
@@ -54,8 +36,8 @@
             <div class="col-md-6 stretch-card transparent">
                 <div class="card card-light-danger">
                     <div class="card-body">
-                        <p class="mb-3">Monthly Attendance</p>
-                        <p class="fs-30 mb-2 mdi mdi-calendar-check">  Total: @ViewBag.TotalAttendance</p>
+                        <p class="mb-3">Total Active Investor</p>
+                        <p class="fs-30 mb-2 mdi mdi-account-multiple-outline">  @ViewBag.leninvestor</p>
                     </div>
                 </div>
             </div>
@@ -95,7 +77,7 @@
                                 <th>Bank Account</th>
                                 <th>Fee</th>
                                 <th>Payment Due</th>
-                                <th>Action</th>
+                                <th style="text-align: center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -110,7 +92,10 @@
                                     <td>@landlord.l_fee</td>
                                     <td>@landlord.l_due.ToString("dd-MM-yyyy")</td>
                                     <td style="text-align: center">
-                                        <a href="@whatsapp" target="_blank" class="btn btn-info mdi mdi-whatsapp"></a>
+                                        <a href="@whatsapp" target="_blank" class="btn btn-info mdi mdi-whatsapp"></a> |
+                                        <a href="@Url.Action("Edit", "Landlord", new { id = landlord.l_id })" class="btn btn-warning" title="edit">
+                                            <i class="fa fa-edit text-primary"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             }
@@ -123,46 +108,123 @@
 </div>
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
-        <div class="card">
+        <div class="card position-relative">
             <div class="card-body">
-                <p class="card-title">Tenant with <strong>Unpaid</strong> status that exceed check out date.</p>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="table-responsive">
-                            <table id="dataTable" class="display expandable-table dataTable no-footer" style="width:100%" role="grid">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Phone</th>
-                                        <th>Check In</th>
-                                        <th>Check Out</th>
-                                        <th>Outstanding</th>
-                                        <th>Room No</th>
-                                        <th>Reminder</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var tenant in ViewBag.tenant)
-                                    {
-                                        var phoneNumber = tenant.t_phone;
-                                        var encodedMessage = "Dear " + tenant.t_name + ", Please kindly pay the rental fee (RM" + tenant.t_outstanding + ") for last month. Thank You.";
-                                        var whatsappUrl = "https://wa.me/+6" + phoneNumber + "?text=" + encodedMessage;
-                                        <tr>
-                                            <td>@tenant.t_name</td>
-                                            <td>@tenant.t_phone</td>
-                                            <td>@tenant.t_indate.ToString("dd-MM-yyyy")</td>
-                                            <td>@tenant.t_outdate.ToString("dd-MM-yyyy")</td>
-                                            <td style="text-align: center">@tenant.t_outstanding</td>
-                                            <td style="text-align: center">@tenant.t_room</td>
-                                            <td style="text-align: center">
-                                                <a href="@whatsappUrl" target="_blank" class="btn btn-success mdi mdi-whatsapp"></a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                <div id="detailedReports" class="carousel slide detailed-report-carousel position-static pt-2" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-md-12 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <p class="card-title">Tenant with <strong>Unpaid</strong> status that exceed check out date.</p>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="table-responsive">
+                                                        <table id="dataTable1" class="display expandable-table dataTable no-footer" style="width:100%" role="grid">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <th>Phone</th>
+                                                                    <th>Check In</th>
+                                                                    <th>Check Out</th>
+                                                                    <th>Outstanding</th>
+                                                                    <th>Room No</th>
+                                                                    <th style="text-align: center">Reminder</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var tenant in ViewBag.tenant)
+                                                                {
+                                                                    var phoneNumber = tenant.t_phone;
+                                                                    var encodedMessage = "Dear " + tenant.t_name + ", Please kindly pay the rental fee (RM" + tenant.t_outstanding + ") for last month. Thank You.";
+                                                                    var whatsappUrl = "https://wa.me/+6" + phoneNumber + "?text=" + encodedMessage;
+                                                                    <tr>
+                                                                        <td>@tenant.t_name</td>
+                                                                        <td>@tenant.t_phone</td>
+                                                                        <td>@tenant.t_indate.ToString("dd-MM-yyyy")</td>
+                                                                        <td>@tenant.t_outdate.ToString("dd-MM-yyyy")</td>
+                                                                        <td style="text-align: center">@tenant.t_outstanding</td>
+                                                                        <td style="text-align: center">@tenant.t_room</td>
+                                                                        <td style="text-align: center">
+                                                                            <a href="@whatsappUrl" target="_blank" class="btn btn-success mdi mdi-whatsapp"></a> |
+                                                                            <a href="@Url.Action("Edit", "Tenant", new { id = tenant.t_id })" class="btn btn-warning" title="edit">
+                                                                                <i class="fa fa-edit text-primary"></i>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="row">
+                                <div class="col-md-12 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <p class="card-title">Rental Fee Due within <strong>one week</strong></p>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="table-responsive">
+                                                        <table id="dataTable4" class="display expandable-table dataTable no-footer" style="width:100%" role="grid">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <th>Phone</th>
+                                                                    <th>Check In</th>
+                                                                    <th>Check Out</th>
+                                                                    <th>Outstanding</th>
+                                                                    <th>Room No</th>
+                                                                    <th style="text-align: center">Reminder</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var weektenant in ViewBag.weektenant)
+                                                                {
+                                                                    var phoneNumber = weektenant.t_phone;
+                                                                    var encodedMessage = "Dear " + weektenant.t_name + ",Your rental fee due is coming soon " + weektenant.t_outdate + ". Please kindly pay the rental fee (RM" + weektenant.t_outstanding + ") as soon as possible. Thank You.";
+                                                                    var urlwhatsapp = "https://wa.me/+6" + phoneNumber + "?text=" + encodedMessage;
+                                                                    <tr>
+                                                                        <td>@weektenant.t_name</td>
+                                                                        <td>@weektenant.t_phone</td>
+                                                                        <td>@weektenant.t_indate.ToString("dd-MM-yyyy")</td>
+                                                                        <td>@weektenant.t_outdate.ToString("dd-MM-yyyy")</td>
+                                                                        <td style="text-align: center">@weektenant.t_outstanding</td>
+                                                                        <td style="text-align: center">@weektenant.t_room</td>
+                                                                        <td style="text-align: center">
+                                                                            <a href="@urlwhatsapp" target="_blank" class="btn btn-success mdi mdi-whatsapp"></a> |
+                                                                            <a href="@Url.Action("Edit", "Tenant", new { id = weektenant.t_id })" class="btn btn-warning" title="edit">
+                                                                                <i class="fa fa-edit text-primary"></i>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <a class="carousel-control-prev" href="#detailedReports" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#detailedReports" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -197,14 +259,14 @@
                                             <td style="text-align: center">@room.r_size</td>
                                             <td style="text-align: center">@room.r_active</td>
                                             <td style="text-align: center">
-                                                <a href="@Url.Action("Edit", "Room", new { id = room.r_id })" class="btn btn-link" title="edit">
+                                                <a href="@Url.Action("Edit", "Room", new { id = room.r_id })" class="btn btn-warning" title="edit">
                                                     <i class="fa fa-edit text-primary"></i>
                                                 </a>
-                                                <a href="@Url.Action("Details", "Room", new { id = room.r_id })" class="btn btn-link" title="details">
-                                                    <i class="fa fa-info-circle text-info"></i>
+                                                <a href="@Url.Action("Details", "Room", new { id = room.r_id })" class="btn btn-info" title="details">
+                                                    <i class="fa fa-info-circle text-primary"></i>
                                                 </a>
-                                                <a href="@Url.Action("Delete", "Room", new { id = room.r_id })" class="btn btn-link" title="delete">
-                                                    <i class="fa fa-trash text-danger"></i>
+                                                <a href="@Url.Action("Delete", "Room", new { id = room.r_id })" class="btn btn-danger" title="delete">
+                                                    <i class="fa fa-trash text-primary"></i>
                                                 </a>
 
                                             </td>
@@ -223,9 +285,24 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            jQuery('#dataTable').DataTable();
+            //jQuery('#dataTable').DataTable();
             jQuery('#dataTable2').DataTable();
             jQuery('#dataTable3').DataTable();
+            
+        });
+
+        function initDataTable() {
+            jQuery('#dataTable1').DataTable();
+            jQuery('#dataTable4').DataTable();
+        }
+
+        // Initialize DataTable on document ready
+        $(document).ready(function () {
+            initDataTable();
+        });
+
+        $('#detailedReports').on('slid.bs.carousel', function () {
+            initDataTable();
         });
 
         // Prepare the data for the pie chart
