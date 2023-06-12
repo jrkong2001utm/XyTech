@@ -16,83 +16,80 @@
                     Edit floor information by filling the form below.
                 </p>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <form class="forms-sample">
-                    <div class="form-group row">
-                        <label for="fl_id" class="col-sm-3 col-form-label">Building Code</label>
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.fl_id, new { htmlAttributes = new { @class = "form-control", placeholder = "Building Code", required = "required" } })
-                            @Html.ValidationMessageFor(model => model.fl_id, "", new { @class = "text-danger" })
-                        </div>
+            <form class="forms-sample">
+
+                @Html.Hidden("fl_id")
+
+                <div class="form-group row">
+                    <label for="fl_bid" class="col-sm-3 col-form-label">Floor Level</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.fl_bid, new { htmlAttributes = new { @class = "form-control", placeholder = "Floor Level", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.fl_bid, "", new { @class = "text-danger" })
                     </div>
-                    <div class="form-group row">
-                        <label for="fl_bid" class="col-sm-3 col-form-label">Floor Level</label>
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.fl_bid, new { htmlAttributes = new { @class = "form-control", placeholder = "Floor Level", required = "required" } })
-                            @Html.ValidationMessageFor(model => model.fl_bid, "", new { @class = "text-danger" })
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="fl_address" class="col-sm-3 col-form-label">Address</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.fl_address, new { htmlAttributes = new { @class = "form-control", placeholder = "Floor Building Address", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.fl_address, "", new { @class = "text-danger" })
+
                     </div>
-                    <div class="form-group row">
-                        <label for="fl_address" class="col-sm-3 col-form-label">Address</label>
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.fl_address, new { htmlAttributes = new { @class = "form-control", placeholder = "Floor Building Address", required = "required" } })
-                            @Html.ValidationMessageFor(model => model.fl_address, "", new { @class = "text-danger" })
+                </div>
 
-                        </div>
+                <div class="form-group row">
+                    <label for="l_due" class="col-sm-3 col-form-label">Landlord Name</label>
+                    <div class="col-sm-9">
+                        @Html.DropDownList("fl_landlord", null, htmlAttributes: new { @class = "form-control", placeholder = "Select a landlord", required = "required" })
+                        @Html.ValidationMessageFor(model => model.fl_landlord, "", new { @class = "text-danger" })
                     </div>
-                    <div class="form-group row">
-                        <label for="fl_landlord" class="col-sm-3 col-form-label">Landlord Name</label>
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.fl_landlord, new { htmlAttributes = new { @class = "form-control", placeholder = "Landlord Name", required = "required" } })
-                            @Html.ValidationMessageFor(model => model.fl_landlord, "", new { @class = "text-danger" })
-                        </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="fl_wifipwd" class="col-sm-3 col-form-label">WiFi Password</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.fl_wifipwd, new { htmlAttributes = new { @class = "form-control", placeholder = "WiFi Password", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.fl_wifipwd, "", new { @class = "text-danger" })
                     </div>
+                </div>
 
-                    <div class="form-group row">
-                        <label for="fl_wifipwd" class="col-sm-3 col-form-label">WiFi Password</label>
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.fl_wifipwd, new { htmlAttributes = new { @class = "form-control", placeholder = "WiFi Password", required = "required" } })
-                            @Html.ValidationMessageFor(model => model.fl_wifipwd, "", new { @class = "text-danger" })
-                        </div>
+
+                <div class="form-group row">
+                    <label for="fl_modemip" class="col-sm-3 col-form-label">Modem IP</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.fl_modemip, new { htmlAttributes = new { @class = "form-control", placeholder = "Modem IP", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.fl_modemip, "", new { @class = "text-danger" })
+
                     </div>
+                </div>
 
 
-                    <div class="form-group row">
-                        <label for="fl_modemip" class="col-sm-3 col-form-label">Modem IP</label>
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.fl_modemip, new { htmlAttributes = new { @class = "form-control", placeholder = "Modem IP", required = "required" } })
-                            @Html.ValidationMessageFor(model => model.fl_modemip, "", new { @class = "text-danger" })
-
-                        </div>
+                <div class="form-group row">
+                    <label for="l_bank" class="col-sm-3 col-form-label">CCTV QR Code</label>
+                    <div class="col-sm-9">
+                        @Html.TextBox("uploadqr", "", new { type = "file", accept = "image/*", required = "required" })
+                        @Html.ValidationMessageFor(model => model.fl_cctvqr, "", new { @class = "text-danger" })
                     </div>
+                </div>
 
-
-                    <div class="form-group row">
-                        <label for="l_bank" class="col-sm-3 col-form-label">CCTV QR Code</label>
-                        <div class="col-sm-9">
-                            @Html.TextBox("uploadqr", new { type = "file", accept = "image/*", required = "required" })
-                            @Html.ValidationMessageFor(model => model.fl_cctvqr, "", new { @class = "text-danger" })
-                        </div>
+                <div class="form-group row">
+                    <label for="l_bank" class="col-sm-3 col-form-label">Floor Layout</label>
+                    <div class="col-sm-9">
+                        @Html.TextBox("uploadly", "", new { type = "file", accept = "image/*", required = "required" })
+                        @Html.ValidationMessageFor(model => model.fl_layout, "", new { @class = "text-danger" })
                     </div>
+                </div>
 
-                    <div class="form-group row">
-                        <label for="l_bank" class="col-sm-3 col-form-label">Floor Layout</label>
-                        <div class="col-sm-9">
-                            @Html.TextBox("uploadly", new { type = "file", accept = "image/*", required = "required" })
-                            @Html.ValidationMessageFor(model => model.fl_layout, "", new { @class = "text-danger" })
-                        </div>
+                @Html.Hidden("fl_active", "active")
+
+                <div class="form-group row">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary btn-rounded btn-fw">Save</button>
                     </div>
-
-                    @Html.Hidden("fl_active", "active")
-
-                    <div class="form-group row">
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary btn-rounded btn-fw">Save</button>
-                        </div>
-                        <div class="col-auto">
-                            @Html.ActionLink("Back", "FloorList", null, new { @class = "btn btn-light btn-rounded btn-fw" })
-                        </div>
+                    <div class="col-auto">
+                        @Html.ActionLink("Back", "FloorList", null, new { @class = "btn btn-light btn-rounded btn-fw" })
                     </div>
-                </form>
+                </div>
+            </form>
             </div>
         </div>
     </div>

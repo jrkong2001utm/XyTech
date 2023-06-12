@@ -15,56 +15,59 @@
                     Edit floor information by filling the form below.
                 </p>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <form class="forms-sample">
-                    <div class="form-group row">
-                        <label for="l_name" class="col-sm-3 col-form-label">Room No.</label>
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.r_no, new { htmlAttributes = new { @class = "form-control", placeholder = "Building Code", required = "required" } })
-                            @Html.ValidationMessageFor(model => model.r_no, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="l_contact" class="col-sm-3 col-form-label">Building Name</label>
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.tb_floor.fl_bid, new { htmlAttributes = new { @class = "form-control", placeholder = "Floor Level", required = "required" } })
-                            @Html.ValidationMessageFor(model => model.tb_floor.fl_bid, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="l_fee" class="col-sm-3 col-form-label">Number of Beds</label>
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.r_size, new { htmlAttributes = new { @class = "form-control", placeholder = "Floor Building Address", required = "required" } })
-                            @Html.ValidationMessageFor(model => model.r_size, "", new { @class = "text-danger" })
+            <form class="forms-sample">
 
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="l_due" class="col-sm-3 col-form-label">Room Availability</label>
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.r_availability, new { htmlAttributes = new { @class = "form-control", placeholder = "Landlord Name", required = "required" } })
-                            @Html.ValidationMessageFor(model => model.r_availability, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                @Html.Hidden("r_id")
 
-                    <div class="form-group row">
-                        <label for="l_bankname" class="col-sm-3 col-form-label">Room Picture</label>
-                        <div class="col-sm-9">
-                            @Html.TextBox("roompic", new { type = "file", accept = "image/*", required = "required" })
-                            @Html.ValidationMessageFor(model => model.r_pic, "", new { @class = "text-danger" })
-                        </div>
+                <div class="form-group row">
+                    <label for="l_name" class="col-sm-3 col-form-label">Room No.</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.r_no, new { htmlAttributes = new { @class = "form-control", placeholder = "Building Code", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.r_no, "", new { @class = "text-danger" })
                     </div>
-
-                    @Html.Hidden("r_active", "active")
-
-                    <div class="form-group row">
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary btn-rounded btn-fw">Save</button>
-                        </div>
-                        <div class="col-auto">
-                            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="l_contact" class="col-sm-3 col-form-label">Building Name</label>
+                    <div class="col-sm-9">
+                        @Html.DropDownList("r_floor", null, htmlAttributes: new { @class = "form-control", placeholder = "Select a building", required = "required" })
+                        @Html.ValidationMessageFor(model => model.r_floor, "", new { @class = "text-danger" })
                     </div>
-                </form>
+                </div>
+                <div class="form-group row">
+                    <label for="l_fee" class="col-sm-3 col-form-label">Number of Beds</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.r_size, new { htmlAttributes = new { @class = "form-control", placeholder = "Floor Building Address", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.r_size, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="l_due" class="col-sm-3 col-form-label">Room Availability</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.r_availability, new { htmlAttributes = new { @class = "form-control", placeholder = "Landlord Name", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.r_availability, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="l_bankname" class="col-sm-3 col-form-label">Room Picture</label>
+                    <div class="col-sm-9">
+                        @Html.TextBox("roompic", "", new { type = "file", accept = "image/*", required = "required" })
+                        @Html.ValidationMessageFor(model => model.r_pic, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @Html.Hidden("r_active", "active")
+
+                <div class="form-group row">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary btn-rounded btn-fw">Save</button>
+                    </div>
+                    <div class="col-auto">
+                        @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
+                    </div>
+                </div>
+            </form>
             </div>
         </div>
     </div>

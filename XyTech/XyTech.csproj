@@ -2021,6 +2021,7 @@
     <Folder Include="Content\assets\images\Contractfile\" />
     <Folder Include="Content\assets\images\floorlayout\" />
     <Folder Include="Content\assets\images\Icfile\" />
+    <Folder Include="Content\assets\images\roomPicture\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>

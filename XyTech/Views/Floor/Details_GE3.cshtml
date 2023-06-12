@@ -11,22 +11,22 @@
     <p class="card-title mb-0" style="font-size: x-large; font-weight:bold">Floor Information</p>
     <br />
     <div>
-        <img class="floorlayout" src="~/Content/assets/images/floor_layout_trim/GE3-2.jpeg" alt="DL1" usemap="#DL1map" width="300" height="800">
+        <img class="floorlayout" src="~/Content/assets/images/floor_layout_trim/GE3-2.jpeg" alt="DL1" usemap="#DL1map">
 
         <map name="DL1map">
-            <area shape="rect" coords="46,31,114,130" alt="Room1" href="~/Views/Room/Details/57" id="r_id">
-            <area shape="rect" coords="44,135,114,207" alt="Room2" href="~/Views/Room/Details/58" id="r_id">
-            <area shape="rect" coords="46,215,144,267" alt="Room3" href="~/Views/Room/Details/59" id="r_id">
-            <area shape="rect" coords="44,277,142,329" alt="Room4" href="~/Views/Room/Details/60" id="r_id">
-            <area shape="rect" coords="43,335,130,399" alt="Room5" href="~/Views/Room/Details/61" id="r_id">
-            <area shape="rect" coords="44,403,130,463" alt="Room6" href="~/Views/Room/Details/62" id="r_id">
-            <area shape="rect" coords="44,465,131,525" alt="Room7" href="~/Views/Room/Details/63" id="r_id">
-            <area shape="rect" coords="43,529,96,641" alt="Room8" href="~/Views/Room/Details/64" id="r_id">
-            <area shape="rect" coords="100,557,154,641" alt="Room9" href="~/Views/Room/Details/65" id="r_id">
-            <area shape="rect" coords="160,463,249,509" alt="Room10" href="~/Views/Room/Details/66" id="r_id">
-            <area shape="rect" coords="159,406,248,457" alt="Room11" href="~/Views/Room/Details/67" id="r_id">
-            <area shape="rect" coords="148,127,248,208" alt="Room12" href="~/Views/Room/Details/68" id="r_id">
-            <area shape="rect" coords="144,31,208,122" alt="Room13" href="~/Views/Room/Details/69" id="r_id">
+            <area shape="rect" coords="46,31,114,130" alt="Room1" href="@Url.Action("Details", "Room", new { id = 57 })" id="r_id">
+            <area shape="rect" coords="44,135,114,207" alt="Room2" href="@Url.Action("Details", "Room", new { id = 58 })" id="r_id">
+            <area shape="rect" coords="46,215,144,267" alt="Room3" href="@Url.Action("Details", "Room", new { id = 59 })" id="r_id">
+            <area shape="rect" coords="44,277,142,329" alt="Room4" href="@Url.Action("Details", "Room", new { id = 60 })" id="r_id">
+            <area shape="rect" coords="43,335,130,399" alt="Room5" href="@Url.Action("Details", "Room", new { id = 61 })" id="r_id">
+            <area shape="rect" coords="44,403,130,463" alt="Room6" href="@Url.Action("Details", "Room", new { id = 62 })" id="r_id">
+            <area shape="rect" coords="44,465,131,525" alt="Room7" href="@Url.Action("Details", "Room", new { id = 63 })" id="r_id">
+            <area shape="poly" coords="44,528,106,529,124,549,95,554,96,641,42,640,42,563" alt="Room8" href="@Url.Action("Details", "Room", new { id = 64 })" id="r_id">
+            <area shape="poly" coords="100,559,129,558,151,582,152,640,100,641,101,595" alt="Room9" href="@Url.Action("Details", "Room", new { id = 65 })" id="r_id">
+            <area shape="poly" coords="184,462,161,485,159,508,248,508,248,461" alt="Room10" href="@Url.Action("Details", "Room", new { id = 66 })" id="r_id">
+            <area shape="rect" coords="159,406,248,457" alt="Room11" href="@Url.Action("Details", "Room", new { id = 67 })" id="r_id">
+            <area shape="rect" coords="148,127,248,208" alt="Room12" href="@Url.Action("Details", "Room", new { id = 68 })" id="r_id">
+            <area shape="rect" coords="144,31,208,122" alt="Room13" href="@Url.Action("Details", "Room", new { id = 69 })" id="r_id">
         </map>
     </div>
 

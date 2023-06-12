@@ -21,10 +21,11 @@
                             <tr>
                                 <th>Room No.</th>
                                 <th>Building Name</th>
+                                <th>Floor Level</th>
+
                                 <th>Price</th>
-                                <th>Number of Beds</th>
                                 <th>Room Availability</th>
-                                <th>Room Picture</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,16 +36,16 @@
                                         @Html.DisplayFor(modelItem => item.r_no)
                                     </td>
                                     <td>
+                                        @Html.ActionLink(item.tb_floor.fl_bname, "Details", "Floor", new { id = item.tb_floor.fl_id }, new { @class = "ilink" })
+                                    </td>
+                                    <td>
                                         @Html.DisplayFor(modelItem => item.tb_floor.fl_bid)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.r_size)
+                                        @Html.DisplayFor(modelItem => item.r_price)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.r_availability)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.r_pic)
                                     </td>
                                     <td>
                                         <a href="@Url.Action("Edit", new { id = item.r_id })" class="btn btn-link" title="edit">
@@ -56,8 +57,11 @@
                                         <a href="@Url.Action("Delete", new { id = item.r_id })" class="btn btn-link" title="delete">
                                             <i class="fa fa-trash text-danger"></i>
                                         </a>
+                                        <a href="@Url.Action("Create", "Tenant")" class="btn btn-link" title="delete">
+                                            <i class="fa mdi mdi-account-multiple-plus text-success"></i>
+                                        </a>
                                     </td>
-</tr>
+                                </tr>
                             }
                         </tbody>
                     </table>
