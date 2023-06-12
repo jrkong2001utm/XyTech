@@ -21,6 +21,10 @@ namespace XyTech.Controllers
             ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
 
             var tb_inventory = db.tb_inventory.Where(t => t.iv_active == "1").Include(t => t.tb_floor);
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
             return View(tb_inventory.ToList());
         }
 
@@ -57,6 +61,7 @@ namespace XyTech.Controllers
             {
                 db.tb_inventory.Add(tb_inventory);
                 db.SaveChanges();
+                TempData["success"] = "Inventory is successfully saved!";
                 return RedirectToAction("Index");
             }
 
@@ -91,6 +96,7 @@ namespace XyTech.Controllers
             {
                 db.Entry(tb_inventory).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["success"] = "Inventory is successfully saved!";
                 return RedirectToAction("Index");
             }
             ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_inventory.iv_floor);
@@ -109,6 +115,10 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
             return View(tb_inventory);
         }
 
@@ -122,6 +132,7 @@ namespace XyTech.Controllers
             tb_inventory.iv_active = "0"; // Update l_active to "0"
             db.Entry(tb_inventory).State = EntityState.Modified;
             db.SaveChanges();
+            TempData["success"] = "Inventory is deleted.";
             return RedirectToAction("Index");
         }
 
