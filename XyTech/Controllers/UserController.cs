@@ -64,7 +64,17 @@ namespace XyTech.Controllers
             {
                 db.tb_user.Add(tb_user);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                if (tb_user.u_usertype == "Investor")
+                {
+                    // Redirect to the CreateInvestor action passing the user ID
+                    return RedirectToAction("Create", "Investor", new { id = tb_user.u_id });
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+               
             }
 
             return View(tb_user);
