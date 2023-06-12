@@ -40,9 +40,6 @@
     }
 </style>
 
-<h2>Inventory</h2>
-
-<hr />
 
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
@@ -66,11 +63,15 @@
                         </button>
                     </div>
                 }
-                <p>
-                    @Html.ActionLink("Add", "Create", "Inventory", null, new { @class = "btn btn-success btn-rounded btn-fw" })
-                </p>
 
-                
+            <div class="d-flex justify-content-between">
+                <p class="card-title mb-0" style="font-size: x-large;">Inventory</p>
+
+                @Html.ActionLink("Add", "Create", "Inventory", null, new { @class = "btn btn-success btn-rounded btn-fw" })
+            </div>
+                <br />
+
+
 
                 @foreach (var floorGroup in Model.GroupBy(item => item.iv_floor))
                 {
@@ -82,7 +83,7 @@
                     </button>
 
                     <div class="content">
-                        
+
                         <table id="@tableId" class="display expandable-table" style="width:100%">
 
                             <thead>
