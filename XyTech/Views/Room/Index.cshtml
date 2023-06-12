@@ -93,7 +93,7 @@
                                         <a href="@Url.Action("Delete", new { id = item.r_id })" class="btn btn-link" title="delete">
                                             <i class="fa fa-trash text-danger"></i>
                                         </a>
-                                        <a href="@Url.Action("Create", "Tenant")" class="btn btn-link" title="delete">
+                                        <a href="@Url.Action("Create", "Tenant", new { id = item.r_id })" class="btn btn-link" title="addtenant">
                                             <i class="fa mdi mdi-account-multiple-plus text-success"></i>
                                         </a>
                                     </td>
