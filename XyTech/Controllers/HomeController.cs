@@ -22,9 +22,12 @@ namespace XyTech.Controllers
             double totalInflow = db.tb_finance.Where(f => f.f_transactiontype == "Inflow").Sum(f => f.f_transaction);
             ViewBag.TotalInflow = totalInflow;
 
-            ViewBag.tenant = db.tb_tenant.Where(t => t.t_outdate >= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3)).ToList();
+            ViewBag.tenant = db.tb_tenant.Where(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3)).ToList();
             ViewBag.landlord = db.tb_landlord.Where(l => l.l_due <= DateTime.Today && l.l_active == "1").ToList();
+            ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
             ViewBag.lenroom = db.tb_room.Count(r => r.r_availability == 1);
+            ViewBag.room = db.tb_room.Where(r => r.r_availability == 1).ToList();
+            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
             ViewBag.lentenant = db.tb_tenant.Count();
 
             double totalOutflow = db.tb_finance.Where(f => f.f_transactiontype == "Outflow").Sum(f => f.f_transaction);
