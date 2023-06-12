@@ -4,9 +4,7 @@
     ViewBag.Title = "Delete";
 }
 
-<!DOCTYPE html>
-<html>
-<body>
+
     <div>
         <div class="floorlayout">
             <img src="@Url.Content("~/Content/assets/images/floorlayout/" + Model.fl_layout)" alt="Uploaded Image" />
@@ -20,7 +18,9 @@
                 <p class="card-description">
                     These are the information for the floor.
                 </p>
-                <form class="forms-sample">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "forms-sample" }))
+                {
+                    @Html.AntiForgeryToken()
 
                     <div class="form-group row">
                         <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Building Name</label>
@@ -64,18 +64,13 @@
                             <img src="@Url.Content("~/Content/assets/images/cctvqr/" + Model.fl_cctvqr)" alt="Uploaded Image" style="width: 300px; height: auto;" />
                         </div>
                     </div>
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
 
-                        <div class="form-actions no-color" style="margin-top: 25px;">
-                            <input type="submit" value="Delete" class="btn btn-danger btn-rounded btn-fw" onclick="return confirm('Are you sure to delete this floor?');" />
-                            @Html.ActionLink("Back", "FloorList", null, new { @class = "btn btn-light btn-rounded btn-fw" })
-                        </div>
-                    }
-                </form>
+                    <div class="form-actions no-color" style="margin-top: 25px;">
+                        <input type="submit" value="Delete" class="btn btn-danger btn-rounded btn-fw" onclick="return confirm('Are you sure to delete this floor?');" />
+                        @Html.ActionLink("Back to List", "FloorList", null, new { @class = "btn btn-light" })
+                    </div>
+                }
+
             </div>
         </div>
     </div>
-</body>
-</html>
