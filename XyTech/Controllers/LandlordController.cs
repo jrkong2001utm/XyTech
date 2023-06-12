@@ -27,7 +27,10 @@ namespace XyTech.Controllers
                 .Include(l => l.tb_bankname)
                 .OrderBy(l => l.l_due)
                 .ToList();
-
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
             return View(landlords);
         }
 
@@ -67,6 +70,7 @@ namespace XyTech.Controllers
             {
                 db.tb_landlord.Add(tb_landlord);
                 db.SaveChanges();
+                TempData["success"] = "Landlord is successfully saved!";
                 return RedirectToAction("Index");
             }
 
@@ -103,6 +107,7 @@ namespace XyTech.Controllers
             {
                 db.Entry(tb_landlord).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["success"] = "Landlord is successfully saved!";
                 return RedirectToAction("Index");
             }
             ViewBag.l_bankname = new SelectList(db.tb_bankname, "bn_id", "bn_description", tb_landlord.l_bankname);
@@ -125,6 +130,10 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
             return View(landlord);
         }
         
@@ -138,6 +147,7 @@ namespace XyTech.Controllers
             tb_landlord.l_active = "0"; // Update l_active to "0"
             db.Entry(tb_landlord).State = EntityState.Modified;
             db.SaveChanges();
+            TempData["success"] = "Landlord is deleted.";
             return RedirectToAction("Index");
         }
 
