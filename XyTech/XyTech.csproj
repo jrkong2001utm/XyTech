@@ -2021,6 +2021,7 @@
     <Content Include="Views\Login\ExpiredResetLink.cshtml" />
     <Content Include="Views\Login\ResetLinkSent.cshtml" />
     <Content Include="Views\InvestorMainPage\InvestorMainPage.cshtml" />
+    <Content Include="Views\User\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
