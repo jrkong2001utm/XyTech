@@ -53,7 +53,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#a_check').datepicker({
-                dateFormat: "dd/mm/yy",
+                dateFormat: "yy/mm/dd",
                 changeMonth: true,
                 changeYear: true,
                 minDate: 0,
@@ -68,5 +68,16 @@
                 }
             });
         });
+    </script>
+
+    <script>
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <text>
+                $(document).ready(function() {
+                    alert('@TempData["ErrorMessage"]');
+                });
+            </text>
+        }
     </script>
 }
