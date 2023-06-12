@@ -33,10 +33,18 @@ namespace XyTech.Controllers
 
                     if (obj != null)
                     {
-                        Session["id"] = obj.u_id.ToString();
-                        Session["u_username"] = obj.u_username.ToString();
-                        Session["usertype"] = obj.u_usertype.ToString();
-                        return RedirectToAction("Index", "Home");
+                        if (obj.u_active == "active")
+                        {
+                            Session["id"] = obj.u_id.ToString();
+                            Session["u_username"] = obj.u_username.ToString();
+                            Session["usertype"] = obj.u_usertype.ToString();
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "User Account is inactive. Please inform admin to activate.");
+                        }
+                        
                     }
                     else
                     {

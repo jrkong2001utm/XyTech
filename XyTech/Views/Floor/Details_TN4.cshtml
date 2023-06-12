@@ -11,20 +11,20 @@
     <p class="card-title mb-0" style="font-size: x-large; font-weight:bold">Floor Information</p>
     <br />
     <div> 
-        <img class="floorlayout" src="~/Content/assets/images/floor_layout_trim/TN4-3.jpeg" alt="DL1" usemap="#DL1map" width="300" height="800">
+        <img class="floorlayout" src="~/Content/assets/images/floor_layout_trim/TN4-3.jpeg" alt="DL1" usemap="#DL1map">
 
         <map name="DL1map">
-            <area shape="poly" coords="254,103,176,38" alt="Room1" href="~/Views/Room/Details/107" id="r_id">
-            <area shape="rect" coords="172,107,255,169" alt="Room2" href="~/Views/Room/Details/108" id="r_id">
-            <area shape="rect" coords="172,172,252,230" alt="Room3" href="~/Views/Room/Details/109" id="r_id">
-            <area shape="rect" coords="176,234,251,295" alt="Room4" href="~/Views/Room/Details/110" id="r_id">
-            <area shape="rect" coords="176,301,253,387" alt="Room5" href="~/Views/Room/Details/111" id="r_id">
-            <area shape="rect" coords="254,497,175,392" alt="Room6" href="~/Views/Room/Details/112" id="r_id">
-            <area shape="rect" coords="174,502,255,607" alt="Room7" href="~/Views/Room/Details/113" id="r_id">
-            <area shape="rect" coords="66,491,141,579" alt="Room7" href="~/Views/Room/Details/114" id="r_id">
-            <area shape="rect" coords="66,423,141,483" alt="Room7" href="~/Views/Room/Details/115" id="r_id">
-            <area shape="rect" coords="66,189,141,249" alt="Room7" href="~/Views/Room/Details/116" id="r_id">
-            <area shape="poly" coords="142,183,65,179,65,109,102,107,110,65,116,53,140,55" alt="Room7" href="~/Views/Room/Details/117" id="r_id">
+            <area shape="poly" coords="203,43,256,45,257,102,177,100,176,65,194,59" alt="Room1" href="@Url.Action("Details", "Room", new { id = 107 })" id="r_id">
+            <area shape="rect" coords="172,107,255,169" alt="Room2" href="@Url.Action("Details", "Room", new { id = 108 })" id="r_id">
+            <area shape="rect" coords="172,172,252,230" alt="Room3" href="@Url.Action("Details", "Room", new { id = 109 })" id="r_id">
+            <area shape="rect" coords="176,234,251,295" alt="Room4" href="@Url.Action("Details", "Room", new { id = 110 })" id="r_id">
+            <area shape="rect" coords="176,301,253,387" alt="Room5" href="@Url.Action("Details", "Room", new { id = 111 })" id="r_id">
+            <area shape="rect" coords="254,497,175,392" alt="Room6" href="@Url.Action("Details", "Room", new { id = 112 })" id="r_id">
+            <area shape="poly" coords="200,506,253,503,253,607,174,609,176,530" alt="Room7" href="@Url.Action("Details", "Room", new { id = 113 })" id="r_id">
+            <area shape="poly" coords="64,489,138,488,140,556,126,566,117,582,66,580" alt="Room7" href="@Url.Action("Details", "Room", new { id = 114 })" id="r_id">
+            <area shape="rect" coords="66,423,141,483" alt="Room7" href="@Url.Action("Details", "Room", new { id = 115 })" id="r_id">
+            <area shape="poly" coords="66,188,116,189,125,206,142,214,141,246,64,248" alt="Room7" href="@Url.Action("Details", "Room", new { id = 116 })" id="r_id">
+            <area shape="poly" coords="142,183,65,179,65,109,102,107,110,65,116,53,140,55" alt="Room7" href="@Url.Action("Details", "Room", new { id = 117 })" id="r_id">
         </map>
     </div>
 
@@ -73,7 +73,7 @@
                         <div class="form-group row">
                             <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">CCTV QR Code</label>
                             <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(modelItem => item.fl_cctvqr)
+                                <img src="@Url.Content("~/Content/assets/images/cctvqr/" + item.fl_cctvqr)" alt="Uploaded Image" style="width: 400px; height: auto;" />
                             </div>
                         </div>
                         <div class="form-group row">

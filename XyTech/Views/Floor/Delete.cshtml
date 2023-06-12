@@ -22,10 +22,13 @@
                     These are the information for the floor.
                 </p>
                 <form class="forms-sample">
+
+                    @Html.Hidden("fl_id")
+
                     <div class="form-group row">
-                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Building Code</label>
+                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Building Name</label>
                         <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.fl_id)
+                            @Html.DisplayFor(model => model.fl_bname)
                         </div>
                     </div>
                     <div class="form-group row">
@@ -71,7 +74,7 @@
 
                         <div class="form-actions no-color" style="margin-top: 25px;">
                             <input type="submit" value="Delete" class="btn btn-danger btn-rounded btn-fw" onclick="return confirm('Are you sure to delete this floor?');" />
-                            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light" })
+                            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
                         </div>
                     }
                 </form>

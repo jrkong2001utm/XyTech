@@ -135,6 +135,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\InvestorController.cs" />
+    <Compile Include="Controllers\InvestorMainPageController.cs" />
     <Compile Include="Controllers\LandlordController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
@@ -2019,6 +2020,8 @@
     <Content Include="Views\Login\ResetPassword.cshtml" />
     <Content Include="Views\Login\ExpiredResetLink.cshtml" />
     <Content Include="Views\Login\ResetLinkSent.cshtml" />
+    <Content Include="Views\InvestorMainPage\InvestorMainPage.cshtml" />
+    <Content Include="Views\User\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2026,6 +2029,7 @@
     <Folder Include="Content\assets\images\Contractfile\" />
     <Folder Include="Content\assets\images\floorlayout\" />
     <Folder Include="Content\assets\images\Icfile\" />
+    <Folder Include="Content\assets\images\roomPicture\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>

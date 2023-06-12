@@ -17,13 +17,17 @@
                 </p>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <form class="forms-sample">
+
+                @Html.Hidden("fl_id")
+
                 <div class="form-group row">
-                    <label for="l_name" class="col-sm-3 col-form-label">Building Code</label>
+                    <label for="l_contact" class="col-sm-3 col-form-label">Building Name</label>
                     <div class="col-sm-9">
-                        @Html.EditorFor(model => model.fl_id, new { htmlAttributes = new { @class = "form-control", placeholder = "Building Code", required = "required" } })
-                        @Html.ValidationMessageFor(model => model.fl_id, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.fl_bname, new { htmlAttributes = new { @class = "form-control", placeholder = "Building Name", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.fl_bname, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
                 <div class="form-group row">
                     <label for="l_contact" class="col-sm-3 col-form-label">Floor Level</label>
                     <div class="col-sm-9">
@@ -39,10 +43,11 @@
 
                     </div>
                 </div>
+
                 <div class="form-group row">
                     <label for="l_due" class="col-sm-3 col-form-label">Landlord Name</label>
                     <div class="col-sm-9">
-                        @Html.EditorFor(model => model.fl_landlord, new { htmlAttributes = new { @class = "form-control", placeholder = "Landlord Name", required = "required" } })
+                        @Html.DropDownList("fl_landlord", null, htmlAttributes: new { @class = "form-control", placeholder = "Select a landlord", required = "required" })
                         @Html.ValidationMessageFor(model => model.fl_landlord, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -69,7 +74,7 @@
                 <div class="form-group row">
                     <label for="l_bank" class="col-sm-3 col-form-label">CCTV QR Code</label>
                     <div class="col-sm-9">
-                        @Html.TextBox("uploadqr", new { type = "file", accept = "image/*", required = "required" })
+                        @Html.TextBox("uploadqr", "", new { type = "file", accept = "image/*", required = "required" })
                         @Html.ValidationMessageFor(model => model.fl_cctvqr, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -77,7 +82,7 @@
                 <div class="form-group row">
                     <label for="l_bank" class="col-sm-3 col-form-label">Floor Layout</label>
                     <div class="col-sm-9">
-                        @Html.TextBox("uploadly", new { type = "file", accept = "image/*", required = "required" })
+                        @Html.TextBox("uploadly", "", new { type = "file", accept = "image/*", required = "required" })
                         @Html.ValidationMessageFor(model => model.fl_layout, "", new { @class = "text-danger" })
                     </div>
                 </div>
