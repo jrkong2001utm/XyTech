@@ -1,0 +1,177 @@
+﻿@model XyTech.Models.tb_user
+
+@{
+    ViewBag.Title = "Profile";
+}
+
+<div align="center">
+    <div align="left" class="col-lg-9 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Profile</h4>
+                @if (!string.IsNullOrEmpty(ViewBag.Message))
+                {
+                    <span>@ViewBag.Message</span>
+                }
+                <p class="card-description">
+
+                </p>
+                <!--<hr />-->
+                <div class="table-responsive">
+                    <table class="table table-striped table-borderless">
+                        <tbody>
+                            <tr>
+                                <th class="col-3">
+                                    Name
+                                </th>
+                                <td class="col-6">
+                                    @Html.DisplayFor(model => model.u_username)
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th class="col-3">
+                                    Email Address
+                                </th>
+                                <td class="col-6">
+                                    @Html.DisplayFor(model => model.u_email)
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th class="col-3">
+                                    pwd
+                                </th>
+                                <td class="col-6">
+                                    @Html.DisplayFor(model => model.u_pwd)
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th class="col-3">
+                                    Phone Number
+                                </th>
+                                <td class="col-6">
+                                    @Html.DisplayFor(model => model.u_phone)
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th class="col-3">
+                                    User Type
+                                </th>
+                                <td class="col-6">
+                                    @Html.DisplayFor(model => model.u_usertype)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 25px;">
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.u_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
+                    <button id="changePasswordButton" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Change Password</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Profile", "User", new { id = Model.u_id }, FormMethod.Post, new { id = "changePasswordForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Current Password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="New Password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+                    </div>
+
+                    <span class="text-danger" id="pwdnotsame">
+                        @if (!string.IsNullOrEmpty(ViewBag.Message))
+                        {
+                            <span>@ViewBag.Message</span>
+                        }
+
+                    </span>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Change</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Check if there is an error message and show the modal *@
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <script>
+        $(document).ready(function () {
+            $('#changePasswordModal').modal('show');
+        });
+    </script>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.Success))
+{
+    <script>
+        $(document).ready(function() {
+            swal("Password Changed!", "Remember to use your new password in the next login", "success");
+        });
+    </script>
+}
+
+<script>
+
+
+    $(document).ready(function () {
+
+        $('#changePasswordButton').click(function () {
+            $('#changePasswordModal').modal('show');
+        });
+
+        $('#changePasswordForm').submit(function (event) {
+            event.preventDefault();
+
+            var currentPassword = $('#currentPassword').val();
+            var newPassword = $('#newPassword').val();
+            var confirmPassword = $('#confirmPassword').val();
+
+            if (newPassword !== confirmPassword) {
+                $('#pwdnotsame').text('New password and confirm password do not match.');
+                return;
+            }
+
+            // Uncomment the following line if you want to use AJAX to submit the form
+            //submitForm();
+
+            // Comment out the following line if you want to use AJAX to submit the form
+            this.submit();
+
+        });
+
+
+    });
+</script>
