@@ -153,22 +153,11 @@ namespace XyTech.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            using (var context = new db_XyTechEntities())
-            {
-                // Find the floor record with the specified id
-                var room = context.tb_room.Find(id);
-
-                if (room != null)
-                {
-                    // Set the fl_active attribute to "inactive"
-                    room.r_active = "inactive";
-
-                    // Save the changes to the database
-                    context.SaveChanges();
-                }
-            }
-            TempData["success"] = "Floor has been deleted successfully.";
-            return RedirectToAction("Index");
+            tb_room tb_room = db.tb_room.Find(id);
+            tb_room.r_active = "inactive"; 
+            db.Entry(tb_room).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("FloorList");
         }
 
         public ActionResult GetFile(string FileName)
