@@ -11,7 +11,8 @@ namespace XyTech.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tb_user
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,11 +24,14 @@ namespace XyTech.Models
     
         public int u_id { get; set; }
         public string u_pwd { get; set; }
+        [DataType(DataType.EmailAddress)]
         public string u_email { get; set; }
         public string u_phone { get; set; }
         public string u_usertype { get; set; }
         public string u_active { get; set; }
         public string u_username { get; set; }
+        public string u_token { get; set; }
+        public Nullable<System.DateTime> u_resetdate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_finance> tb_finance { get; set; }
