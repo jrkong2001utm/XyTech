@@ -10,7 +10,6 @@
     <div>
         <div class="floorlayout" width="300" height="800">
             <img src="@Url.Content("~/Content/assets/images/roomPicture/" + Model.r_pic)" alt="Uploaded Image"/>
-            @Html.DisplayFor(model => model.r_pic)
         </div>
     </div>
 
@@ -43,7 +42,14 @@
                     <div class="form-group row">
                         <label for="exampleInputPassword2" class="col-sm-4 col-form-label">Room Availability</label>
                         <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.r_availability)
+                            @if (item.r_availability == 1)
+                            {
+                                <span style="color: forestgreen;">Available</span>
+                            }
+                            else if (item.r_availability == 0)
+                            {
+                                <span style="color: red;">Unavailable</span>
+                            }
                         </div>
                     </div>
                     <div class="form-group row">

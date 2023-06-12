@@ -22,12 +22,15 @@ namespace XyTech.Controllers
         // GET: Floor
         public ActionResult Index()
         {
+            ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
+            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+
             return View();
         }
 
         public ActionResult FloorList()
         {
-            var tb_floor = db.tb_floor.Include(t => t.tb_landlord);
+            var tb_floor = db.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_active.Equals("active"));
             return View(tb_floor.ToList());
         }
 
@@ -139,7 +142,7 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_address,fl_active,fl_layout")] tb_floor tb_floor, HttpPostedFileBase uploadqr, HttpPostedFileBase uploadly)
+        public ActionResult Create([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_bname,fl_address,fl_active,fl_layout")] tb_floor tb_floor, HttpPostedFileBase uploadqr, HttpPostedFileBase uploadly)
         {
 
             //HttpPostedFileBase imageFile = Request.Files["imageFile"];
@@ -181,7 +184,7 @@ namespace XyTech.Controllers
 
                 db.tb_floor.Add(tb_floor);
                 db.SaveChanges();
-                TempData["success"] = "Tenant saved successfully!";
+                TempData["success"] = "Floor has been created successfully!";
                 return RedirectToAction("Index");
             }
 
@@ -208,14 +211,14 @@ namespace XyTech.Controllers
         // POST: Floor/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_address,fl_active,fl_layout")] tb_floor tb_floor, HttpPostedFileBase uploadqr, HttpPostedFileBase uploadly)
+        public ActionResult Edit([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_bname,fl_address,fl_active,fl_layout")] tb_floor tb_floor, HttpPostedFileBase uploadqr, HttpPostedFileBase uploadly)
         {
 
             if (ModelState.IsValid)
             {
                 if (uploadqr != null && uploadqr.ContentLength > 0)
                 {
-                    System.IO.File.Delete(Path.Combine(Server.MapPath("~/Content/assets/images/cctvqr"), tb_floor.fl_cctvqr));
+                    //System.IO.File.Delete(Path.Combine(Server.MapPath("~/Content/assets/images/cctvqr"), tb_floor.fl_cctvqr));
                     if (uploadqr.ContentType.Contains("image"))
                     {
                         string _FileName = Path.GetFileName(uploadqr.FileName);
@@ -248,7 +251,7 @@ namespace XyTech.Controllers
 
                 db.Entry(tb_floor).State = EntityState.Modified;
                 db.SaveChanges();
-                TempData["success"] = "Floor updated successfully!";
+                TempData["success"] = "Floor has been updated successfully!";
                 return RedirectToAction("FloorList");
             }
 
@@ -278,20 +281,21 @@ namespace XyTech.Controllers
         public ActionResult DeleteConfirmed(int? id)
         {
             using (var context = new db_XyTechEntities())
-    {
-        // Find the floor record with the specified id
-        var floor = context.tb_floor.Find(id);
+            {
+                // Find the floor record with the specified id
+                var floor = context.tb_floor.Find(id);
 
-        if (floor != null)
-        {
-            // Set the fl_active attribute to "inactive"
-            floor.fl_active = "inactive";
+                if (floor != null)
+                {
+                    // Set the fl_active attribute to "inactive"
+                    floor.fl_active = "inactive";
 
-            // Save the changes to the database
-            context.SaveChanges();
-        }
-    }
+                    // Save the changes to the database
+                    context.SaveChanges();
+                }
+            }
 
+            TempData["success"] = "Floor has been deleted successfully.";
             return RedirectToAction("Index");
         }
 

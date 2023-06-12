@@ -19,6 +19,9 @@ namespace XyTech.Controllers
         // GET: User
         public ActionResult Index()
         {
+            ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
+            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+
             return View(db.tb_user.ToList());
         }
 
@@ -114,7 +117,17 @@ namespace XyTech.Controllers
             {
                 db.tb_user.Add(tb_user);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                if (tb_user.u_usertype == "Investor")
+                {
+                    // Redirect to the CreateInvestor action passing the user ID
+                    return RedirectToAction("Create", "Investor", new { id = tb_user.u_id });
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+               
             }
 
             return View(tb_user);

@@ -19,12 +19,18 @@ namespace XyTech.Controllers
         // GET: Landlord
         public ActionResult Index()
         {
+            ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
+            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+
             var landlords = db.tb_landlord
-                .Where(l => l.l_active != "4")
+                .Where(l => l.l_active != "0")
                 .Include(l => l.tb_bankname)
                 .OrderBy(l => l.l_due)
                 .ToList();
-
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
             return View(landlords);
         }
 
@@ -36,7 +42,7 @@ namespace XyTech.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var landlord = db.tb_landlord
-                .Where(l => l.l_id == id && l.l_active != "4")
+                .Where(l => l.l_id == id && l.l_active != "0")
                 .Include(l => l.tb_bankname)
                 .FirstOrDefault();
             if (landlord == null)
@@ -64,6 +70,7 @@ namespace XyTech.Controllers
             {
                 db.tb_landlord.Add(tb_landlord);
                 db.SaveChanges();
+                TempData["success"] = "Landlord is successfully saved!";
                 return RedirectToAction("Index");
             }
 
@@ -100,6 +107,7 @@ namespace XyTech.Controllers
             {
                 db.Entry(tb_landlord).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["success"] = "Landlord is successfully saved!";
                 return RedirectToAction("Index");
             }
             ViewBag.l_bankname = new SelectList(db.tb_bankname, "bn_id", "bn_description", tb_landlord.l_bankname);
@@ -115,12 +123,16 @@ namespace XyTech.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var landlord = db.tb_landlord
-                .Where(l => l.l_id == id && l.l_active != "4")
+                .Where(l => l.l_id == id && l.l_active != "0")
                 .Include(l => l.tb_bankname)
                 .FirstOrDefault();
             if (landlord == null)
             {
                 return HttpNotFound();
+            }
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
             }
             return View(landlord);
         }
@@ -132,9 +144,10 @@ namespace XyTech.Controllers
         {
             tb_landlord tb_landlord = db.tb_landlord.Find(id);
             //db.tb_landlord.Remove(tb_landlord);
-            tb_landlord.l_active = "4"; // Update l_active to "4"
+            tb_landlord.l_active = "0"; // Update l_active to "0"
             db.Entry(tb_landlord).State = EntityState.Modified;
             db.SaveChanges();
+            TempData["success"] = "Landlord is deleted.";
             return RedirectToAction("Index");
         }
 

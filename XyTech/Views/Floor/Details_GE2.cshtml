@@ -11,23 +11,23 @@
     <p class="card-title mb-0" style="font-size: x-large; font-weight:bold">Floor Information</p>
     <br />
     <div>
-        <img class="floorlayout" src="~/Content/assets/images/floor_layout_trim/GE2-2.jpeg" alt="DL1" usemap="#DL1map" width="300" height="800">
+        <img class="floorlayout" src="~/Content/assets/images/floor_layout_trim/GE2-2.jpeg" alt="DL1" usemap="#DL1map">
 
         <map name="DL1map">
-            <area shape="rect" coords="60,36,128,95" alt="Room1" href="~/Views/Room/Details/43" id="r_id">
-            <area shape="rect" coords="58,100,128,158" alt="Room2" href="~/Views/Room/Details/44" id="r_id">
-            <area shape="rect" coords="58,165,130,220" alt="Room3" href="~/Views/Room/Details/45" id="r_id">
-            <area shape="rect" coords="60,223,161,282" alt="Room4" href="~/Views/Room/Details/46" id="r_id">
-            <area shape="rect" coords="60,288,160,344" alt="Room5" href="~/Views/Room/Details/47" id="r_id">
-            <area shape="rect" coords="60,352,149,408" alt="Room6" href="~/Views/Room/Details/48" id="r_id">
-            <area shape="rect" coords="61,411,146,469" alt="Room7" href="~/Views/Room/Details/49" id="r_id">
-            <area shape="rect" coords="61,476,146,532" alt="Room8" href="~/Views/Room/Details/50" id="r_id">
-            <area shape="rect" coords="60,536,110,650" alt="Room9" href="~/Views/Room/Details/51" id="r_id">
-            <area shape="rect" coords="116,566,169,646" alt="Room10" href="~/Views/Room/Details/52" id="r_id">
-            <area shape="rect" coords="176,470,266,516" alt="Room11" href="~/Views/Room/Details/53" id="r_id">
-            <area shape="rect" coords="176,416,264,463" alt="Room12" href="~/Views/Room/Details/54" id="r_id">
-            <area shape="rect" coords="163,136,262,214" alt="Room13" href="~/Views/Room/Details/55" id="r_id">
-            <area shape="rect" coords="160,38,222,130" alt="Room13" href="~/Views/Room/Details/56" id="r_id">
+            <area shape="rect" coords="60,36,128,95" alt="Room1" href="@Url.Action("Details", "Room", new { id = 43 })" id="r_id">
+            <area shape="rect" coords="58,100,128,158" alt="Room2" href="@Url.Action("Details", "Room", new { id = 44 })" id="r_id">
+            <area shape="rect" coords="58,165,130,220" alt="Room3" href="@Url.Action("Details", "Room", new { id = 45 })" id="r_id">
+            <area shape="rect" coords="60,223,161,282" alt="Room4" href="@Url.Action("Details", "Room", new { id = 46 })" id="r_id">
+            <area shape="rect" coords="60,288,160,344" alt="Room5" href="@Url.Action("Details", "Room", new { id = 47 })" id="r_id">
+            <area shape="rect" coords="60,352,149,408" alt="Room6" href="@Url.Action("Details", "Room", new { id = 48 })" id="r_id">
+            <area shape="rect" coords="61,411,146,469" alt="Room7" href="@Url.Action("Details", "Room", new { id = 49 })" id="r_id">
+            <area shape="rect" coords="61,476,146,532" alt="Room8" href="@Url.Action("Details", "Room", new { id = 50 })" id="r_id">
+            <area shape="poly" coords="60,536,134,535,126,548,122,559,111,558,108,646,58,646" alt="Room9" href="@Url.Action("Details", "Room", new { id = 51 })" id="r_id">
+            <area shape="poly" coords="116,566,144,564,153,580,167,589,166,646,114,645" alt="Room10" href="@Url.Action("Details", "Room", new { id = 52 })" id="r_id">
+            <area shape="poly" coords="200,468,263,470,264,516,176,516,176,490,191,484" alt="Room11" href="@Url.Action("Details", "Room", new { id = 53 })" id="r_id">
+            <area shape="rect" coords="176,416,264,463" alt="Room12" href="@Url.Action("Details", "Room", new { id = 54 })" id="r_id">
+            <area shape="rect" coords="163,136,262,214" alt="Room13" href="@Url.Action("Details", "Room", new { id = 55 })" id="r_id">
+            <area shape="rect" coords="160,38,222,130" alt="Room13" href="@Url.Action("Details", "Room", new { id = 56 })" id="r_id">
         </map>
     </div>
 

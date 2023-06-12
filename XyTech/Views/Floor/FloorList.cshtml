@@ -8,6 +8,34 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
+                @if (ViewBag.Message == "Floor has been updated successfully!")
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-1"></i>
+                        <strong>Success!</strong> @ViewBag.Message
+
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                @if (ViewBag.Message == "Floor has been created successfully!")
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-1"></i>
+                        <strong>Success!</strong> @ViewBag.Message
+
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                @if (ViewBag.Message == "Floor has been deleted successfully.")
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-1"></i>
+                        <strong>Alert!</strong> @ViewBag.Message
+
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
                 <div class="d-flex justify-content-between">
                     <p class="card-title mb-0" style="font-size: x-large;">List of Floors</p>
 
@@ -15,13 +43,16 @@
 
                 </div>
 
+                <br />
+
                 <div class="table-responsive">
-                    <table class="table table-striped table-borderless">
+                    <table id="dataTable" class="display expandable-table" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Building ID</th>
+                                <th>Building Name</th>
                                 <th>Floor Level</th>
                                 <th>Address</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,7 +60,7 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.fl_id)
+                                        @Html.DisplayFor(modelItem => item.fl_bname)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.fl_bid)
@@ -47,9 +78,7 @@
                                         <a href="@Url.Action("Delete", new { id = item.fl_id })" class="btn btn-link" title="delete">
                                             <i class="fa fa-trash text-danger"></i>
                                         </a>
-                                        <a href="@Url.Action("Add Tenant", "Create", "Tenant")" class="btn btn-link" title="delete">
-                                            <i class="fa fa-trash text-danger"></i>
-                                        </a>
+
                                     </td>
                                 </tr>
                             }
@@ -61,34 +90,10 @@
     </div>
 </div>
 
-<script>
-    $(function () {
-        // Handle delete button click event
-        $('.delete-button').click(function () {
-            var id = $(this).data('id');
-
-            if (confirm("Are you sure you want to delete this floor record?")) {
-                // Send AJAX request to delete action
-                $.ajax({
-                    url: '@Url.Action("Delete", "FloorList")',
-                    type: 'POST',
-                    data: { id: id },
-                    success: function (response) {
-                        if (response.success) {
-                            // Show success message popup
-                            alert('Floor record deleted successfully!');
-                            // Optionally, you can perform additional actions (e.g., remove the deleted record from the UI)
-                        } else {
-                            // Show error message popup
-                            alert('Error deleting floor record.');
-                        }
-                    },
-                    error: function () {
-                        // Show error message popup
-                        alert('Error deleting floor record.');
-                    }
-                });
-            }
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            jQuery('#dataTable').DataTable();
         });
-    });
-</script>
+    </script>
+}

@@ -19,6 +19,8 @@ namespace XyTech.Controllers
         // GET: Attendance
         public ActionResult Index()
         {
+            ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
+            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
             var tb_attendance = db.tb_attendance.Include(t => t.tb_floor);
             return View(tb_attendance.ToList());
         }

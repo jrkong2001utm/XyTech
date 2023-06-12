@@ -18,7 +18,10 @@ namespace XyTech.Controllers
         // GET: Room
         public ActionResult Index()
         {
-            var tb_room = db.tb_room.Include(t => t.tb_floor);
+            ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
+            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+
+            var tb_room = db.tb_room.Include(t => t.tb_floor).Where(p => p.r_active.Equals("active"));
             return View(tb_room.ToList());
         }
 
@@ -40,7 +43,7 @@ namespace XyTech.Controllers
         // GET: Room/Create
         public ActionResult Create()
         {
-            ViewBag.r_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid");
+            ViewBag.r_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname");
             return View();
         }
 
@@ -71,10 +74,11 @@ namespace XyTech.Controllers
 
                 db.tb_room.Add(tb_room);
                 db.SaveChanges();
+                TempData["success"] = "Floor has been created successfully!";
                 return RedirectToAction("Index");
             }
 
-            ViewBag.r_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid", tb_room.r_floor);
+            ViewBag.r_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_room.r_floor);
             return View(tb_room);
         }
 
@@ -90,7 +94,7 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.r_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid", tb_room.r_floor);
+            ViewBag.r_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_room.r_floor);
             return View(tb_room);
         }
 
@@ -122,9 +126,10 @@ namespace XyTech.Controllers
 
                 db.Entry(tb_room).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["success"] = "Floor has been updated successfully!";
                 return RedirectToAction("Index");
             }
-            ViewBag.r_floor = new SelectList(db.tb_floor, "fl_id", "fl_bid", tb_room.r_floor);
+            ViewBag.r_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_room.r_floor);
             return View(tb_room);
         }
 
@@ -148,9 +153,21 @@ namespace XyTech.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            tb_room tb_room = db.tb_room.Find(id);
-            db.tb_room.Remove(tb_room);
-            db.SaveChanges();
+            using (var context = new db_XyTechEntities())
+            {
+                // Find the floor record with the specified id
+                var room = context.tb_room.Find(id);
+
+                if (room != null)
+                {
+                    // Set the fl_active attribute to "inactive"
+                    room.r_active = "inactive";
+
+                    // Save the changes to the database
+                    context.SaveChanges();
+                }
+            }
+            TempData["success"] = "Floor has been deleted successfully.";
             return RedirectToAction("Index");
         }
 

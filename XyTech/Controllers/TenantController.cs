@@ -22,6 +22,9 @@ namespace XyTech.Controllers
         // GET: Tenant
         public ActionResult Index()
         {
+            ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
+            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+
             var tb_tenant = db.tb_tenant.Include(t => t.tb_room);
             if (TempData.Count > 0)
             {

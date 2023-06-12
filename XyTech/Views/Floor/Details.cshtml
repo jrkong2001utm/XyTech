@@ -8,9 +8,8 @@
 <html>
 <body>
     <div>
-        <div class="floorlayout" width="300" height="800">
+        <div class="floorlayout">
             <img src="@Url.Content("~/Content/assets/images/floorlayout/" + Model.fl_layout)" alt="Uploaded Image" />
-            @Html.DisplayFor(model => model.fl_layout)
         </div>
     </div>
 
@@ -22,12 +21,16 @@
                         These are the information for the floor.
                     </p>
                     <form class="forms-sample">
+
+                        @Html.Hidden("fl_id")
+
                         <div class="form-group row">
-                            <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Building Code</label>
+                            <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Building Name</label>
                             <div class="col-sm-7 col-form-label">
-                                @Html.DisplayFor(model => model.fl_id)
+                                @Html.DisplayFor(model => model.fl_bname)
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Floor Level</label>
                             <div class="col-sm-7 col-form-label">
@@ -62,7 +65,6 @@
                             <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">CCTV QR Code</label>
                             <div class="col-sm-7 col-form-label">
                                 <img src="@Url.Content("~/Content/assets/images/cctvqr/" + Model.fl_cctvqr)" alt="Uploaded Image" style="width: 400px; height: auto;" />
-                                @Html.DisplayFor(model => model.fl_cctvqr)
                             </div>
                         </div>
                         <div class="form-group row">
