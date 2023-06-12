@@ -22,7 +22,7 @@
                 <div class="form-group row">
                     <label for="l_name" class="col-sm-3 col-form-label">Room No.</label>
                     <div class="col-sm-9">
-                        @Html.EditorFor(model => model.r_no, new { htmlAttributes = new { @class = "form-control", placeholder = "Building Code", required = "required" } })
+                        @Html.EditorFor(model => model.r_no, new { htmlAttributes = new { @class = "form-control", placeholder = "Room Number", required = "required" } })
                         @Html.ValidationMessageFor(model => model.r_no, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -36,15 +36,23 @@
                 <div class="form-group row">
                     <label for="l_fee" class="col-sm-3 col-form-label">Number of Beds</label>
                     <div class="col-sm-9">
-                        @Html.EditorFor(model => model.r_size, new { htmlAttributes = new { @class = "form-control", placeholder = "Floor Building Address", required = "required" } })
+                        @Html.EditorFor(model => model.r_size, new { htmlAttributes = new { @class = "form-control", placeholder = "Number of Beds", required = "required" } })
                         @Html.ValidationMessageFor(model => model.r_size, "", new { @class = "text-danger" })
 
                     </div>
                 </div>
+
                 <div class="form-group row">
                     <label for="l_due" class="col-sm-3 col-form-label">Room Availability</label>
                     <div class="col-sm-9">
-                        @Html.EditorFor(model => model.r_availability, new { htmlAttributes = new { @class = "form-control", placeholder = "Landlord Name", required = "required" } })
+                        @{
+                            List<SelectListItem> availabilityOptions = new List<SelectListItem>
+                                        {
+                                new SelectListItem { Text = "Available", Value = "1" },
+                                new SelectListItem { Text = "Unavailable", Value = "0" }
+                            };
+                        }
+                        @Html.DropDownListFor(model => model.r_availability, availabilityOptions, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.r_availability, "", new { @class = "text-danger" })
                     </div>
                 </div>
