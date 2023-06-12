@@ -23,7 +23,7 @@ namespace XyTech.Controllers
             ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
 
             var landlords = db.tb_landlord
-                .Where(l => l.l_active != "4")
+                .Where(l => l.l_active != "0")
                 .Include(l => l.tb_bankname)
                 .OrderBy(l => l.l_due)
                 .ToList();
@@ -39,7 +39,7 @@ namespace XyTech.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var landlord = db.tb_landlord
-                .Where(l => l.l_id == id && l.l_active != "4")
+                .Where(l => l.l_id == id && l.l_active != "0")
                 .Include(l => l.tb_bankname)
                 .FirstOrDefault();
             if (landlord == null)
@@ -118,7 +118,7 @@ namespace XyTech.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var landlord = db.tb_landlord
-                .Where(l => l.l_id == id && l.l_active != "4")
+                .Where(l => l.l_id == id && l.l_active != "0")
                 .Include(l => l.tb_bankname)
                 .FirstOrDefault();
             if (landlord == null)
@@ -135,7 +135,7 @@ namespace XyTech.Controllers
         {
             tb_landlord tb_landlord = db.tb_landlord.Find(id);
             //db.tb_landlord.Remove(tb_landlord);
-            tb_landlord.l_active = "4"; // Update l_active to "4"
+            tb_landlord.l_active = "0"; // Update l_active to "0"
             db.Entry(tb_landlord).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
