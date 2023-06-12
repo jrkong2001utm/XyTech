@@ -92,8 +92,8 @@
                                     <td>@landlord.l_fee</td>
                                     <td>@landlord.l_due.ToString("dd-MM-yyyy")</td>
                                     <td style="text-align: center">
-                                        <a href="@whatsapp" target="_blank" class="btn btn-info mdi mdi-whatsapp"></a> 
-                                        <a href="@Url.Action("Edit", "Landlord", new { id = landlord.l_id })" class="btn btn-warning" title="edit">
+                                        <a href="@whatsapp" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a> 
+                                        <a href="@Url.Action("Edit", "Landlord", new { id = landlord.l_id })" class="btn btn-link" title="edit">
                                             <i class="fa fa-edit text-primary"></i>
                                         </a>
                                     </td>
@@ -147,8 +147,8 @@
                                                                         <td style="text-align: center">@tenant.t_outstanding</td>
                                                                         <td style="text-align: center">@tenant.t_room</td>
                                                                         <td style="text-align: center">
-                                                                            <a href="@whatsappUrl" target="_blank" class="btn btn-success mdi mdi-whatsapp"></a> |
-                                                                            <a href="@Url.Action("Edit", "Tenant", new { id = tenant.t_id })" class="btn btn-warning" title="edit">
+                                                                            <a href="@whatsappUrl" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a> |
+                                                                            <a href="@Url.Action("Edit", "Tenant", new { id = tenant.t_id })" class="btn btn-link" title="edit">
                                                                                 <i class="fa fa-edit text-primary"></i>
                                                                             </a>
                                                                         </td>
@@ -199,8 +199,8 @@
                                                                         <td style="text-align: center">@weektenant.t_outstanding</td>
                                                                         <td style="text-align: center">@weektenant.t_room</td>
                                                                         <td style="text-align: center">
-                                                                            <a href="@urlwhatsapp" target="_blank" class="btn btn-success mdi mdi-whatsapp"></a> |
-                                                                            <a href="@Url.Action("Edit", "Tenant", new { id = weektenant.t_id })" class="btn btn-warning" title="edit">
+                                                                            <a href="@urlwhatsapp" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a> |
+                                                                            <a href="@Url.Action("Edit", "Tenant", new { id = weektenant.t_id })" class="btn btn-link" title="edit">
                                                                                 <i class="fa fa-edit text-primary"></i>
                                                                             </a>
                                                                         </td>
@@ -269,14 +269,17 @@
                                                 }
                                             </td>
                                             <td style="text-align: center">
-                                                <a href="@Url.Action("Edit", "Room", new { id = room.r_id })" class="btn btn-warning" title="edit">
+                                                <a href="@Url.Action("Edit", new { id = room.r_id })" class="btn btn-link" title="edit">
                                                     <i class="fa fa-edit text-primary"></i>
                                                 </a>
-                                                <a href="@Url.Action("Details", "Room", new { id = room.r_id })" class="btn btn-info" title="details">
-                                                    <i class="fa fa-info-circle text-primary"></i>
+                                                <a href="@Url.Action("Details", new { id = room.r_id })" class="btn btn-link" title="details">
+                                                    <i class="fa fa-info-circle text-info"></i>
                                                 </a>
-                                                <a href="@Url.Action("Delete", "Room", new { id = room.r_id })" class="btn btn-danger" title="delete">
-                                                    <i class="fa fa-trash text-primary"></i>
+                                                <a href="@Url.Action("Delete", new { id = room.r_id })" class="btn btn-link" title="delete">
+                                                    <i class="fa fa-trash text-danger"></i>
+                                                </a>
+                                                <a href="@Url.Action("Create", "Tenant", new { id = room.r_id })" class="btn btn-link" title="addtenant">
+                                                    <i class="fa mdi mdi-account-multiple-plus text-success"></i>
                                                 </a>
 
                                             </td>
