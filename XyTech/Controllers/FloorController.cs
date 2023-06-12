@@ -302,9 +302,11 @@ namespace XyTech.Controllers
             tb_floor.fl_active = "inactive";
             db.Entry(tb_floor).State = EntityState.Modified;
             db.SaveChanges();
-            TempData["success"] = "Floor has been deleted successfully.";
+            TempData["success"] = "Floor has been deleted successfully!";
             return RedirectToAction("FloorList");
         }
+
+
 
         public ActionResult GetFile(string FileName)
         {
