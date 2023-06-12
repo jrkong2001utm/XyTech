@@ -92,7 +92,7 @@
                                     <td>@landlord.l_fee</td>
                                     <td>@landlord.l_due.ToString("dd-MM-yyyy")</td>
                                     <td style="text-align: center">
-                                        <a href="@whatsapp" target="_blank" class="btn btn-info mdi mdi-whatsapp"></a> |
+                                        <a href="@whatsapp" target="_blank" class="btn btn-info mdi mdi-whatsapp"></a> 
                                         <a href="@Url.Action("Edit", "Landlord", new { id = landlord.l_id })" class="btn btn-warning" title="edit">
                                             <i class="fa fa-edit text-primary"></i>
                                         </a>
@@ -244,20 +244,30 @@
                                         <th>Floor No</th>
                                         <th>Room No</th>
                                         <th>Price</th>
-                                        <th style="text-align: center">Room Size</th>
-                                        <th>Active</th>
+                                        <th style="text-align: center">Number of Beds</th>
+                                        <th>Availability</th>
                                         <th style="text-align: center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var room in ViewBag.room)
                                     {
-                                        <tr>
-                                            <td>@room.r_floor</td>
+                                        
+                                        <tr>  
+                                            <td>@room.tb_floor.fl_bname</td>
                                             <td>@room.r_no</td>
                                             <td>@room.r_price</td>
                                             <td style="text-align: center">@room.r_size</td>
-                                            <td style="text-align: center">@room.r_active</td>
+                                            <td style="text-align: center">
+                                                @if (@room.r_availability == 1)
+                                                {
+                                                    <span style="color: forestgreen;">Available</span>
+                                                }
+                                                else if (@room.r_availability == 0)
+                                                {
+                                                    <span style="color: red;">Unavailable</span>
+                                                }
+                                            </td>
                                             <td style="text-align: center">
                                                 <a href="@Url.Action("Edit", "Room", new { id = room.r_id })" class="btn btn-warning" title="edit">
                                                     <i class="fa fa-edit text-primary"></i>
