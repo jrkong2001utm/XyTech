@@ -35,10 +35,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var yearEntry in Model.OrderBy(x => x.Key))
+                            @foreach (var yearEntry in Model.OrderByDescending(x => x.Key))
                             {
                                 var year = yearEntry.Key;
-                                var months = yearEntry.Value.Keys.OrderBy(x => x).ToList();
+                                var months = yearEntry.Value.Keys.OrderByDescending(x => x).ToList();
                                 var allFloors = Model.SelectMany(x => x.Value.SelectMany(y => y.Value.Keys)).Distinct();
 
                                 foreach (var month in months)

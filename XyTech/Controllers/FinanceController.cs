@@ -119,6 +119,7 @@ namespace XyTech.Controllers
             {
                 db.tb_finance.Add(tb_finance);
                 db.SaveChanges();
+                CalculateCurrentMonthProfit();
                 return RedirectToAction("Index");
             }
 
@@ -163,6 +164,7 @@ namespace XyTech.Controllers
             {
                 db.Entry(tb_finance).State = EntityState.Modified;
                 db.SaveChanges();
+                CalculateCurrentMonthProfit();
                 return RedirectToAction("Index");
             }
             ViewBag.f_user = Session["id"];
@@ -193,6 +195,7 @@ namespace XyTech.Controllers
             tb_finance tb_finance = db.tb_finance.Find(id);
             db.tb_finance.Remove(tb_finance);
             db.SaveChanges();
+            CalculateCurrentMonthProfit();
             return RedirectToAction("Index");
         }
 
@@ -203,6 +206,68 @@ namespace XyTech.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public void CalculateCurrentMonthProfit()
+        {
+            //var currentMonth = DateTime.Now.Month;
+            //var currentYear = DateTime.Now.Year;
+
+            var currentDate = DateTime.Now.AddMonths(-1);
+            var currentMonth = currentDate.Month;
+            var currentYear = currentDate.Year;
+
+            // Retrieve the investors from the tb_investor table
+            var investors = db.tb_investor.ToList().Where(t => t.i_active == "active");
+
+            var financeData = db.tb_finance
+                .Where(t => t.f_date.Month == currentMonth && t.f_date.Year == currentYear)
+                .GroupBy(t => new { t.f_floor })
+                .Select(g => new
+                {
+                    FloorId = g.Key.f_floor,
+                    Profit = g.Sum(t => t.f_transaction * (t.f_transactiontype == "Inflow" ? 1 : -1))
+                })
+                .ToList();
+
+            // Calculate the total profit for the current month
+            var profit = financeData.Sum(t => t.Profit);
+            var partner = 3;
+            var lot = db.tb_investor.Select(x => x.i_lot).Distinct().Count();
+            var priceperlot = 50000;
+            profit = profit * 0.6 / (partner + lot);
+            var p_month = $"{currentYear}-{currentMonth}";
+
+            foreach (var investor in investors)
+            {
+                var sharing = profit * (investor.i_amount / priceperlot);
+
+                // Check if a profit entry already exists for the current month and investor
+                var existingProfit = db.tb_profit.FirstOrDefault(p => p.p_investor == investor.i_id && p.p_month == p_month);
+
+                if (existingProfit != null)
+                {
+                    // Update the existing profit entry
+                    existingProfit.p_profit = sharing;
+                    db.Entry(existingProfit).State = EntityState.Modified;
+                }
+                else
+                {
+                    // Create a new profit entry
+                    var profitEntry = new tb_profit
+                    {
+                        p_investor = investor.i_id,
+                        p_month = $"{currentYear}-{currentMonth}",
+                        p_profit = sharing
+                    };
+
+                    // Add the profit entry to the table
+                    db.tb_profit.Add(profitEntry);
+                }
+            }
+
+            // Save the changes to the database
+            db.SaveChanges();
         }
     }
 }

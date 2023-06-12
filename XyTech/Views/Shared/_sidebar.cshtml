@@ -22,10 +22,19 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index","Finance")">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic-finance" aria-expanded="false" aria-controls="ui-basic-finance">
                 <i class="mdi mdi-cash-multiple menu-icon"></i>
                 <span class="menu-title">Finance</span>
+                <i class="menu-arrow mdi mdi-chevron-left"></i>
             </a>
+            <div class="collapse" id="ui-basic-finance">
+                <!-- Remove the 'show' class here -->
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Finance")">Transaction</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("summary","Finance")">Summary</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Profit")">Profit</a></li>
+                </ul>
+            </div>
         </li>
 
         <li class="nav-item">

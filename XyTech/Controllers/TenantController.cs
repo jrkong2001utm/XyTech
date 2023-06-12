@@ -119,6 +119,23 @@ namespace XyTech.Controllers
                 {
                     room.r_availability = 0;
                     db.SaveChanges();
+
+                    var userId = Convert.ToInt32(Session["id"]);
+
+                    var financeTransaction = new tb_finance
+                    {
+                        f_floor = room.r_floor, // Modify as per your requirement
+                        f_date = DateTime.Now, // Set the finance transaction date to current date
+                        f_transaction = 100, // Set the transaction amount as per your requirement
+                        f_transactiontype = "Inflow", // Set the transaction type as per your requirement
+                        f_paymentmethod = "Cash",
+                        f_user = userId,
+                        f_desc = "deposit" + tb_tenant.t_name + room.r_no
+
+                    };
+
+                    db.tb_finance.Add(financeTransaction);
+                    db.SaveChanges();
                 }
 
                 db.tb_tenant.Add(tb_tenant);
@@ -129,6 +146,51 @@ namespace XyTech.Controllers
 
             ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_no", tb_tenant.t_room);
             return View(tb_tenant);
+        }
+
+        [HttpPost]
+        public ActionResult Pay(int id, double amount, string method)
+        {
+            // Retrieve the tenant from the database
+            var tenant = db.tb_tenant.Find(id);
+
+            if (tenant == null)
+            {
+                // Tenant not found, handle the error accordingly
+                return HttpNotFound();
+            }
+
+            var userId = Convert.ToInt32(Session["id"]);
+            var room = db.tb_room.Find(tenant.t_room);
+
+            var financeTransaction = new tb_finance
+            {
+                f_floor = room.r_floor, // Modify as per your requirement
+                f_date = DateTime.Now, // Set the finance transaction date to current date
+                f_transaction = amount, // Set the transaction amount as per your requirement
+                f_transactiontype = "Inflow", // Set the transaction type as per your requirement
+                f_paymentmethod = method,
+                f_user = userId,
+                f_desc = "sewa " + tenant.t_name + " " + room.r_no
+
+            };
+
+            db.tb_finance.Add(financeTransaction);
+            db.SaveChanges();
+
+
+            // Update the outstanding amount based on the payment amount
+            tenant.t_outstanding -= amount;
+
+            // Save the changes to the database
+            db.Entry(tenant).State = EntityState.Modified;
+            db.SaveChanges();
+
+            // Set a success message to be displayed on the index page
+            TempData["success"] = "Payment processed successfully!";
+
+            // Redirect back to the index page
+            return RedirectToAction("Index");
         }
 
         // GET: Tenant/Edit/5
@@ -218,6 +280,7 @@ namespace XyTech.Controllers
                     updateRoom.r_availability = 0;
                     db.SaveChanges();
                 }
+
 
                 tb_tenant.t_id = updatetenant.t_id;
                 tb_tenant.t_name = updatetenant.t_name;

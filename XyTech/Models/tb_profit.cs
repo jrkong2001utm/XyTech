@@ -20,5 +20,7 @@ namespace XyTech.Models
         public double p_profit { get; set; }
     
         public virtual tb_investor tb_investor { get; set; }
+
+        public string InvestorUsername { get; set; }
     }
 }
