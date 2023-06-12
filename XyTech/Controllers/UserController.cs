@@ -25,6 +25,59 @@ namespace XyTech.Controllers
             return View(db.tb_user.ToList());
         }
 
+        public ActionResult Profile(int? id)
+        {
+            if(TempData.Count > 0)
+            {
+                ViewBag.Success = TempData["Success"].ToString();
+            }
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            tb_user tb_user = db.tb_user.Find(id);
+            if (tb_user == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Check if the request contains form data
+            if (Request.Form.Count > 0)
+            {
+                string currentPassword = Request.Form["currentPassword"];
+                string newPassword = Request.Form["newPassword"];
+                string confirmPassword = Request.Form["confirmPassword"];
+
+                // Check if the current password is correct
+                if (currentPassword != tb_user.u_pwd)
+                {
+                    //ModelState.AddModelError("currentPassword", "Incorrect current password.");
+                    ViewBag.Message = "Incorrect Current Password";
+                    return View(tb_user);
+                }
+
+                // Check if the new password and confirm password match
+                if (newPassword != confirmPassword)
+                {
+                    ModelState.AddModelError("confirmPassword", "New password and confirm password do not match.");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    // Update the password in the database
+                    tb_user.u_pwd = newPassword;
+                    db.Entry(tb_user).State = EntityState.Modified;
+                    db.SaveChanges();
+                    TempData["Success"] = "Password Changed Successfully";
+                    // Redirect to the profile page with the updated password
+                    return RedirectToAction("Profile", new { id = id });
+                }
+            }
+            //ViewBag.Message = "Incorrect Current Password";
+            return View(tb_user);
+        }
+
         // GET: User/Details/5
         public ActionResult Details(int? id)
         {
