@@ -117,7 +117,7 @@ namespace XyTech.Controllers
                 var room = db.tb_room.FirstOrDefault(r => r.r_id == tb_tenant.t_room);
                 if (room != null)
                 {
-                    room.r_availability = 2;
+                    room.r_availability = 0;
                     db.SaveChanges();
                 }
 
@@ -166,7 +166,6 @@ namespace XyTech.Controllers
             {
                 if (icfile != null && icfile.ContentLength > 0)
                 {
-                    System.IO.File.Delete(Path.Combine(Server.MapPath("~/Content/assets/images/Icfile"), tb_tenant.t_uploadic));
                     if (icfile.ContentType.Contains("image"))
                     {
                         string _FileName = Path.GetFileName(icfile.FileName);
@@ -207,6 +206,19 @@ namespace XyTech.Controllers
                     updatetenant.t_outstanding = 0;
                 }
 
+                var previousRoom = db.tb_room.FirstOrDefault(r => r.r_id == tb_tenant.t_room);
+                if (previousRoom != null)
+                {
+                    previousRoom.r_availability = 1;
+                    db.SaveChanges();
+                }
+                var updateRoom = db.tb_room.FirstOrDefault(r => r.r_id == updatetenant.t_room);
+                if (updateRoom != null)
+                {
+                    updateRoom.r_availability = 0;
+                    db.SaveChanges();
+                }
+
                 tb_tenant.t_id = updatetenant.t_id;
                 tb_tenant.t_name = updatetenant.t_name;
                 tb_tenant.t_ic = updatetenant.t_ic;
@@ -219,13 +231,6 @@ namespace XyTech.Controllers
                 tb_tenant.t_outstanding = updatetenant.t_outstanding;
                 tb_tenant.t_paymentstatus = updatetenant.t_paymentstatus;
                 tb_tenant.t_room = updatetenant.t_room;
-
-                var previousRoom = db.tb_room.FirstOrDefault(r => r.r_id == tb_tenant.t_room);
-                if (previousRoom != null)
-                {
-                    previousRoom.r_availability = 1;
-                    db.SaveChanges();
-                }
 
                 db.Entry(tb_tenant).State = EntityState.Modified;
                 db.SaveChanges();
@@ -263,6 +268,12 @@ namespace XyTech.Controllers
             tb_tenant tb_tenant = db.tb_tenant.Find(id);
             System.IO.File.Delete(Path.Combine(Server.MapPath("~/Content/assets/images/Icfile"), tb_tenant.t_uploadic));
             System.IO.File.Delete(Path.Combine(Server.MapPath("~/Content/assets/images/Contractfile"), tb_tenant.t_contract));
+            var room = db.tb_room.FirstOrDefault(r => r.r_id == tb_tenant.t_room);
+            if (room != null)
+            {
+                room.r_availability = 1;
+                db.SaveChanges();
+            }
             db.tb_tenant.Remove(tb_tenant);
             db.SaveChanges();
             TempData["success"] = "Tenant deleted.";

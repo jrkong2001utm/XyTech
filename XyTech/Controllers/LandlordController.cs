@@ -27,6 +27,7 @@ namespace XyTech.Controllers
                 .Include(l => l.tb_bankname)
                 .OrderBy(l => l.l_due)
                 .ToList();
+
             if (TempData.Count > 0)
             {
                 ViewBag.Message = TempData["success"].ToString();
