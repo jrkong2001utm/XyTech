@@ -9,126 +9,84 @@
 <div>
     <h4>Tenant</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Name
-        </dt>
+    <table class="display expandable-table">
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <td>@Html.DisplayFor(model => model.t_name)</td>
+            </tr>
+            <tr>
+                <th>IC Number</th>
+                <td>@Html.DisplayFor(model => model.t_ic)</td>
+            </tr>
+            <tr>
+                <th><a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+                    <span class="menu-title">IC Picture</span>
+                    <i class="mdi mdi-eye"></i>
+                </a></th>
+                <td>
+                    <div class="collapse" id="form-elements">
+                        <img src="@Url.Content("~/Content/assets/images/Icfile/" + Model.t_uploadic)" alt="Uploaded Image" style="width: 400px; height: auto;" />
+                    </div>
+                    @Html.DisplayFor(model => model.t_uploadic)
+                </td>
+            </tr>
+            <tr>
+                <th><a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
+                    <span class="menu-title">Contract</span>
+                    <i class="mdi mdi-eye"></i>
+                </a></th>
+                <td>
+                    <div class="collapse" id="icons">
+                        <img src="@Url.Content("~/Content/assets/images/Contractfile/" + Model.t_contract)" alt="Uploaded Image" style="width: 400px; height: auto;" />
+                    </div>
+                    @Html.DisplayFor(model => model.t_contract)
+                </td>
+            </tr>
+            <tr>
+                <th>Phone Number</th>
+                <td>@Html.DisplayFor(model => model.t_phone)</td>
+            </tr>
+            <tr>
+                <th>Emergency Contact</th>
+                <td>@Html.DisplayFor(model => model.t_emergency)</td>
+            </tr>
+            <tr>
+                <th>Check In Date</th>
+                <td>@Model.t_indate.ToString("dd-MM-yyyy")</td>
+            </tr>
+            <tr>
+                <th>Check Out Date</th>
+                <td>@Model.t_outdate.ToString("dd-MM-yyyy")</td>
+            </tr>
+            <tr>
+                <th>Out Session</th>
+                <td>@Html.DisplayFor(model => model.t_outsession)</td>
+            </tr>
+            <tr>
+                <th>Siri Number</th>
+                <td>@Html.DisplayFor(model => model.t_siri)</td>
+            </tr>
+            <tr>
+                <th>Outstanding</th>
+                <td>@Html.DisplayFor(model => model.t_outstanding)</td>
+            </tr>
+            <tr>
+                <th>Payment Status</th>
+                <td>@Html.DisplayFor(model => model.t_paymentstatus)</td>
+            </tr>
+            <tr>
+                <th>Room Number</th>
+                <td>@Html.DisplayFor(model => model.tb_room.r_floor)</td>
+            </tr>
+        </tbody>
+    </table>
 
-        <dd>
-            @Html.DisplayFor(model => model.t_name)
-        </dd>
-
-        <dt>
-            IC Number
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.t_ic)
-        </dd>
-
-        <dt>
-            <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
-                <span class="menu-title">IC Picture</span>
-                <i class="mdi mdi-eye"></i>
-            </a>
-        </dt>
-
-        <dd>
-            <div class="collapse" id="form-elements">
-                <img src="@Url.Content("~/Content/assets/images/Icfile/" + Model.t_uploadic)" alt="Uploaded Image" style="width: 400px; height: auto;" />
-            </div>
-            @Html.DisplayFor(model => model.t_uploadic)
-        </dd>
-
-        <dt>
-            <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
-                <span class="menu-title">Contract</span>
-                <i class="mdi mdi-eye"></i>
-            </a>
-        </dt>
-
-        <dd>
-            <div class="collapse" id="icons">
-                <img src="@Url.Content("~/Content/assets/images/Contractfile/" + Model.t_contract)" alt="Uploaded Image" style="width: 400px; height: auto;" />
-            </div>
-            @Html.DisplayFor(model => model.t_contract)
-        </dd>
-
-        <dt>
-            Phone Number
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.t_phone)
-        </dd>
-
-        <dt>
-            Emergency Contact
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.t_emergency)
-        </dd>
-
-        <dt>
-            Check In Date
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.t_indate)
-        </dd>
-
-        <dt>
-            Check Out Date
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.t_outdate)
-        </dd>
-
-        <dt>
-            Out Session
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.t_outsession)
-        </dd>
-
-        <dt>
-            Siri Number
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.t_siri)
-        </dd>
-
-        <dt>
-            Outstanding
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.t_outstanding)
-        </dd>
-
-        <dt>
-            Payment Status
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.t_paymentstatus)
-        </dd>
-
-        <dt>
-            Room Number
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.tb_room.r_floor)
-        </dd>
-
-    </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.t_id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.t_id }, new { @class = "btn btn-primary btn-rounded btn-fw" }) |
+    <span class = "btn btn-dark btn-rounded btn-fw">
+        @Html.ActionLink("Back to List", "Index", new { @class = "btn btn-dark btn-rounded btn-fw" })
+    </span>
+    
 </p>

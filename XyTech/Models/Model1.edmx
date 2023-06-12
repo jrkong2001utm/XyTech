@@ -134,6 +134,8 @@
           <Property Name="u_usertype" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="u_active" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="u_username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="u_token" Type="varchar(max)" />
+          <Property Name="u_resetdate" Type="datetime" />
         </EntityType>
         <Association Name="FK_tb_finance_tb_floor">
           <End Role="tb_floor" Type="Self.tb_floor" Multiplicity="0..1" />
@@ -408,6 +410,8 @@
           <Property Name="u_username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="tb_finance" Relationship="Self.FK_tb_finance_tb_user" FromRole="tb_user" ToRole="tb_finance" />
           <NavigationProperty Name="tb_investor" Relationship="Self.FK_tb_investor_tb_user" FromRole="tb_user" ToRole="tb_investor" />
+          <Property Name="u_token" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="u_resetdate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_tb_landlord_tb_bankname">
           <End Role="tb_bankname" Type="Self.tb_bankname" Multiplicity="1" />
@@ -726,6 +730,8 @@
           <EntitySetMapping Name="tb_user">
             <EntityTypeMapping TypeName="db_XyTechModel.tb_user">
               <MappingFragment StoreEntitySet="tb_user">
+                <ScalarProperty Name="u_resetdate" ColumnName="u_resetdate" />
+                <ScalarProperty Name="u_token" ColumnName="u_token" />
                 <ScalarProperty Name="u_id" ColumnName="u_id" />
                 <ScalarProperty Name="u_pwd" ColumnName="u_pwd" />
                 <ScalarProperty Name="u_email" ColumnName="u_email" />

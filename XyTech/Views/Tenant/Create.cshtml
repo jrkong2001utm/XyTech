@@ -12,139 +12,146 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Tenant</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="form-horizontal">
+    <h4>Tenant</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.t_name, "Name", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.t_name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.t_name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.t_ic, "IC Number", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.t_ic, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.t_ic, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.t_uploadic, "Upload IC Picture", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBox("icfile", "", new { type = "file", @class = "form-control", accept = "image/*" })
-                @Html.ValidationMessageFor(model => model.t_uploadic, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.t_contract, "Uplaod Contract", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBox("contractfile", "", new { type = "file", @class = "form-control", accept = "image/*" })
-                @Html.ValidationMessageFor(model => model.t_contract, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.t_phone, "Phone Number", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.t_phone, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.t_phone, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.t_emergency, "Emergency Contact", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.t_emergency, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.t_emergency, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.t_indate, "Check In Date", htmlAttributes: new { @class = "control-label col-md-2" })
-            <i class="mdi mdi-calendar-plus menu-icon"></i>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.t_indate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
-                @Html.ValidationMessageFor(model => model.t_indate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.t_outdate, "Check Out Date", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.t_outdate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
-                @Html.ValidationMessageFor(model => model.t_outdate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.t_outsession, "Out Session", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("t_outsession", new List<SelectListItem>
-                {
-                    new SelectListItem { Text = "-- Select Out Session --", Selected = true, Disabled = true },
-                    new SelectListItem { Text = "Morning", Value = "Morning" },
-                    new SelectListItem { Text = "Afternoon", Value = "Afternoon" },
-                    new SelectListItem { Text = "Night", Value = "Night" },
-                    new SelectListItem { Text = "Wait", Value = "Wait" }
-                }, new { @class = "form-control", @required = true })
-                @Html.ValidationMessageFor(model => model.t_outsession, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.t_siri, "Siri Number", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.t_siri, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.t_siri, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.t_outstanding, "Outstanding", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.t_outstanding, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.t_outstanding, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.t_paymentstatus, "Payment Status", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.t_paymentstatus, new List<SelectListItem>
-                {
-                    new SelectListItem { Text = "Successfully Paid", Value = "1" },
-                    new SelectListItem { Text = "Partially Paid", Value = "2" },
-                    new SelectListItem { Text = "Unpaid", Value = "3", Selected = true }
-                }, new { @class = "form-control", @required = true })
-                @Html.ValidationMessageFor(model => model.t_paymentstatus, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.t_room, "Room Number", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("t_room", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.t_room, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary btn-rounded btn-fw" />
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.t_name, "Name", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.t_name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.t_name, "", new { @class = "text-danger" })
         </div>
     </div>
-}
 
-<div class="btn btn-dark btn-rounded btn-fw">
-    @Html.ActionLink("Back to List", "Index")
+    <div class="form-group">
+        @Html.LabelFor(model => model.t_ic, "IC Number", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.t_ic, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.t_ic, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.t_uploadic, "Upload IC Picture", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBox("icfile", "", new { type = "file", @class = "form-control", accept = "image/*" })
+            @Html.ValidationMessageFor(model => model.t_uploadic, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.t_contract, "Uplaod Contract", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBox("contractfile", "", new { type = "file", @class = "form-control", accept = "image/*" })
+            @Html.ValidationMessageFor(model => model.t_contract, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.t_phone, "Phone Number", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.t_phone, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.t_phone, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.t_emergency, "Emergency Contact", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.t_emergency, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.t_emergency, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.t_indate, "Check In Date", htmlAttributes: new { @class = "control-label col-md-2" })
+        <i class="mdi mdi-calendar-plus menu-icon"></i>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.t_indate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.t_indate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.t_outdate, "Check Out Date", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.t_outdate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.t_outdate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.t_outsession, "Out Session", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("t_outsession", new List<SelectListItem>
+            {
+                new SelectListItem { Text = "-- Select Out Session --", Selected = true, Disabled = true },
+                new SelectListItem { Text = "Morning", Value = "Morning" },
+                new SelectListItem { Text = "Afternoon", Value = "Afternoon" },
+                new SelectListItem { Text = "Night", Value = "Night" },
+                new SelectListItem { Text = "Wait", Value = "Wait" }
+            }, new { @class = "form-control", @required = true })
+            @Html.ValidationMessageFor(model => model.t_outsession, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.t_siri, "Siri Number", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.t_siri, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.t_siri, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.t_outstanding, "Outstanding", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.t_outstanding, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.t_outstanding, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.t_paymentstatus, "Payment Status", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.t_paymentstatus, new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Successfully Paid", Value = "1" },
+                new SelectListItem { Text = "Partially Paid", Value = "2" },
+                new SelectListItem { Text = "Unpaid", Value = "3", Selected = true }
+            }, new { @class = "form-control", @required = true })
+            @Html.ValidationMessageFor(model => model.t_paymentstatus, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.t_room, "Floor", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("fl_id", null, "Please select a floor", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.t_room, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.t_room, "Room Number", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("t_room", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.t_room, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-primary btn-rounded btn-fw" /> |
+            <spanc class="btn btn-dark btn-rounded btn-fw">
+                @Html.ActionLink("Back to List", "Index")
+            </spanc>
+        </div>
+    </div>
 </div>
+}
 
 @section Scripts {
 
@@ -177,6 +184,29 @@
                 }
             });
 
+            $("#fl_id").change(function () {
+                var selectedFloorId = $(this).val();
+                var roomNumberDropdown = $("#t_room");
+
+                $.ajax({
+                    url: '@Url.Action("GetRoomNumbers", "Tenant")',
+                    type: 'POST',
+                    data: { floorId: selectedFloorId },
+                    dataType: 'json',
+                    success: function (data) {
+                        roomNumberDropdown.empty();
+                        $.each(data, function (index, item) {
+                            roomNumberDropdown.append($('<option/>', {
+                                value: item.Value,
+                                text: item.Text
+                            }));
+                        });
+                    },
+                    error: function () {
+                        alert('Error occurred while retrieving room numbers.');
+                    }
+                });
+            });
         });
     </script>
 }

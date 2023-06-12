@@ -19,6 +19,9 @@ namespace XyTech.Controllers
         // GET: Finance
         public ActionResult Index()
         {
+            ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
+            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+
             var tb_finance = db.tb_finance
                 .Include(t => t.tb_user)
                 .Include(t => t.tb_floor)
