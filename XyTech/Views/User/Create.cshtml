@@ -17,7 +17,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.u_username,"Username", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.u_username, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.u_username, new { htmlAttributes = new { @class = "form-control", @id="usernameInput"} })
                 @Html.ValidationMessageFor(model => model.u_username, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -74,5 +74,12 @@
 }
 
 <div>
+    <script>
+        $(document).ready(function () {
+            $('#usernameInput').on('input', function () {
+                $('#hiddenUsername').val($(this).val());
+            });
+        });
+    </script>
     @Html.ActionLink("Back to List", "Index")
 </div>
