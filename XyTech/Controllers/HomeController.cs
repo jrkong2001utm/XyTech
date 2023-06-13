@@ -31,11 +31,10 @@ namespace XyTech.Controllers
             ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
             ViewBag.lenroom = db.tb_room.Count(r => r.r_availability == 1);
 
-            var tb_room = db.tb_room.Include(t => t.tb_floor).Where(p => p.r_active.Equals("active"));
-            ViewBag.room = tb_room;
+            //var tb_room = db.tb_room.Include(t => t.tb_floor).Where(p => p.r_active.Equals("active"));
+            //ViewBag.room = tb_room;
 
-
-            //ViewBag.room = db.tb_room.Where(r => r.r_availability == 1).ToList();
+            ViewBag.room = db.tb_room.Where(r => r.r_availability == 1).ToList();
             ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
             ViewBag.lentenant = db.tb_tenant.Count();
             ViewBag.leninvestor = db.tb_investor.Count(i => i.i_active == "active");

@@ -7,8 +7,6 @@
     if (!string.IsNullOrEmpty(username))
     {
         ViewBag.Username = username;
-        // Fetch the user ID associated with the username from the database
-        // Replace 'YourDbContext' with the actual name of your DbContext class
         using (var context = new XyTech.Models.db_XyTechEntities())
         {
             var user = context.tb_user.FirstOrDefault(u => u.u_username == username);

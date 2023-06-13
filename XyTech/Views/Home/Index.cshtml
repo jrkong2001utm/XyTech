@@ -269,13 +269,13 @@
                                                 }
                                             </td>
                                             <td style="text-align: center">
-                                                <a href="@Url.Action("Edit", new { id = room.r_id })" class="btn btn-link" title="edit">
+                                                <a href="@Url.Action("Edit", "Room", new { id = room.r_id })" class="btn btn-link" title="edit">
                                                     <i class="fa fa-edit text-primary"></i>
                                                 </a>
-                                                <a href="@Url.Action("Details", new { id = room.r_id })" class="btn btn-link" title="details">
+                                                <a href="@Url.Action("Details", "Room", new { id = room.r_id })" class="btn btn-link" title="details">
                                                     <i class="fa fa-info-circle text-info"></i>
                                                 </a>
-                                                <a href="@Url.Action("Delete", new { id = room.r_id })" class="btn btn-link" title="delete">
+                                                <a href="@Url.Action("Delete", "Room", new { id = room.r_id })" class="btn btn-link" title="delete">
                                                     <i class="fa fa-trash text-danger"></i>
                                                 </a>
                                                 <a href="@Url.Action("Create", "Tenant", new { id = room.r_id })" class="btn btn-link" title="addtenant">
