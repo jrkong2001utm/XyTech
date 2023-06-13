@@ -136,13 +136,13 @@ namespace XyTech.Controllers
 
                     var financeTransaction = new tb_finance
                     {
-                        f_floor = room.r_floor, // Modify as per your requirement
-                        f_date = DateTime.Now, // Set the finance transaction date to current date
-                        f_transaction = 100, // Set the transaction amount as per your requirement
-                        f_transactiontype = "Inflow", // Set the transaction type as per your requirement
-                        f_paymentmethod = "Cash",
+                        f_floor = room.r_floor,
+                        f_date = DateTime.Now,
+                        f_transaction = tb_tenant.DepositAmount,
+                        f_transactiontype = "Inflow",
+                        f_paymentmethod = tb_tenant.PaymentMethod,
                         f_user = userId,
-                        f_desc = "deposit" + tb_tenant.t_name + room.r_no
+                        f_desc = "deposit " + tb_tenant.t_name + room.r_no
                     };
 
                     db.tb_finance.Add(financeTransaction);
