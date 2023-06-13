@@ -121,6 +121,7 @@ namespace XyTech.Controllers
                 if (tb_user.u_usertype == "Investor")
                 {
                     // Redirect to the CreateInvestor action passing the user ID
+                    TempData["InvestorUsername"] = tb_user.u_username;
                     return RedirectToAction("Create", "Investor", new { id = tb_user.u_id });
                 }
                 else
