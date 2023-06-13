@@ -64,8 +64,12 @@ namespace XyTech.Controllers
         }
 
         // GET: Tenant/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
+            var room = db.tb_room.Find(id);
+            ViewBag.RoomPrice = room.r_price;
+            ViewBag.RoomID = room.r_id;
+
             ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_no");
             var uniqueFloorIds = db.tb_room.Select(r => r.r_floor).Distinct().ToList();
             ViewBag.fl_id = new SelectList(uniqueFloorIds);
@@ -77,11 +81,10 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant, HttpPostedFileBase icfile, HttpPostedFileBase contractfile)
+        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri")] tb_tenant tb_tenant, HttpPostedFileBase icfile, HttpPostedFileBase contractfile)
         {
             if (ModelState.IsValid)
             {
-
                 if (icfile != null && icfile.ContentLength > 0)
                 {
                     if (icfile.ContentType.Contains("image"))
@@ -114,6 +117,15 @@ namespace XyTech.Controllers
                     }
                 }
 
+                // Retrieve the room price and room number from the form data
+                var roomPrice = Request.Form["RoomPrice"];
+                var RoomID = Request.Form["RoomID"];
+
+                // Set the room price and room number in the tenant object
+                tb_tenant.t_outstanding = Convert.ToDouble(roomPrice);
+                tb_tenant.t_room = Convert.ToInt32(RoomID);
+                tb_tenant.t_paymentstatus = 3;
+
                 var room = db.tb_room.FirstOrDefault(r => r.r_id == tb_tenant.t_room);
                 if (room != null)
                 {
@@ -131,7 +143,6 @@ namespace XyTech.Controllers
                         f_paymentmethod = "Cash",
                         f_user = userId,
                         f_desc = "deposit" + tb_tenant.t_name + room.r_no
-
                     };
 
                     db.tb_finance.Add(financeTransaction);
@@ -172,14 +183,20 @@ namespace XyTech.Controllers
                 f_paymentmethod = method,
                 f_user = userId,
                 f_desc = "sewa " + tenant.t_name + " " + room.r_no
-
             };
 
             db.tb_finance.Add(financeTransaction);
             db.SaveChanges();
 
-
             // Update the outstanding amount based on the payment amount
+            if (tenant.t_outstanding != amount && amount != 0)
+            {
+                tenant.t_paymentstatus = 2;
+            }
+            else if (tenant.t_outstanding == amount)
+            {
+                tenant.t_paymentstatus = 1;
+            }
             tenant.t_outstanding -= amount;
 
             // Save the changes to the database
@@ -258,16 +275,6 @@ namespace XyTech.Controllers
                     }
                 }
 
-                if (updatetenant.t_paymentstatus == 2 && tb_tenant.t_paymentstatus == 3)
-                {
-                    updatetenant.t_outstanding = tb_tenant.t_outstanding / 2;
-                }
-
-                if ((updatetenant.t_paymentstatus == 1 && tb_tenant.t_paymentstatus == 3) || (updatetenant.t_paymentstatus == 1 && tb_tenant.t_paymentstatus == 2))
-                {
-                    updatetenant.t_outstanding = 0;
-                }
-
                 var previousRoom = db.tb_room.FirstOrDefault(r => r.r_id == tb_tenant.t_room);
                 if (previousRoom != null)
                 {
@@ -291,8 +298,6 @@ namespace XyTech.Controllers
                 tb_tenant.t_outdate = updatetenant.t_outdate;
                 tb_tenant.t_outsession = updatetenant.t_outsession;
                 tb_tenant.t_siri = updatetenant.t_siri;
-                tb_tenant.t_outstanding = updatetenant.t_outstanding;
-                tb_tenant.t_paymentstatus = updatetenant.t_paymentstatus;
                 tb_tenant.t_room = updatetenant.t_room;
 
                 db.Entry(tb_tenant).State = EntityState.Modified;

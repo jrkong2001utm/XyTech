@@ -11,7 +11,6 @@
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
-            
             <div class="card-body">
                 @if (ViewBag.Message == "Tenant saved successfully!")
                 {
@@ -48,9 +47,9 @@
                         });
                     </script>
                 }
-                <p class="btn btn-success btn-rounded btn-fw">
+                @*<p class="btn btn-success btn-rounded btn-fw">
                     @Html.ActionLink("Create New", "Create")
-                </p>
+                </p>*@
                 <div class="row">
                     <div class="col-12">
                         <div class="table-responsive">
@@ -114,12 +113,12 @@
                                                 }
                                             </td>
                                             <td style="text-align: center">
-                                                @Html.DisplayFor(modelItem => item.tb_room.r_floor)
+                                                @Html.DisplayFor(modelItem => item.tb_room.r_no)
                                             </td>
 
                                             @if (item.t_paymentstatus == 1)
                                             {
-                                                <td>
+                                                <td style="text-align: center">
                                                     @Html.ActionLink(" ", "Edit", new { id = item.t_id }, new { @class = "fa fa-pencil text-primary" }) |
                                                     @Html.ActionLink(" ", "Details", new { id = item.t_id }, new { @class = "fa fa-info-circle text-info" }) |
                                                     @Html.ActionLink(" ", "Delete", new { id = item.t_id }, new { @class = " fa fa-trash text-danger" })
@@ -127,10 +126,10 @@
                                             }
                                             else
                                             {
-                                                <td>
+                                                <td style="text-align: center">
                                                     @Html.ActionLink(" ", "Edit", new { id = item.t_id }, new { @class = "fa fa-pencil text-primary" }) |
-                                                    @Html.ActionLink(" ", "Details", new { id = item.t_id }, new { @class = "fa fa-info-circle text-info" })
-                                                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#paymentModal-@item.t_id">Pay</button>
+                                                    @Html.ActionLink(" ", "Details", new { id = item.t_id }, new { @class = "fa fa-info-circle text-info" }) | 
+                                                    <button class="btn btn-primary mdi mdi-cash-usd" data-toggle="modal" data-target="#paymentModal-@item.t_id"></button>
 
                                                     <!-- Payment Modal -->
                                                     <div class="modal fade" id="paymentModal-@item.t_id" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-@item.t_id" aria-hidden="true">
@@ -144,6 +143,11 @@
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <form id="paymentForm-@item.t_id" method="post" action="@Url.Action("Pay", "Tenant", new { id = item.t_id })">
+                                                                        <div style="overflow: hidden;">
+                                                                            <span style="float: left;">@Html.DisplayFor(modelItem => item.t_name)</span>
+                                                                            <span style="float: right;">Current Outstanding: @Html.DisplayFor(modelItem => item.t_outstanding)</span>
+                                                                        </div>
+                                                                        <br />
                                                                         <div class="form-group">
                                                                             <label for="amount-@item.t_id">Amount:</label>
                                                                             <input type="number" class="form-control" id="amount" name="amount" required>
