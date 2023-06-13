@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Antlr.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
 using XyTech.Attributes;
 using XyTech.Models;
 
@@ -119,7 +121,7 @@ namespace XyTech.Controllers
             {
                 db.tb_finance.Add(tb_finance);
                 db.SaveChanges();
-                CalculateCurrentMonthProfit();
+                CalculateCurrentMonthProfit(tb_finance.f_user);
                 return RedirectToAction("Index");
             }
 
@@ -164,7 +166,7 @@ namespace XyTech.Controllers
             {
                 db.Entry(tb_finance).State = EntityState.Modified;
                 db.SaveChanges();
-                CalculateCurrentMonthProfit();
+                CalculateCurrentMonthProfit(tb_finance.f_user);
                 return RedirectToAction("Index");
             }
             ViewBag.f_user = Session["id"];
@@ -195,7 +197,7 @@ namespace XyTech.Controllers
             tb_finance tb_finance = db.tb_finance.Find(id);
             db.tb_finance.Remove(tb_finance);
             db.SaveChanges();
-            CalculateCurrentMonthProfit();
+            CalculateCurrentMonthProfit(id);
             return RedirectToAction("Index");
         }
 
@@ -208,14 +210,14 @@ namespace XyTech.Controllers
             base.Dispose(disposing);
         }
 
-        public void CalculateCurrentMonthProfit()
+        public void CalculateCurrentMonthProfit(int u_id)
         {
-            //var currentMonth = DateTime.Now.Month;
-            //var currentYear = DateTime.Now.Year;
+            var currentMonth = DateTime.Now.Month;
+            var currentYear = DateTime.Now.Year;
 
-            var currentDate = DateTime.Now.AddMonths(-1);
-            var currentMonth = currentDate.Month;
-            var currentYear = currentDate.Year;
+            //var currentDate = DateTime.Now.AddMonths(-1);
+            //var currentMonth = currentDate.Month;
+            //var currentYear = currentDate.Year;
 
             // Retrieve the investors from the tb_investor table
             var investors = db.tb_investor.ToList().Where(t => t.i_active == "active");
@@ -237,6 +239,7 @@ namespace XyTech.Controllers
             var priceperlot = 50000;
             profit = profit * 0.6 / (partner + lot);
             var p_month = $"{currentYear}-{currentMonth}";
+            int i = 0;
 
             foreach (var investor in investors)
             {
@@ -250,6 +253,14 @@ namespace XyTech.Controllers
                     // Update the existing profit entry
                     existingProfit.p_profit = sharing;
                     db.Entry(existingProfit).State = EntityState.Modified;
+
+                    var user = db.tb_user.Find(investor.i_user);
+
+                    if (i == 0)
+                    {
+                        ShareTransaction(u_id);
+                        i++;
+                    }
                 }
                 else
                 {
@@ -263,11 +274,115 @@ namespace XyTech.Controllers
 
                     // Add the profit entry to the table
                     db.tb_profit.Add(profitEntry);
+
+                    if(i == 0)
+                    {
+                        ShareTransaction(u_id);
+                        i++;
+                    }
+                    
                 }
             }
 
             // Save the changes to the database
             db.SaveChanges();
+        }
+
+        public void ShareTransaction(int id)
+        {
+            var currentMonth = DateTime.Now.Month;
+            var currentYear = DateTime.Now.Year;
+            var lastMonth = currentMonth - 1;
+            var lastYear = currentYear;
+
+            if (lastMonth == 0)
+            {
+                lastMonth = 12;
+                lastYear--;
+            }
+
+            var lastYearMonth = $"{lastYear}-{lastMonth}";
+            var lastMonthProfit = db.tb_profit
+                .Where(p => p.p_month == lastYearMonth)
+                .GroupBy(p => p.p_investor)
+                .Select(g => new
+                {
+                    InvestorId = g.Key,
+                    Profit = g.Sum(p => p.p_profit)
+                })
+                .ToList();
+
+            bool check = true;
+            double ori_profit = 0;
+
+            foreach (var profitEntry in lastMonthProfit)
+            {
+                var investorId = profitEntry.InvestorId;
+                var profit = profitEntry.Profit;
+                var investor = db.tb_investor.Find(investorId);
+                var user = db.tb_user.Find(investor.i_user);
+                string name = user.u_username;
+
+                var financeEntry = new tb_finance
+                {
+                    f_floor = null, // Modify as per your requirement
+                    f_date = DateTime.Now, // Set the date to the current date
+                    f_transaction = profit, // Set the profit as the transaction amount
+                    f_transactiontype = "Outflow", // Set the transaction type as "Outflow"
+                    f_paymentmethod = "Bank", // Modify as per your requirement
+                    f_user = id, // Modify as per your requirement
+                    f_desc = $"Share {name}" // Modify the description as per your requirement
+                };
+
+                // Add the finance entry to the table
+                db.tb_finance.Add(financeEntry);
+
+                if (check)
+                {
+                    ori_profit = profit / investor.i_amount * 50000;
+                    check = false;
+                }
+            }
+
+            var partners = new List<string> { "Anas", "Nizam", "Aiezad" };
+            foreach (var partner in partners)
+            {
+                var financeEntry = new tb_finance
+                {
+                    f_floor = null, // Modify as per your requirement
+                    f_date = DateTime.Now, // Set the date to the current date
+                    f_transaction = ori_profit, // Set the profit as the transaction amount
+                    f_transactiontype = "Outflow", // Set the transaction type as "Outflow"
+                    f_paymentmethod = "Bank", // Modify as per your requirement
+                    f_user = id, // Modify as per your requirement
+                    f_desc = $"Share {partner}" // Modify the description as per your requirement
+                };
+
+                // Add the finance entry to the table
+                db.tb_finance.Add(financeEntry);
+            }
+            // Save the changes to the database
+            db.SaveChanges();
+        }
+
+        public void FloorGaji(int uid, double amount)
+        {
+            var floors = db.tb_floor;
+            foreach (var floor in floors)
+            {
+                var id = floor.fl_id;
+
+                var financeEntry = new tb_finance
+                {
+                    f_floor = id, // Modify as per your requirement
+                    f_date = DateTime.Now, // Set the date to the current date
+                    f_transaction = 200, // Set the profit as the transaction amount
+                    f_transactiontype = "Outflow", // Set the transaction type as "Outflow"
+                    f_paymentmethod = "Bank", // Modify as per your requirement
+                    f_user = uid, // Modify as per your requirement
+                    f_desc = $"Gaji Anas" // Modify the description as per your requirement
+                };
+            }
         }
     }
 }

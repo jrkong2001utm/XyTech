@@ -28,7 +28,10 @@ namespace XyTech.Models
         public double t_outstanding { get; set; }
         public int t_paymentstatus { get; set; }
         public int t_room { get; set; }
-    
+
+        public double DepositAmount { get; set; }
+        public string PaymentMethod { get; set; }
+
         public virtual tb_room tb_room { get; set; }
     }
 }

@@ -77,7 +77,7 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant, HttpPostedFileBase icfile, HttpPostedFileBase contractfile)
+        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room,DepositAmount,PaymentMethod")] tb_tenant tb_tenant, HttpPostedFileBase icfile, HttpPostedFileBase contractfile)
         {
             if (ModelState.IsValid)
             {
@@ -124,14 +124,13 @@ namespace XyTech.Controllers
 
                     var financeTransaction = new tb_finance
                     {
-                        f_floor = room.r_floor, // Modify as per your requirement
-                        f_date = DateTime.Now, // Set the finance transaction date to current date
-                        f_transaction = 100, // Set the transaction amount as per your requirement
-                        f_transactiontype = "Inflow", // Set the transaction type as per your requirement
-                        f_paymentmethod = "Cash",
+                        f_floor = room.r_floor,
+                        f_date = DateTime.Now,
+                        f_transaction = tb_tenant.DepositAmount,
+                        f_transactiontype = "Inflow",
+                        f_paymentmethod = tb_tenant.PaymentMethod,
                         f_user = userId,
-                        f_desc = "deposit" + tb_tenant.t_name + room.r_no
-
+                        f_desc = "deposit " + tb_tenant.t_name + room.r_no
                     };
 
                     db.tb_finance.Add(financeTransaction);
