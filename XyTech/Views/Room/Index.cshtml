@@ -54,7 +54,7 @@
 
                                 <th>Price</th>
                                 <th>Room Availability</th>
-                                <th>Action</th>
+                                <th style="text-align:center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -73,14 +73,18 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.r_price)
                                     </td>
-                                    <td>
+                                    <td style="text-align:center">
                                         @if (item.r_availability == 1)
                                         {
-                                            <span style="color: forestgreen;">Available</span>
+                                            <div class="badge badge-success">
+                                                Available
+                                            </div>
                                         }
                                         else if (item.r_availability == 0)
                                         {
-                                            <span style="color: red;">Unavailable</span>
+                                            <div class="badge badge-danger">
+                                                Unavailable
+                                            </div>
                                         }
                                     </td>
                                     <td>
@@ -90,12 +94,16 @@
                                         <a href="@Url.Action("Details", new { id = item.r_id })" class="btn btn-link" title="details">
                                             <i class="fa fa-info-circle text-info"></i>
                                         </a>
-                                        <a href="@Url.Action("Delete", new { id = item.r_id })" class="btn btn-link" title="delete">
-                                            <i class="fa fa-trash text-danger"></i>
-                                        </a>
-                                        <a href="@Url.Action("Create", "Tenant", new { id = item.r_id })" class="btn btn-link" title="addtenant">
-                                            <i class="fa mdi mdi-account-multiple-plus text-success"></i>
-                                        </a>
+
+                                        @if (item.r_availability == 1)
+                                        {
+                                            <a href="@Url.Action("Delete", new { id = item.r_id })" class="btn btn-link" title="delete">
+                                                <i class="fa fa-trash text-danger"></i>
+                                            </a>
+                                            <a href="@Url.Action("Create", "Tenant", new { id = item.r_id })" class="btn btn-link" title="addtenant">
+                                                <i class="fa mdi mdi-account-multiple-plus text-success"></i>
+                                            </a>
+                                        }
                                     </td>
                                 </tr>
                             }
