@@ -38,7 +38,15 @@ namespace XyTech.Controllers
                             Session["id"] = obj.u_id.ToString();
                             Session["u_username"] = obj.u_username.ToString();
                             Session["usertype"] = obj.u_usertype.ToString();
-                            return RedirectToAction("Index", "Home");
+                            if (obj.u_usertype == "Investor")
+                            {
+                                return RedirectToAction("Index", "Profit");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Index", "Home");
+                            }
+                            
                         }
                         else
                         {

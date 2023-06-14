@@ -2028,7 +2028,6 @@
     <Content Include="Views\Profit\Details.cshtml" />
     <Content Include="Views\Profit\Edit.cshtml" />
     <Content Include="Views\Profit\Index.cshtml" />
-    <Content Include="Views\Profit\CalculateCurrentMonthProfit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -52,7 +52,6 @@ namespace XyTech.Controllers
             string formattedPercentProfit = percentProfit.ToString("F2");
             ViewBag.PercentProfit = formattedPercentProfit;
             return View();
-            
         }
 
         public ActionResult About()

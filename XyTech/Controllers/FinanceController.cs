@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 using System.Xml.Linq;
 using XyTech.Attributes;
 using XyTech.Models;
+using static System.Net.WebRequestMethods;
 
 namespace XyTech.Controllers
 {
@@ -111,7 +113,7 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "f_id,f_floor,f_user,f_transaction,f_desc,f_transactiontype,f_paymentmethod,f_date,f_receipt")] tb_finance tb_finance)
+        public ActionResult Create([Bind(Include = "f_id,f_floor,f_user,f_transaction,f_desc,f_transactiontype,f_paymentmethod,f_date,f_receipt")] tb_finance tb_finance, HttpPostedFileBase contractfile)
         {
             if(tb_finance.f_floor == 0)
             {
@@ -119,9 +121,25 @@ namespace XyTech.Controllers
             }
             if (ModelState.IsValid)
             {
+                if (contractfile != null && contractfile.ContentLength > 0)
+                {
+                    if (contractfile.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(contractfile.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contractfile"), _FileName);
+                        contractfile.SaveAs(_path);
+                        tb_finance.f_receipt = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_finance);
+                    }
+                }
+
                 db.tb_finance.Add(tb_finance);
                 db.SaveChanges();
-                CalculateCurrentMonthProfit(tb_finance.f_user);
+                CalculateCurrentMonthProfit();
                 return RedirectToAction("Index");
             }
 
@@ -160,13 +178,55 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "f_id,f_floor,f_user,f_transaction,f_desc,f_transactiontype,f_paymentmethod,f_date,f_receipt")] tb_finance tb_finance)
+        public ActionResult Edit(tb_finance updatef, HttpPostedFileBase contractfile)
         {
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(tb_finance).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    CalculateCurrentMonthProfit();
+            //    return RedirectToAction("Index");
+            //}
+            
+            //return View(tb_finance);
+
+            tb_finance tb_finance = db.tb_finance.Find(updatef.f_id);
+            if (tb_finance == null)
+            {
+                return HttpNotFound();
+            }
+
             if (ModelState.IsValid)
             {
+
+                if (contractfile != null && contractfile.ContentLength > 0)
+                {
+                    if (contractfile.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(contractfile.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contractfile"), _FileName);
+                        contractfile.SaveAs(_path);
+                        tb_finance.f_receipt = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_finance);
+                    }
+                }
+                tb_finance.f_id = updatef.f_id;
+                tb_finance.f_floor = updatef.f_floor;
+                tb_finance.f_user = updatef.f_user;
+                tb_finance.f_transaction = updatef.f_transaction;
+                tb_finance.f_desc = updatef.f_desc;
+                tb_finance.f_transactiontype = updatef.f_transactiontype;
+                tb_finance.f_paymentmethod = updatef.f_paymentmethod;
+                tb_finance.f_date = updatef.f_date;
+
                 db.Entry(tb_finance).State = EntityState.Modified;
                 db.SaveChanges();
-                CalculateCurrentMonthProfit(tb_finance.f_user);
+                CalculateCurrentMonthProfit();
+                TempData["success"] = "Finance updated successfully!";
                 return RedirectToAction("Index");
             }
             ViewBag.f_user = Session["id"];
@@ -197,7 +257,7 @@ namespace XyTech.Controllers
             tb_finance tb_finance = db.tb_finance.Find(id);
             db.tb_finance.Remove(tb_finance);
             db.SaveChanges();
-            CalculateCurrentMonthProfit(id);
+            CalculateCurrentMonthProfit();
             return RedirectToAction("Index");
         }
 
@@ -210,7 +270,7 @@ namespace XyTech.Controllers
             base.Dispose(disposing);
         }
 
-        public void CalculateCurrentMonthProfit(int u_id)
+        public void CalculateCurrentMonthProfit()
         {
             var currentMonth = DateTime.Now.Month;
             var currentYear = DateTime.Now.Year;
@@ -223,7 +283,7 @@ namespace XyTech.Controllers
             var investors = db.tb_investor.ToList().Where(t => t.i_active == "active");
 
             var financeData = db.tb_finance
-                .Where(t => t.f_date.Month == currentMonth && t.f_date.Year == currentYear)
+                .Where(t => t.f_date.Month == currentMonth && t.f_date.Year == currentYear && t.f_floor != null)
                 .GroupBy(t => new { t.f_floor })
                 .Select(g => new
                 {
@@ -255,12 +315,6 @@ namespace XyTech.Controllers
                     db.Entry(existingProfit).State = EntityState.Modified;
 
                     var user = db.tb_user.Find(investor.i_user);
-
-                    if (i == 0)
-                    {
-                        ShareTransaction(u_id);
-                        i++;
-                    }
                 }
                 else
                 {
@@ -277,7 +331,7 @@ namespace XyTech.Controllers
 
                     if(i == 0)
                     {
-                        ShareTransaction(u_id);
+                        ShareTransaction();
                         i++;
                     }
                     
@@ -288,8 +342,9 @@ namespace XyTech.Controllers
             db.SaveChanges();
         }
 
-        public void ShareTransaction(int id)
+        public void ShareTransaction()
         {
+            var uid = Convert.ToInt32(Session["id"]);
             var currentMonth = DateTime.Now.Month;
             var currentYear = DateTime.Now.Year;
             var lastMonth = currentMonth - 1;
@@ -330,7 +385,7 @@ namespace XyTech.Controllers
                     f_transaction = profit, // Set the profit as the transaction amount
                     f_transactiontype = "Outflow", // Set the transaction type as "Outflow"
                     f_paymentmethod = "Bank", // Modify as per your requirement
-                    f_user = id, // Modify as per your requirement
+                    f_user = uid, // Modify as per your requirement
                     f_desc = $"Share {name}" // Modify the description as per your requirement
                 };
 
@@ -354,14 +409,14 @@ namespace XyTech.Controllers
                     f_transaction = ori_profit, // Set the profit as the transaction amount
                     f_transactiontype = "Outflow", // Set the transaction type as "Outflow"
                     f_paymentmethod = "Bank", // Modify as per your requirement
-                    f_user = id, // Modify as per your requirement
+                    f_user = uid, // Modify as per your requirement
                     f_desc = $"Share {partner}" // Modify the description as per your requirement
                 };
 
                 // Add the finance entry to the table
                 db.tb_finance.Add(financeEntry);
             }
-            // Save the changes to the database
+            // Save the ch anges to the database
             db.SaveChanges();
         }
 

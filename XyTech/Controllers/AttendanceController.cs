@@ -90,11 +90,12 @@ namespace XyTech.Controllers
                 DateTime checkDate = tb_attendance.a_check.Date;
                 int month = checkDate.Month;
                 int year = checkDate.Year;
+                int fid = tb_attendance.a_floor;
 
                 int count = db.tb_attendance
-                    .Count(a => a.a_check.Month == month && a.a_check.Year == year);
+                    .Count(a => a.a_check.Month == month && a.a_check.Year == year && a.a_floor == fid);
 
-                if (count >= 3)
+                if (count == 3)
                 {
                     TempData["ErrorMessage"] = "The attendance entries of the month exceeds 3 times";
                     db.tb_attendance.Add(tb_attendance);
