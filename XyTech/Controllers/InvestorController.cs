@@ -9,10 +9,12 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using XyTech.Attributes;
 using XyTech.Models;
 
 namespace XyTech.Controllers
 {
+    [CustomAuthorize]
     public class InvestorController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();

@@ -8,9 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using XyTech.Models;
 using System.Globalization;
+using XyTech.Attributes;
 
 namespace XyTech.Controllers
 {
+    [CustomAuthorize]
     public class ProfitController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();

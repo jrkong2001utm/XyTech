@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace XyTech.Controllers
 {
+
     public class InvestorMainPageController : Controller
     {
         // GET: InvestorMainPage

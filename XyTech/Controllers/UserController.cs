@@ -11,7 +11,7 @@ using XyTech.Models;
 
 namespace XyTech.Controllers
 {
-    //[CustomAuthorize]
+    [CustomAuthorize]
     public class UserController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();
@@ -21,7 +21,10 @@ namespace XyTech.Controllers
         {
             ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
             ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
-
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
             return View(db.tb_user.ToList());
         }
 
@@ -117,6 +120,7 @@ namespace XyTech.Controllers
             {
                 db.tb_user.Add(tb_user);
                 db.SaveChanges();
+                TempData["success"] = "User is successfully saved!";
 
                 if (tb_user.u_usertype == "Investor")
                 {
@@ -165,6 +169,7 @@ namespace XyTech.Controllers
 
                 db.Entry(tb_user).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["success"] = "User is successfully saved!";
                 return RedirectToAction("Index");
             }
             return View(tb_user);
@@ -193,6 +198,7 @@ namespace XyTech.Controllers
             tb_user tb_user = db.tb_user.Find(id);
             db.tb_user.Remove(tb_user);
             db.SaveChanges();
+            TempData["success"] = "User is deleted.";
             return RedirectToAction("Index");
         }
 
