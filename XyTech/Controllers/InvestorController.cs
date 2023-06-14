@@ -9,10 +9,12 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using XyTech.Attributes;
 using XyTech.Models;
 
 namespace XyTech.Controllers
 {
+    [CustomAuthorize]
     public class InvestorController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();
@@ -24,6 +26,10 @@ namespace XyTech.Controllers
             ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
 
             var tb_investor = db.tb_investor.Include(t => t.tb_user);
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
             return View(tb_investor.ToList());
         }
 
@@ -93,6 +99,7 @@ namespace XyTech.Controllers
 
                     db.tb_finance.Add(financeTransaction);
                     db.tb_investor.Add(tb_investor);
+                    TempData["success"] = "Investor is successfully saved!";
                     db.SaveChanges();
 
                     return RedirectToAction("Index");
@@ -158,6 +165,7 @@ namespace XyTech.Controllers
             {
                 db.Entry(tb_investor).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["success"] = "Investor is successfully saved!";
                 return RedirectToAction("Index");
             }
             ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username", tb_investor.i_user);
@@ -187,6 +195,7 @@ namespace XyTech.Controllers
             tb_investor tb_investor = db.tb_investor.Find(id);
             db.tb_investor.Remove(tb_investor);
             db.SaveChanges();
+            TempData["success"] = "Investor is deleted.";
             return RedirectToAction("Index");
         }
 

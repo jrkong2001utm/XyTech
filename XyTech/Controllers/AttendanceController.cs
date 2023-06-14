@@ -22,6 +22,10 @@ namespace XyTech.Controllers
             ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
             ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
             var tb_attendance = db.tb_attendance.Include(t => t.tb_floor);
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
             return View(tb_attendance.ToList());
         }
 
@@ -103,6 +107,7 @@ namespace XyTech.Controllers
                 {
                     TempData["ErrorMessage"] = "The attendance entries of the month reaches or exceeds 3 times";
                     db.tb_attendance.Add(tb_attendance);
+                    TempData["success"] = "Attendance is successfully saved!";
                     db.SaveChanges();
                     
                 }
@@ -149,6 +154,7 @@ namespace XyTech.Controllers
             {
                 db.Entry(tb_attendance).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["success"] = "Attendance is successfully saved!";
                 return RedirectToAction("Index");
             }
             var attendance = new tb_attendance(); // Replace tb_inventory with the appropriate class name and constructor if necessary
@@ -181,6 +187,7 @@ namespace XyTech.Controllers
             tb_attendance tb_attendance = db.tb_attendance.Find(id);
             db.tb_attendance.Remove(tb_attendance);
             db.SaveChanges();
+            TempData["success"] = "Attendance is deleted.";
             return RedirectToAction("Index");
         }
     }

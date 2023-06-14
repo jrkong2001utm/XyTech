@@ -6,10 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using XyTech.Attributes;
 using XyTech.Models;
 
 namespace XyTech.Controllers
 {
+    [CustomAuthorize]
     public class InventoryController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();
