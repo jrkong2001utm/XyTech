@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using XyTech.Models;
 using System.Web.Helpers;
+using System.Data.Entity;
 
 namespace XyTech.Controllers
 {
@@ -58,6 +59,38 @@ namespace XyTech.Controllers
                     {
                         ModelState.AddModelError("", "Incorrect Username or Password");
                     }
+
+                    //var tenants = db.tb_tenant.ToList();
+                    //foreach (var tenant in tenants)
+                    //{
+                    //    var room = db.tb_room.FirstOrDefault(r => r.r_id == tenant.t_room);
+
+                    //    var checkInDate = tenant.t_indate;
+
+                    //    // Calculate the due date by adding 7 days to the check-in date
+                    //    var dueDate = checkInDate.Date.AddDays(7);
+
+                    //    // Get today's date
+                    //    var today = DateTime.Today;
+
+                    //    // Calculate the number of days between the due date and today
+                    //    var daysDifference = (today - dueDate).TotalDays;
+
+                    //    if (daysDifference == 0 && tenant.t_paymentstatus == 0)
+                    //    {
+                    //        tenant.t_outstanding += room.r_price;
+                    //        tenant.t_paymentstatus = 2;
+                    //    }
+                    //    else if (daysDifference == 0 && tenant.t_outstanding < room.r_price)
+                    //    {
+                    //        tenant.t_outstanding += room.r_price;// The rental fee is due within one week
+                    //        tenant.t_paymentstatus = 3; 
+                    //    }
+
+                    //    db.Entry(tenant).State = EntityState.Modified;
+                    //}
+
+                    //db.SaveChanges();
                 }
             }
             return View(objchk);

@@ -17,7 +17,7 @@
                 <div class="card card-dark-blue">
                     <div class="card-body">
                         <p class="mb-4">Total Rooms Available</p>
-                        <p class="fs-30 mb-2 mdi mdi-home-map-marker">  @ViewBag.lenroom</p>
+                        <p class="fs-30 mb-2 mdi mdi-home-map-marker">  @ViewBag.lenroom/@ViewBag.totalroom</p>
                     </div>
                 </div>
             </div>
@@ -117,7 +117,7 @@
                                 <div class="col-md-12 grid-margin stretch-card">
                                     <div class="card">
                                         <div class="card-body">
-                                            <p class="card-title">Tenant with <strong>Unpaid</strong> status that exceed check out date.</p>
+                                            <p class="card-title"><strong>Unpaid</strong> rental fee that exceed or equal due date</p>
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="table-responsive">
@@ -252,7 +252,6 @@
                                 <tbody>
                                     @foreach (var room in ViewBag.room)
                                     {
-                                        
                                         <tr>  
                                             <td>@room.tb_floor.fl_bname</td>
                                             <td>@room.r_no</td>
