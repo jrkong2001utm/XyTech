@@ -219,7 +219,7 @@ namespace XyTech.Controllers
                         $"Username: {username}<br/>Password: {password}" +
                         $"<br/><br/>Please keep these credentials secure and do not share them with anyone.<br/><br/>" +
                         $"You can log in to your account by clicking on the following link: " +
-                        $"<a href='{link}'>Log In</a><br/><br/>Thank you for joining Akmal Rentals.\";";
+                        $"<a href='{link}'>Log In</a><br/><br/>Thank you for joining Akmal Rentals.";
 
 
                     using (MailMessage mail = new MailMessage())

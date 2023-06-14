@@ -283,12 +283,12 @@ namespace XyTech.Controllers
 
         public void CalculateCurrentMonthProfit()
         {
-            var currentMonth = DateTime.Now.Month;
-            var currentYear = DateTime.Now.Year;
+            //var currentMonth = DateTime.Now.Month;
+            //var currentYear = DateTime.Now.Year;
 
-            //var currentDate = DateTime.Now.AddMonths(-1);
-            //var currentMonth = currentDate.Month;
-            //var currentYear = currentDate.Year;
+            var currentDate = DateTime.Now.AddMonths(-1);
+            var currentMonth = currentDate.Month;
+            var currentYear = currentDate.Year;
 
             // Retrieve the investors from the tb_investor table
             var investors = db.tb_investor.ToList().Where(t => t.i_active == "active");

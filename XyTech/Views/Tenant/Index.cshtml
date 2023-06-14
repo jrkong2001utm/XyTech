@@ -91,6 +91,12 @@
 
                                                     switch (item.t_paymentstatus)
                                                     {
+                                                        case 0:
+                                                            paymentStatusText = "Overpaid";
+                                                            <div class="badge badge-info">
+                                                                @Html.DisplayFor(modelItem => paymentStatusText)
+                                                            </div>
+                                                            break;
                                                         case 1:
                                                             paymentStatusText = "Successfully Paid";
                                                             <div class="badge badge-success">
@@ -116,7 +122,7 @@
                                                 @Html.DisplayFor(modelItem => item.tb_room.r_no)
                                             </td>
 
-                                            @if (item.t_paymentstatus == 1)
+                                            @if (item.t_paymentstatus == 1 || item.t_paymentstatus == 0)
                                             {
                                                 <td style="text-align: center">
                                                     @Html.ActionLink(" ", "Edit", new { id = item.t_id }, new { @class = "fa fa-pencil text-primary" }) |
