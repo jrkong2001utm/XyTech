@@ -17,7 +17,7 @@
                 <div class="card card-dark-blue">
                     <div class="card-body">
                         <p class="mb-4">Total Rooms Available</p>
-                        <p class="fs-30 mb-2 mdi mdi-home-map-marker">  @ViewBag.lenroom</p>
+                        <p class="fs-30 mb-2 mdi mdi-home-map-marker">  @ViewBag.lenroom/@ViewBag.totalroom</p>
                     </div>
                 </div>
             </div>
@@ -117,7 +117,7 @@
                                 <div class="col-md-12 grid-margin stretch-card">
                                     <div class="card">
                                         <div class="card-body">
-                                            <p class="card-title">Tenant with <strong>Unpaid</strong> status that exceed check out date.</p>
+                                            <p class="card-title"><strong>Unpaid</strong> rental fee that exceed or equal due date</p>
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="table-responsive">
@@ -252,7 +252,6 @@
                                 <tbody>
                                     @foreach (var room in ViewBag.room)
                                     {
-                                        
                                         <tr>  
                                             <td>@room.tb_floor.fl_bname</td>
                                             <td>@room.r_no</td>
@@ -261,11 +260,15 @@
                                             <td style="text-align: center">
                                                 @if (@room.r_availability == 1)
                                                 {
-                                                    <span style="color: forestgreen;">Available</span>
+                                                    <div class="badge badge-success">
+                                                        <span>Available</span>
+                                                    </div>
                                                 }
                                                 else if (@room.r_availability == 0)
                                                 {
-                                                    <span style="color: red;">Unavailable</span>
+                                                    <div class="badge badge-danger">
+                                                        <span>Unavailable</span>
+                                                    </div>
                                                 }
                                             </td>
                                             <td style="text-align: center">
@@ -290,6 +293,16 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title">@ViewBag.Year Finance Details</p>
+                <canvas id="myChart"></canvas>
             </div>
         </div>
     </div>
@@ -338,7 +351,14 @@
                 labels: labels,
                 datasets: [{
                     data: values,
-                    backgroundColor: colors
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(255, 99, 132, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255,99,132,1)'
+                    ],
                 }]
             },
             options: {
@@ -355,6 +375,51 @@
             }
         });
 
+        var data = [
+            { month: 'January', inflow: @ViewBag.JanInflow, outflow: @ViewBag.JanOutflow },
+            { month: 'February', inflow: @ViewBag.FebInflow, outflow: @ViewBag.FebOutflow },
+            { month: 'March', inflow: @ViewBag.MarInflow, outflow: @ViewBag.MarOutflow },
+            { month: 'April', inflow: @ViewBag.AprInflow, outflow: @ViewBag.AprOutflow },
+            { month: 'May', inflow: @ViewBag.MayInflow, outflow: @ViewBag.MayOutflow },
+            { month: 'June', inflow: @ViewBag.JunInflow, outflow: @ViewBag.JunOutflow },
+            { month: 'July', inflow: @ViewBag.JulInflow, outflow: @ViewBag.JulOutflow },
+            { month: 'August', inflow: @ViewBag.AugInflow, outflow: @ViewBag.AugOutflow },
+            { month: 'September', inflow: @ViewBag.SepInflow, outflow: @ViewBag.SepOutflow },
+            { month: 'October', inflow: @ViewBag.OctInflow, outflow: @ViewBag.OctOutflow },
+            { month: 'November', inflow: @ViewBag.NovInflow, outflow: @ViewBag.NovOutflow },
+            { month: 'December', inflow: @ViewBag.DecInflow, outflow: @ViewBag.DecOutflow },
+        ];
+
+        var ctx2 = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: data.map(item => item.month),
+                datasets: [
+                    {
+                        label: 'Inflow',
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        data: data.map(item => item.inflow)
+                    },
+                    {
+                        label: 'Outflow',
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        data: data.map(item => item.outflow)
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
 
     </script>
 }
