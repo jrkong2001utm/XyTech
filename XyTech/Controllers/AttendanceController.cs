@@ -101,7 +101,7 @@ namespace XyTech.Controllers
 
                 if (count >= 3)
                 {
-                    TempData["ErrorMessage"] = "The attendance entries of the month exceeds 3 times";
+                    TempData["ErrorMessage"] = "The attendance entries of the month reaches or exceeds 3 times";
                     db.tb_attendance.Add(tb_attendance);
                     db.SaveChanges();
                     

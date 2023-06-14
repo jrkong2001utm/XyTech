@@ -22,7 +22,7 @@
                     <div class="form-group row">
                         <label for="iv_floor" class="col-sm-3 col-form-label">Floor</label>
                         <div class="col-sm-9">
-                            @Html.DropDownList("iv_floor", null, htmlAttributes: new { @class = "form-control", required = "required" })
+                            @Html.DropDownList("iv_floor", null, htmlAttributes: new { @class = "form-control", required = "required", selected="True"})
                             @Html.ValidationMessageFor(model => model.iv_floor, "", new { @class = "text-danger" })
                         </div>
                     </div>
