@@ -81,7 +81,7 @@ namespace XyTech.Controllers
                     var u_email = user.u_email;
                     var u_name = user.u_username;
                     var u_pwd = user.u_pwd;
-                    email(u_email, u_name, u_pwd);
+                    //email(u_email, u_name, u_pwd);
 
                     var userId = Convert.ToInt32(Session["id"]);
                     var financeTransaction = new tb_finance

@@ -39,43 +39,47 @@ namespace XyTech.Controllers
                         .Where(p => p.p_investor == i_id && !p.p_month.Equals(month))
                         .ToList();
 
-                    foreach (var profitEntry in tb_profit)
+                    if (tb_profit != null)
                     {
-                        // Retrieve investor name from tb_user
-                        var investor = db.tb_user.FirstOrDefault(u => u.u_id == tb_investor.i_user);
-                        if (investor != null)
-                            profitEntry.InvestorUsername = investor.u_username;
+                        foreach (var profitEntry in tb_profit)
+                        {
+                            // Retrieve investor name from tb_user
+                            var investor = db.tb_user.FirstOrDefault(u => u.u_id == tb_investor.i_user);
+                            if (investor != null)
+                                profitEntry.InvestorUsername = investor.u_username;
+                        }
+
+                        tb_profit = tb_profit
+                            .OrderByDescending(p => Convert.ToInt32(p.p_month.Split('-')[0])) // Order by year
+                            .ThenByDescending(p => Convert.ToInt32(p.p_month.Split('-')[1])) // Order by month
+                            .ToList();
+
+                        return View(tb_profit);
                     }
-
-                    tb_profit = tb_profit
-                        .OrderByDescending(p => Convert.ToInt32(p.p_month.Split('-')[0])) // Order by year
-                        .ThenByDescending(p => Convert.ToInt32(p.p_month.Split('-')[1])) // Order by month
-                        .ToList();
-
-                    return View(tb_profit);
-                }
-                return View();
-            }
-            else
-            {
-
-                var profit = db.tb_profit
-                    .Include(t => t.tb_investor)
-                    .ToList()
-                    .Select(p => new tb_profit
+                    else
                     {
-                        p_id = p.p_id,
-                        p_investor = p.p_investor,
-                        p_month = p.p_month,
-                        p_profit = p.p_profit,
-                        InvestorUsername = db.tb_user.FirstOrDefault(u => u.u_id == p.tb_investor.i_user)?.u_username
-                    })
-                    .OrderByDescending(p => Convert.ToInt32(p.p_month.Split('-')[0])) // Order by year
-                    .ThenByDescending(p => Convert.ToInt32(p.p_month.Split('-')[1])) // Order by month
-                    .ToList();
-
-                return View(profit);
+                        return View();
+                    }
+                }
             }
+
+            var profit = db.tb_profit
+                .Include(t => t.tb_investor)
+                .ToList()
+                .Select(p => new tb_profit
+                {
+                    p_id = p.p_id,
+                    p_investor = p.p_investor,
+                    p_month = p.p_month,
+                    p_profit = p.p_profit,
+                    InvestorUsername = db.tb_user.FirstOrDefault(u => u.u_id == p.tb_investor.i_user)?.u_username
+                })
+                .OrderByDescending(p => Convert.ToInt32(p.p_month.Split('-')[0])) // Order by year
+                .ThenByDescending(p => Convert.ToInt32(p.p_month.Split('-')[1])) // Order by month
+                .ToList();
+
+            return View(profit);
+            
         }
 
 

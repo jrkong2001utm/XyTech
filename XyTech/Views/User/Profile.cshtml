@@ -40,15 +40,6 @@
 
                             <tr>
                                 <th class="col-3">
-                                    pwd
-                                </th>
-                                <td class="col-6">
-                                    @Html.DisplayFor(model => model.u_pwd)
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th class="col-3">
                                     Phone Number
                                 </th>
                                 <td class="col-6">
@@ -68,7 +59,7 @@
                     </table>
                 </div>
                 <div style="margin-top: 25px;">
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.u_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
+                    @Html.ActionLink("Edit", "EditProfile", new { id = Model.u_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
                     <button id="changePasswordButton" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Change Password</button>
                 </div>
             </div>
@@ -136,11 +127,23 @@
 
 @if (!string.IsNullOrEmpty(ViewBag.Success))
 {
-    <script>
-        $(document).ready(function() {
-            swal("Password Changed!", "Remember to use your new password in the next login", "success");
-        });
-    </script>
+    if (ViewBag.Success == "Your Profile is successfully saved!")
+    {
+        <script>
+            $(document).ready(function () {
+                swal("Success!","Your Profile is updated", "success");
+            });
+        </script>
+    }
+    else
+    {
+        <script>
+            $(document).ready(function () {
+                swal("Password Changed!", "Remember to use your new password in the next login", "success");
+            });
+        </script>
+    }
+
 }
 
 <script>

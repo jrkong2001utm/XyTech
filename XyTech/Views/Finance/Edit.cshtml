@@ -59,14 +59,23 @@
             </div>
 
             <div class="form-group row">
-                @Html.LabelFor(model => model.f_paymentmethod, "Bank/Cash", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                <label for="f_paymentmethod" class="col-sm-3 col-form-label">Bank/Cash</label>
                 <div class="col-sm-9">
-                    @Html.DropDownList("f_paymentmethod", new List<SelectListItem>
-                    {
-                        new SelectListItem { Text = "Bank", Value = "Bank", Selected = (Model.f_paymentmethod == "Bank") },
-                        new SelectListItem { Text = "Cash", Value = "Cash", Selected = (Model.f_paymentmethod == "Cash") }
-                    }, new { @class = "form-control", @required = true })
-                    @Html.ValidationMessageFor(model => model.f_paymentmethod, "", new { @class = "text-danger" })
+                    <select id="f_paymentmethod" name="f_paymentmethod" class="form-control" required>
+                        @if (Model.f_paymentmethod.Trim() == "Bank")
+                        {
+                            <option value="Bank" selected>Bank</option>
+                            <option value="Cash">Cash</option>
+                        }
+                        else if (Model.f_paymentmethod.Trim() == "Cash")
+                        {
+                            <option value="Bank">Bank</option>
+                            <option value="Cash" selected>Cash</option>
+                        }
+                    </select>
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(model => model.f_paymentmethod)
+                    </span>
                 </div>
             </div>
 

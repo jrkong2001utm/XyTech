@@ -30,7 +30,7 @@ namespace XyTech.Controllers
 
         public ActionResult Profile(int? id)
         {
-            if(TempData.Count > 0)
+            if (TempData.Count > 0)
             {
                 ViewBag.Success = TempData["Success"].ToString();
             }
@@ -78,6 +78,42 @@ namespace XyTech.Controllers
                 }
             }
             //ViewBag.Message = "Incorrect Current Password";
+            return View(tb_user);
+        }
+
+        public ActionResult EditProfile(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tb_user tb_user = db.tb_user.Find(id);
+            if (tb_user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tb_user);
+        }
+
+        // POST: User/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProfile([Bind(Include = "u_id,u_username,u_pwd,u_email,u_phone,u_usertype,u_active")] tb_user tb_user)
+        {
+            if (ModelState.IsValid)
+            {
+                if (string.IsNullOrWhiteSpace(tb_user.u_pwd))
+                {
+                    ModelState.Remove("u_pwd");
+                }
+
+                db.Entry(tb_user).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["Success"] = "Your Profile is successfully saved!";
+                return RedirectToAction("Profile", new { id = tb_user.u_id });
+            }
             return View(tb_user);
         }
 
