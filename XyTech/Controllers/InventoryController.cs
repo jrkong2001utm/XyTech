@@ -20,7 +20,7 @@ namespace XyTech.Controllers
         public ActionResult Index()
         {
             ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
-            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_indate.Day >= DateTime.Today.Day && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
 
             var tb_inventory = db.tb_inventory.Where(t => t.iv_active == "1").Include(t => t.tb_floor);
             if (TempData.Count > 0)

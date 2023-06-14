@@ -20,6 +20,9 @@ namespace XyTech.Controllers
         // GET: Profit
         public ActionResult Index()
         {
+            ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
+            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_indate.Day >= DateTime.Today.Day && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+
             if (Session["usertype"] != null && Session["usertype"].Equals("Investor"))
             {
                 var userId = Convert.ToInt32(Session["id"]);
