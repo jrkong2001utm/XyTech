@@ -4,106 +4,105 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
-
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Finance", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Finance</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Add New Transaction</h4>
+            <p class="card-description">
+                Add new finance's information by filling the form below.
+            </p>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.f_date, "Date", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.f_date, new
-               {
-                   htmlAttributes = new
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <form class="forms-sample">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.f_transactiontype, "Transaction Type", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                    <div class="col-sm-9">
+                        @Html.DropDownList("f_transactiontype", new List<SelectListItem>
+                        {
+                            new SelectListItem { Text = "-- Transaction Type --", Value = "", Disabled = true, Selected = true},
+                            new SelectListItem { Text = "Inflow", Value = "Inflow"},
+                            new SelectListItem { Text = "Outflow", Value = "Outflow"}
+                        }, new { @class = "form-control", @required = true })
+                        @Html.ValidationMessageFor(model => model.f_transactiontype, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @Html.Hidden("f_user")
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.f_floor, "Transaction Floor", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                    <div class="col-sm-9">
+                        @Html.DropDownList("f_floor", null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.f_floor, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.f_transaction, "Amount", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.f_transaction, new { htmlAttributes = new { @class = "form-control", @type = "number", @stepwise = "0.01", @required = true } })
+                        @Html.ValidationMessageFor(model => model.f_transaction, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.f_desc, "Details", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.f_desc, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                        @Html.ValidationMessageFor(model => model.f_desc, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.f_paymentmethod, "Bank/Cash", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                    <div class="col-sm-9">
+                        @Html.DropDownList("f_paymentmethod", new List<SelectListItem>
+                        {
+                            new SelectListItem { Text = "-- Payment Method --", Value = "", Disabled = true, Selected = true},
+                            new SelectListItem { Text = "Bank", Value = "Bank" },
+                            new SelectListItem { Text = "Cash", Value = "Cash" }
+                        }, new { @class = "form-control", @required = true })
+                        @Html.ValidationMessageFor(model => model.f_paymentmethod, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.f_date, "Date", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.f_date, new
                    {
-                       @class = "form-control",
-                       @type = "date",
-                       @required = true
-                   }
-               })
-                @Html.ValidationMessageFor(model => model.f_date, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           @type = "date",
+                           @required = true
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.f_date, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.f_transactiontype, "Transaction Type", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("f_transactiontype", new List<SelectListItem>
-                {
-                    new SelectListItem { Text = "-- Transaction Type --", Selected = true, Disabled = true },
-                    new SelectListItem { Text = "Inflow", Value = "Inflow" },
-                    new SelectListItem { Text = "Outflow", Value = "Outflow" }
-                }, new { @class = "form-control", @required = true })
-                @Html.ValidationMessageFor(model => model.f_transactiontype, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.f_receipt, "Receipt (if any)", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBox("contractfile", "", new { type = "file", @class = "form-control", accept = "image/*" })
+                        @Html.ValidationMessageFor(model => model.f_receipt, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.f_floor, "Transaction Floor", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("f_floor", null, new { @class = "form-control", @required = true })
+                <button type="submit" class="btn btn-primary mr-2">Create</button>
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+            </form>
 
-                @Html.ValidationMessageFor(model => model.f_floor, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @Html.Hidden("f_user")
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.f_transaction, "Amount", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.f_transaction, new { htmlAttributes = new { @class = "form-control", @type = "number", @stepwise = "0.01", @required = true } })
-                @Html.ValidationMessageFor(model => model.f_transaction, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.f_desc, "Details", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.f_desc, new { htmlAttributes = new { @class = "form-control", @required = true } })
-                @Html.ValidationMessageFor(model => model.f_desc, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.f_paymentmethod, "Bank/Cash", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("f_paymentmethod", new List<SelectListItem>
-                {
-                    new SelectListItem { Text = "-- Payment Method --", Selected = true, Disabled = true },
-                    new SelectListItem { Text = "Bank", Value = "Bank" },
-                    new SelectListItem { Text = "Cash", Value = "Cash" }
-                }, new { @class = "form-control", @required = true })
-                @Html.ValidationMessageFor(model => model.f_paymentmethod, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.f_receipt, "Receipt (if any)", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.f_receipt, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.f_receipt, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
-
+}
 <script>
     document.getElementById('f_date').valueAsDate = new Date;
 

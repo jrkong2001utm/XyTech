@@ -83,6 +83,12 @@ namespace XyTech.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri")] tb_tenant tb_tenant, HttpPostedFileBase icfile, HttpPostedFileBase contractfile)
         {
+            // Retrieve the room price and room number from the form data
+            var roomPrice = Request.Form["RoomPrice"];
+            var RoomID = Request.Form["RoomID"];
+            var method = Request.Form["PaymentMethod"];
+            var d_amount = Request.Form["DepositAmount"];
+
             if (ModelState.IsValid)
             {
                 if (icfile != null && icfile.ContentLength > 0)
@@ -117,10 +123,6 @@ namespace XyTech.Controllers
                     }
                 }
 
-                // Retrieve the room price and room number from the form data
-                var roomPrice = Request.Form["RoomPrice"];
-                var RoomID = Request.Form["RoomID"];
-
                 // Set the room price and room number in the tenant object
                 tb_tenant.t_outstanding = Convert.ToDouble(roomPrice);
                 tb_tenant.t_room = Convert.ToInt32(RoomID);
@@ -130,23 +132,27 @@ namespace XyTech.Controllers
                 if (room != null)
                 {
                     room.r_availability = 0;
-                    db.SaveChanges();
+                    //db.SaveChanges();
 
                     var userId = Convert.ToInt32(Session["id"]);
-
-                    var financeTransaction = new tb_finance
+                    double amount = Convert.ToDouble(d_amount);
+                    if (amount!=0 && !string.IsNullOrEmpty(method))
                     {
-                        f_floor = room.r_floor,
-                        f_date = DateTime.Now,
-                        f_transaction = tb_tenant.DepositAmount,
-                        f_transactiontype = "Inflow",
-                        f_paymentmethod = tb_tenant.PaymentMethod,
-                        f_user = userId,
-                        f_desc = "deposit " + tb_tenant.t_name + room.r_no
-                    };
 
-                    db.tb_finance.Add(financeTransaction);
-                    db.SaveChanges();
+                        var financeTransaction = new tb_finance
+                        {
+                            f_floor = room.r_floor,
+                            f_date = DateTime.Now,
+                            f_transaction = amount,
+                            f_transactiontype = "Inflow",
+                            f_paymentmethod = method,
+                            f_user = userId,
+                            f_desc = "deposit " + tb_tenant.t_name + " " + room.r_no
+                        };
+
+                        db.tb_finance.Add(financeTransaction);
+                        db.SaveChanges();
+                    }
                 }
 
                 db.tb_tenant.Add(tb_tenant);
@@ -155,6 +161,8 @@ namespace XyTech.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.RoomPrice = roomPrice;
+            ViewBag.RoomID = RoomID;
             ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_no", tb_tenant.t_room);
             return View(tb_tenant);
         }
@@ -261,7 +269,7 @@ namespace XyTech.Controllers
 
                 if (contractfile != null && contractfile.ContentLength > 0)
                 {
-                    if (icfile.ContentType.Contains("image"))
+                    if (contractfile.ContentType.Contains("image"))
                     {
                         string _FileName = Path.GetFileName(contractfile.FileName);
                         string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contractfile"), _FileName);

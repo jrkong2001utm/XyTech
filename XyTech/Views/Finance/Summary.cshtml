@@ -17,82 +17,98 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <p class="card-title mb-0" style="font-size: x-large;">Summary</p>
-                    @Html.ActionLink("Back to List", "Index")
+                    <p class="card-title mb-0" style="font-size: x-large;">Summary of Finance</p>
+                    @*@Html.ActionLink("Back to List", "Index", "Finance", null, new { @class = "btn btn-primary btn-rounded btn-fw" })*@
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Year</th>
-                                <th>Month</th>
-                                @foreach (var floor in Model.SelectMany(x => x.Value.SelectMany(y => y.Value.Keys)).Distinct())
-                                {
-                                    <th>@floor</th>
-                                }
-                                <th>Total Profit</th> <!-- New column for total profit by month -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var yearEntry in Model.OrderByDescending(x => x.Key))
-                            {
-                                var year = yearEntry.Key;
-                                var months = yearEntry.Value.Keys.OrderByDescending(x => x).ToList();
-                                var allFloors = Model.SelectMany(x => x.Value.SelectMany(y => y.Value.Keys)).Distinct();
+                <br />
 
-                                foreach (var month in months)
-                                {
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="dataTable" class="display expandable-table" style="width:100%">
+                                <thead>
                                     <tr>
-                                        <td>@year</td>
-                                        <td>@month</td>
-                                        @foreach (var floor in allFloors)
+                                        <th>Year</th>
+                                        <th>Month</th>
+                                        @foreach (var floor in Model.SelectMany(x => x.Value.SelectMany(y => y.Value.Keys)).Distinct())
                                         {
-                                            <td>@(Model.ContainsKey(year) && Model[year].ContainsKey(month) && Model[year][month].ContainsKey(floor) ? Model[year][month][floor].ToString() : "0")</td>
+                                            <th>@floor</th>
                                         }
+                                        <th>Total Profit</th> <!-- New column for total profit by month -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var yearEntry in Model.OrderByDescending(x => x.Key))
+                                    {
+                                        var year = yearEntry.Key;
+                                        var months = yearEntry.Value.Keys.OrderByDescending(x => x).ToList();
+                                        var allFloors = Model.SelectMany(x => x.Value.SelectMany(y => y.Value.Keys)).Distinct();
+
+                                        foreach (var month in months)
+                                        {
+                                            <tr>
+                                                <td>@year</td>
+                                                <td>@month</td>
+                                                @foreach (var floor in allFloors)
+                                                {
+                                                    <td>@(Model.ContainsKey(year) && Model[year].ContainsKey(month) && Model[year][month].ContainsKey(floor) ? Model[year][month][floor].ToString() : "0")</td>
+                                                }
+                                                <td>
+                                                    @{
+                                                        if (Model.ContainsKey(year) && Model[year].ContainsKey(month))
+                                                        {
+                                                            var totalProfit = Model[year][month].Values.Sum();
+                                                            @totalProfit
+                                                        }
+                                                        else
+                                                        {
+                                                            @(0)
+                                                        }
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+
+                                <tfoot>
+                                    <tr class="footer-row">
+                                        <td>Total</td>
+                                        <td></td>
+                                        @foreach (var floor in Model.SelectMany(x => x.Value.SelectMany(y => y.Value.Keys)).Distinct())
+                                        {
+                                            <td>
+                                                @{
+                                                    var floorProfit = Model.SelectMany(x => x.Value).Where(d => d.Value.ContainsKey(floor)).Sum(d => d.Value[floor]);
+                                                    @floorProfit
+                                                }
+                                            </td>
+                                        }
+
                                         <td>
                                             @{
-                                                if (Model.ContainsKey(year) && Model[year].ContainsKey(month))
-                                                {
-                                                    var totalProfit = Model[year][month].Values.Sum();
-                                                    @totalProfit
-                                                }
-                                                else
-                                                {
-                                                    @(0)
-                                                }
+                                                var totalOverallProfit = Model.SelectMany(x => x.Value.SelectMany(y => y.Value.Values)).Sum(d => d);
+                                                @totalOverallProfit
                                             }
                                         </td>
                                     </tr>
-                                }
-                            }
-                        </tbody>
-
-                        <tfoot>
-                            <tr class="footer-row">
-                                <td>Total</td>
-                                <td></td>
-                                @foreach (var floor in Model.SelectMany(x => x.Value.SelectMany(y => y.Value.Keys)).Distinct())
-                                {
-                                    <td>
-                                        @{
-                                            var floorProfit = Model.SelectMany(x => x.Value).Where(d => d.Value.ContainsKey(floor)).Sum(d => d.Value[floor]);
-                                            @floorProfit
-                                        }
-                                    </td>
-                                }
-
-                                <td>
-                                    @{
-                                        var totalOverallProfit = Model.SelectMany(x => x.Value.SelectMany(y => y.Value.Values)).Sum(d => d);
-                                        @totalOverallProfit
-                                    }
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                "pageLength": 13
+            });
+        });
+    </script>
+}

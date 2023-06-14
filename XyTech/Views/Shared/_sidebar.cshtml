@@ -1,82 +1,105 @@
-﻿<nav class="sidebar sidebar-offcanvas" id="sidebar">
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index","Home")">
-                <i class="mdi mdi-chart-bar menu-icon"></i>
-                <span class="menu-title">Dashboard</span>
-            </a>
-        </li>
+﻿@if (Session["usertype"].ToString() == "Admin")
+{
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Home")">
+                    <i class="mdi mdi-chart-bar menu-icon"></i>
+                    <span class="menu-title">Dashboard</span>
+                </a>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index","User")">
-                <i class="mdi mdi-account-search menu-icon"></i>
-                <span class="menu-title">User</span>
-            </a>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "User")">
+                    <i class="mdi mdi-account-search menu-icon"></i>
+                    <span class="menu-title">User</span>
+                </a>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index","Investor")">
-                <i class="mdi mdi-trophy-award menu-icon"></i>
-                <span class="menu-title">Investor</span>
-            </a>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Investor")">
+                    <i class="mdi mdi-trophy-award menu-icon"></i>
+                    <span class="menu-title">Investor</span>
+                </a>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic-finance" aria-expanded="false" aria-controls="ui-basic-finance">
-                <i class="mdi mdi-cash-multiple menu-icon"></i>
-                <span class="menu-title">Finance</span>
-                <i class="menu-arrow mdi mdi-chevron-left"></i>
-            </a>
-            <div class="collapse" id="ui-basic-finance">
-                <!-- Remove the 'show' class here -->
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Finance")">Transaction</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("summary","Finance")">Summary</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Profit")">Profit</a></li>
-                </ul>
-            </div>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#ui-basic-finance" aria-expanded="false" aria-controls="ui-basic-finance">
+                    <i class="mdi mdi-cash-multiple menu-icon"></i>
+                    <span class="menu-title">Finance</span>
+                    <i class="menu-arrow mdi mdi-chevron-left"></i>
+                </a>
+                <div class="collapse" id="ui-basic-finance">
+                    <!-- Remove the 'show' class here -->
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index", "Finance")">Transaction</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("summary", "Finance")">Summary</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index", "Profit")">Profit</a></li>
+                    </ul>
+                </div>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                <i class="mdi mdi-domain menu-icon"></i>
-                <span class="menu-title">Floor and Rooms</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Floor")">Quick Access</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("FloorList","Floor")">Floor List</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Room")">Room List</a></li>
-                </ul>
-            </div>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                    <i class="mdi mdi-domain menu-icon"></i>
+                    <span class="menu-title">Floor and Rooms</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-basic">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index", "Floor")">Quick Access</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("FloorList", "Floor")">Floor List</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index", "Room")">Room List</a></li>
+                    </ul>
+                </div>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index","Tenant")">
-                <i class="mdi mdi-clipboard-account menu-icon"></i>
-                <span class="menu-title">Tenant</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index","Landlord")">
-                <i class="mdi mdi-home menu-icon"></i>
-                <span class="menu-title">Landlord</span>
-            </a>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Tenant")">
+                    <i class="mdi mdi-clipboard-account menu-icon"></i>
+                    <span class="menu-title">Tenant</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Landlord")">
+                    <i class="mdi mdi-home menu-icon"></i>
+                    <span class="menu-title">Landlord</span>
+                </a>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index","Attendance")">
-                <i class="mdi mdi-timetable menu-icon"></i>
-                <span class="menu-title">Attendance</span>
-            </a>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Attendance")">
+                    <i class="mdi mdi-timetable menu-icon"></i>
+                    <span class="menu-title">Attendance</span>
+                </a>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index","Inventory")">
-                <i class="mdi mdi-package-variant-closed menu-icon"></i>
-                <span class="menu-title">Inventory</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Inventory")">
+                    <i class="mdi mdi-package-variant-closed menu-icon"></i>
+                    <span class="menu-title">Inventory</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+}
+else if (Session["usertype"].ToString() == "Investor")
+{
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Profit")">
+                    <i class="mdi mdi-cash-multiple menu-icon"></i>
+                    <span class="menu-title">Your Profit</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Summary", "Finance")">
+                    <i class="mdi mdi-chart-bar menu-icon"></i>
+                    <span class="menu-title">Company Performance</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+}
