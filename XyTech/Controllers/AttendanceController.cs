@@ -137,8 +137,8 @@ namespace XyTech.Controllers
             }
             var attendance = new tb_attendance(); // Replace tb_inventory with the appropriate class name and constructor if necessary
                                                   // Assign values to other properties of the inventory object if needed
-
-            ViewBag.a_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", attendance.a_floor);
+            var selectedFloorId = tb_attendance.a_floor;
+            ViewBag.a_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", selectedFloorId);
             
             return View(tb_attendance);
         }
@@ -159,8 +159,8 @@ namespace XyTech.Controllers
             }
             var attendance = new tb_attendance(); // Replace tb_inventory with the appropriate class name and constructor if necessary
                                                   // Assign values to other properties of the inventory object if needed
-
-            ViewBag.a_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", attendance.a_floor);
+            var selectedFloorId = tb_attendance.a_floor;
+            ViewBag.a_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", selectedFloorId);
             return View(tb_attendance);
         }
 
