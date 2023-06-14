@@ -74,7 +74,11 @@ namespace XyTech.Controllers
         // GET: Attendance/Create
         public ActionResult Create()
         {
-            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname");
+            var attendance = new tb_attendance(); // Replace tb_inventory with the appropriate class name and constructor if necessary
+                                                // Assign values to other properties of the inventory object if needed
+
+            ViewBag.a_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", attendance.a_floor);
+            
             return View();
         }
 
@@ -95,11 +99,12 @@ namespace XyTech.Controllers
                 int count = db.tb_attendance
                     .Count(a => a.a_check.Month == month && a.a_check.Year == year && a.a_floor == fid);
 
-                if (count == 3)
+                if (count >= 3)
                 {
                     TempData["ErrorMessage"] = "The attendance entries of the month exceeds 3 times";
                     db.tb_attendance.Add(tb_attendance);
                     db.SaveChanges();
+                    
                 }
                 else
                 {
@@ -125,7 +130,11 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_attendance.a_floor);
+            var attendance = new tb_attendance(); // Replace tb_inventory with the appropriate class name and constructor if necessary
+                                                  // Assign values to other properties of the inventory object if needed
+
+            ViewBag.a_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", attendance.a_floor);
+            
             return View(tb_attendance);
         }
 
@@ -142,7 +151,10 @@ namespace XyTech.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_attendance.a_floor);
+            var attendance = new tb_attendance(); // Replace tb_inventory with the appropriate class name and constructor if necessary
+                                                  // Assign values to other properties of the inventory object if needed
+
+            ViewBag.a_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", attendance.a_floor);
             return View(tb_attendance);
         }
 
