@@ -9,12 +9,13 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using XyTech.Attributes;
 using XyTech.Models;
 using static System.Net.WebRequestMethods;
 
 namespace XyTech.Controllers
 {
-
+    [CustomAuthorize]
     public class FloorController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();

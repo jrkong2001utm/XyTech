@@ -14,7 +14,7 @@ using XyTech.Models;
 
 namespace XyTech.Controllers
 {
-    //[CustomAuthorize]
+    [CustomAuthorize]
     public class TenantController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();
