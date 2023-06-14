@@ -45,6 +45,15 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-success">
+                        <strong>@TempData["ErrorMessage"]</strong>
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span class="mdi mdi-close"></span>
+                        </button>
+                    </div>
+                }
                 @if (ViewBag.Message == "Inventory is successfully saved!")
                 {
                     <div class="alert alert-success">
@@ -64,11 +73,11 @@
                     </div>
                 }
 
-            <div class="d-flex justify-content-between">
-                <p class="card-title mb-0" style="font-size: x-large;">Inventory</p>
+                <div class="d-flex justify-content-between">
+                    <p class="card-title mb-0" style="font-size: x-large;">Inventory</p>
 
-                @Html.ActionLink("Add", "Create", "Inventory", null, new { @class = "btn btn-success btn-rounded btn-fw" })
-            </div>
+                    @Html.ActionLink("Add", "Create", "Inventory", null, new { @class = "btn btn-success btn-rounded btn-fw" })
+                </div>
                 <br />
 
 

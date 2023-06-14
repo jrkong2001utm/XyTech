@@ -48,7 +48,12 @@ namespace XyTech.Controllers
         // GET: Room/Create
         public ActionResult Create()
         {
-            ViewBag.r_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname");
+            var room = new tb_room(); // Replace tb_inventory with the appropriate class name and constructor if necessary
+                                        // Assign values to other properties of the inventory object if needed
+
+            ViewBag.r_floor = new SelectList(db.tb_floor.Where(r => r.fl_active == "active"), "fl_id", "fl_bname", room.r_floor);
+
+            //ViewBag.r_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname");
             return View();
         }
 
@@ -83,7 +88,11 @@ namespace XyTech.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.r_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_room.r_floor);
+            var room = new tb_room(); // Replace tb_inventory with the appropriate class name and constructor if necessary
+                                      // Assign values to other properties of the inventory object if needed
+
+            ViewBag.r_floor = new SelectList(db.tb_floor.Where(r => r.fl_active == "active"), "fl_id", "fl_bname", room.r_floor);
+
             return View(tb_room);
         }
 
@@ -99,7 +108,11 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.r_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_room.r_floor);
+            var room = new tb_room(); // Replace tb_inventory with the appropriate class name and constructor if necessary
+                                      // Assign values to other properties of the inventory object if needed
+
+            ViewBag.r_floor = new SelectList(db.tb_floor.Where(r => r.fl_active == "active"), "fl_id", "fl_bname", room.r_floor);
+
             return View(tb_room);
         }
 
@@ -134,7 +147,11 @@ namespace XyTech.Controllers
                 TempData["success"] = " Room has been updated successfully!";
                 return RedirectToAction("Index");
             }
-            ViewBag.r_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_room.r_floor);
+            var room = new tb_room(); // Replace tb_inventory with the appropriate class name and constructor if necessary
+                                      // Assign values to other properties of the inventory object if needed
+
+            ViewBag.r_floor = new SelectList(db.tb_floor.Where(r => r.fl_active == "active"), "fl_id", "fl_bname", room.r_floor);
+
             return View(tb_room);
         }
 
