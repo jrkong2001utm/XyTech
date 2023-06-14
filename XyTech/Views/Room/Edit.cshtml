@@ -29,7 +29,7 @@
                 <div class="form-group row">
                     <label for="l_contact" class="col-sm-3 col-form-label">Building Name</label>
                     <div class="col-sm-9">
-                        @Html.DropDownList("r_floor", null, htmlAttributes: new { @class = "form-control", placeholder = "Select a building", required = "required" })
+                        @Html.DropDownList("r_floor", null, htmlAttributes: new { @class = "form-control", placeholder = "Select a building", required = "required", Selected = true })
                         @Html.ValidationMessageFor(model => model.r_floor, "", new { @class = "text-danger" })
                     </div>
                 </div>

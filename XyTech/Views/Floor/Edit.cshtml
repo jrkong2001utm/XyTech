@@ -47,7 +47,7 @@
                 <div class="form-group row">
                     <label for="l_due" class="col-sm-3 col-form-label">Landlord Name</label>
                     <div class="col-sm-9">
-                        @Html.DropDownList("fl_landlord", null, htmlAttributes: new { @class = "form-control", placeholder = "Select a landlord", required = "required" })
+                        @Html.DropDownList("fl_landlord", null, htmlAttributes: new { @class = "form-control", placeholder = "Select a landlord", required = "required", Selected = true })
                         @Html.ValidationMessageFor(model => model.fl_landlord, "", new { @class = "text-danger" })
                     </div>
                 </div>
