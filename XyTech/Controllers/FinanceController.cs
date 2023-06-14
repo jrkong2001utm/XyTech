@@ -15,7 +15,7 @@ using static System.Net.WebRequestMethods;
 
 namespace XyTech.Controllers
 {
-    //[CustomAuthorize]
+    [CustomAuthorize]
     public class FinanceController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();
@@ -29,8 +29,17 @@ namespace XyTech.Controllers
             var tb_finance = db.tb_finance
                 .Include(t => t.tb_user)
                 .Include(t => t.tb_floor)
-                .OrderByDescending(t => t.f_date); // Order by f_date in descending order
-            return View(tb_finance.ToList());
+                .OrderByDescending(t => t.f_date)
+                .ToList(); // Order by f_date in descending order
+
+            var floors = db.tb_floor.ToList();
+            ViewBag.Floors = floors;
+
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
+            return View(tb_finance);
         }
 
         public ActionResult Summary()
@@ -139,6 +148,7 @@ namespace XyTech.Controllers
 
                 db.tb_finance.Add(tb_finance);
                 db.SaveChanges();
+                TempData["success"] = "Transaction is successfully saved!";
                 CalculateCurrentMonthProfit();
                 return RedirectToAction("Index");
             }
@@ -226,7 +236,7 @@ namespace XyTech.Controllers
                 db.Entry(tb_finance).State = EntityState.Modified;
                 db.SaveChanges();
                 CalculateCurrentMonthProfit();
-                TempData["success"] = "Finance updated successfully!";
+                TempData["success"] = "Transaction is successfully saved!";
                 return RedirectToAction("Index");
             }
             ViewBag.f_user = Session["id"];
@@ -257,6 +267,7 @@ namespace XyTech.Controllers
             tb_finance tb_finance = db.tb_finance.Find(id);
             db.tb_finance.Remove(tb_finance);
             db.SaveChanges();
+            TempData["success"] = "Transaction is deleted.";
             CalculateCurrentMonthProfit();
             return RedirectToAction("Index");
         }
@@ -272,12 +283,12 @@ namespace XyTech.Controllers
 
         public void CalculateCurrentMonthProfit()
         {
-            var currentMonth = DateTime.Now.Month;
-            var currentYear = DateTime.Now.Year;
+            //var currentMonth = DateTime.Now.Month;
+            //var currentYear = DateTime.Now.Year;
 
-            //var currentDate = DateTime.Now.AddMonths(-1);
-            //var currentMonth = currentDate.Month;
-            //var currentYear = currentDate.Year;
+            var currentDate = DateTime.Now.AddMonths(-1);
+            var currentMonth = currentDate.Month;
+            var currentYear = currentDate.Year;
 
             // Retrieve the investors from the tb_investor table
             var investors = db.tb_investor.ToList().Where(t => t.i_active == "active");

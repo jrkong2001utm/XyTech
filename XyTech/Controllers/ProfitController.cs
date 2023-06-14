@@ -8,9 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using XyTech.Models;
 using System.Globalization;
+using XyTech.Attributes;
 
 namespace XyTech.Controllers
 {
+    [CustomAuthorize]
     public class ProfitController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();
@@ -18,7 +20,7 @@ namespace XyTech.Controllers
         // GET: Profit
         public ActionResult Index()
         {
-            if (Session["id"] != null && Session["usertype"].Equals("Investor"))
+            if (Session["usertype"] != null && Session["usertype"].Equals("Investor"))
             {
                 var userId = Convert.ToInt32(Session["id"]);
                 var tb_investor = db.tb_investor.FirstOrDefault(i => i.i_user == userId);
@@ -49,24 +51,28 @@ namespace XyTech.Controllers
 
                     return View(tb_profit);
                 }
+                return View();
             }
+            else
+            {
 
-            var profit = db.tb_profit
-                .Include(t => t.tb_investor)
-                .ToList()
-                .Select(p => new tb_profit
-                {
-                    p_id = p.p_id,
-                    p_investor = p.p_investor,
-                    p_month = p.p_month,
-                    p_profit = p.p_profit,
-                    InvestorUsername = db.tb_user.FirstOrDefault(u => u.u_id == p.tb_investor.i_user)?.u_username
-                })
-                .OrderByDescending(p => Convert.ToInt32(p.p_month.Split('-')[0])) // Order by year
-                .ThenByDescending(p => Convert.ToInt32(p.p_month.Split('-')[1])) // Order by month
-                .ToList();
+                var profit = db.tb_profit
+                    .Include(t => t.tb_investor)
+                    .ToList()
+                    .Select(p => new tb_profit
+                    {
+                        p_id = p.p_id,
+                        p_investor = p.p_investor,
+                        p_month = p.p_month,
+                        p_profit = p.p_profit,
+                        InvestorUsername = db.tb_user.FirstOrDefault(u => u.u_id == p.tb_investor.i_user)?.u_username
+                    })
+                    .OrderByDescending(p => Convert.ToInt32(p.p_month.Split('-')[0])) // Order by year
+                    .ThenByDescending(p => Convert.ToInt32(p.p_month.Split('-')[1])) // Order by month
+                    .ToList();
 
-            return View(profit);
+                return View(profit);
+            }
         }
 
 

@@ -6,10 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using XyTech.Attributes;
 using XyTech.Models;
 
 namespace XyTech.Controllers
 {
+    [CustomAuthorize]
     public class InventoryController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();
@@ -93,8 +95,8 @@ namespace XyTech.Controllers
             }
             var inventory = new tb_inventory(); // Replace tb_inventory with the appropriate class name and constructor if necessary
                                                 // Assign values to other properties of the inventory object if needed
-
-            ViewBag.iv_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", inventory.iv_floor);
+            var selectedFloorId = tb_inventory.iv_floor;
+            ViewBag.iv_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", selectedFloorId);
 
             return View(tb_inventory);
         }
@@ -115,8 +117,8 @@ namespace XyTech.Controllers
             }
             var inventory = new tb_inventory(); // Replace tb_inventory with the appropriate class name and constructor if necessary
                                                 // Assign values to other properties of the inventory object if needed
-
-            ViewBag.iv_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", inventory.iv_floor);
+            var selectedFloorId = tb_inventory.iv_floor;
+            ViewBag.iv_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", selectedFloorId);
 
             return View(tb_inventory);
         }

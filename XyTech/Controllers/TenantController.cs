@@ -14,7 +14,7 @@ using XyTech.Models;
 
 namespace XyTech.Controllers
 {
-    //[CustomAuthorize]
+    [CustomAuthorize]
     public class TenantController : Controller
     {
         private db_XyTechEntities db = new db_XyTechEntities();
@@ -197,13 +197,17 @@ namespace XyTech.Controllers
             db.SaveChanges();
 
             // Update the outstanding amount based on the payment amount
-            if (tenant.t_outstanding != amount && amount != 0)
+            if (tenant.t_outstanding > amount && amount != 0)
             {
                 tenant.t_paymentstatus = 2;
             }
             else if (tenant.t_outstanding == amount)
             {
                 tenant.t_paymentstatus = 1;
+            }
+            else if (tenant.t_outstanding < amount)
+            {
+                tenant.t_paymentstatus = 0;
             }
             tenant.t_outstanding -= amount;
 

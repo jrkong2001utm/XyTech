@@ -6,6 +6,7 @@
 
 <h2>Add attendance</h2>
 
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -44,17 +45,24 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@if (TempData["ErrorMessage"] != null)
-{
+@{
+    string errorMessage = TempData["ErrorMessage"] as string;
+    if (!string.IsNullOrEmpty(errorMessage))
+    {
     <script>
-        $(document).ready(function() {
-            var errorMessage = '@TempData["ErrorMessage"]';
-            alert(errorMessage);
-        });
+            window.onload = function() {
+                alert("@errorMessage");
+                window.location.href = '@Url.Action("Index", "Attendance")';
+            };
     </script>
+    }
 }
 
+
+
 @section Scripts {
+
+
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.13.2.min.js"></script>
     <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
