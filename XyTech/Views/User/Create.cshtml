@@ -4,75 +4,87 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create New User</h2>
-
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.u_username,"Username", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.u_username, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.u_username, "", new { @class = "text-danger" })
-            </div>
-        </div>
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Add New User</h4>
+            <p class="card-description">
+                Add new user's information by filling the form below.
+            </p>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.u_pwd, "Password", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.u_pwd, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.u_pwd, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.u_email, "Email", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.u_email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.u_email, "", new { @class = "text-danger" })
+        <form class="forms-sample">
+            <div class="form-group row">
+                @Html.LabelFor(model => model.u_username, "Username", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                <div class="col-sm-9">
+                    @Html.EditorFor(model => model.u_username, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.u_username, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.u_phone, "Phone Number", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.u_phone, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.u_phone, "", new { @class = "text-danger" })
+            <div class="form-group row">
+                @Html.LabelFor(model => model.u_pwd, "Password", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                <div class="col-sm-9">
+                    @Html.EditorFor(model => model.u_pwd, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.u_pwd, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.u_usertype, "User Type", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("u_usertype", new List<SelectListItem>
-                {
-                    new SelectListItem { Text = "-- Select User Type --", Selected = true, Disabled = true },
-                    new SelectListItem { Text = "Admin", Value = "Admin" },
-                    new SelectListItem { Text = "Investor", Value = "Investor" }
-                }, new { @class = "form-control", @required = true })
-                @Html.ValidationMessageFor(model => model.u_usertype, "", new { @class = "text-danger" })
+            <div class="form-group row">
+                @Html.LabelFor(model => model.u_email, "Email", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                <div class="col-sm-9">
+                    @Html.EditorFor(model => model.u_email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.u_email, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        @Html.DropDownList("u_active", new List<SelectListItem>
-        {
-            new SelectListItem { Text = "active", Value = "active", Selected = true},
-            new SelectListItem { Text = "inactive", Value = "inactive" }
-        }, new { @class = "form-control", @hidden=true})
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="form-group row">
+                @Html.LabelFor(model => model.u_phone, "Phone Number", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                <div class="col-sm-9">
+                    @Html.EditorFor(model => model.u_phone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.u_phone, "", new { @class = "text-danger" })
+                </div>
             </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.u_usertype, "User Type", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                <div class="col-sm-9">
+                    @Html.DropDownList("u_usertype", new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "-- Select User Type --", Selected = true, Disabled = true },
+                        new SelectListItem { Text = "Admin", Value = "Admin" },
+                        new SelectListItem { Text = "Investor", Value = "Investor" }
+                    }, new { @class = "form-control", @required = true })
+                    @Html.ValidationMessageFor(model => model.u_usertype, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @Html.DropDownList("u_active", new List<SelectListItem>
+            {
+                new SelectListItem { Text = "active", Value = "active", Selected = true},
+                new SelectListItem { Text = "inactive", Value = "inactive" }
+            }, new { @class = "form-control", @hidden = true })
+
+            <button type="submit" class="btn btn-primary mr-2">Create</button>
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+
+            </form>
+            
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+            }
+
+<script>
+    $(document).ready(function () {
+        $('#usernameInput').on('input', function () {
+            $('#hiddenUsername').val($(this).val());
+        });
+    });
+</script>
+

@@ -87,9 +87,26 @@ namespace XyTech.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.tb_attendance.Add(tb_attendance);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                DateTime checkDate = tb_attendance.a_check.Date;
+                int month = checkDate.Month;
+                int year = checkDate.Year;
+                int fid = tb_attendance.a_floor;
+
+                int count = db.tb_attendance
+                    .Count(a => a.a_check.Month == month && a.a_check.Year == year && a.a_floor == fid);
+
+                if (count == 3)
+                {
+                    TempData["ErrorMessage"] = "The attendance entries of the month exceeds 3 times";
+                    db.tb_attendance.Add(tb_attendance);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    db.tb_attendance.Add(tb_attendance);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             ViewBag.a_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_attendance.a_floor);

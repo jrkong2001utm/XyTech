@@ -46,7 +46,12 @@ namespace XyTech.Controllers
         // GET: Inventory/Create
         public ActionResult Create()
         {
-            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname");
+            var inventory = new tb_inventory(); // Replace tb_inventory with the appropriate class name and constructor if necessary
+                                                // Assign values to other properties of the inventory object if needed
+
+            ViewBag.iv_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", inventory.iv_floor);
+
+
             return View();
         }
 
@@ -65,7 +70,12 @@ namespace XyTech.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_inventory.iv_floor);
+            var inventory = new tb_inventory(); // Replace tb_inventory with the appropriate class name and constructor if necessary
+                                                // Assign values to other properties of the inventory object if needed
+
+            ViewBag.iv_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", inventory.iv_floor);
+
+
             return View(tb_inventory);
         }
 
@@ -81,7 +91,11 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_inventory.iv_floor);
+            var inventory = new tb_inventory(); // Replace tb_inventory with the appropriate class name and constructor if necessary
+                                                // Assign values to other properties of the inventory object if needed
+
+            ViewBag.iv_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", inventory.iv_floor);
+
             return View(tb_inventory);
         }
 
@@ -99,7 +113,11 @@ namespace XyTech.Controllers
                 TempData["success"] = "Inventory is successfully saved!";
                 return RedirectToAction("Index");
             }
-            ViewBag.iv_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_inventory.iv_floor);
+            var inventory = new tb_inventory(); // Replace tb_inventory with the appropriate class name and constructor if necessary
+                                                // Assign values to other properties of the inventory object if needed
+
+            ViewBag.iv_floor = new SelectList(db.tb_floor.Where(f => f.fl_active == "active"), "fl_id", "fl_bname", inventory.iv_floor);
+
             return View(tb_inventory);
         }
 

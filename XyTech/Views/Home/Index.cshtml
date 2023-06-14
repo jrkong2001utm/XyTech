@@ -48,7 +48,7 @@
     <div class="col-md-4 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <p class="card-title">Finance Details</p>
+                <p class="card-title">@ViewBag.Month's Finance Details</p>
                 <div class="d-flex flex-wrap mb-5">
                     <div class="mr-5 mt-3">
                         <p class="text-muted">Total Profit</p>
@@ -189,7 +189,7 @@
                                                                 @foreach (var weektenant in ViewBag.weektenant)
                                                                 {
                                                                     var phoneNumber = weektenant.t_phone;
-                                                                    var encodedMessage = "Dear " + weektenant.t_name + ",Your rental fee due is coming soon " + weektenant.t_outdate + ". Please kindly pay the rental fee (RM" + weektenant.t_outstanding + ") as soon as possible. Thank You.";
+                                                                    var encodedMessage = "Dear " + weektenant.t_name + ", Your rental fee due is coming soon on " + weektenant.t_indate.Day + " this month. Please kindly pay the rental fee (RM" + weektenant.t_outstanding + ") as soon as possible. Thank You.";
                                                                     var urlwhatsapp = "https://wa.me/+6" + phoneNumber + "?text=" + encodedMessage;
                                                                     <tr>
                                                                         <td>@weektenant.t_name</td>
@@ -269,13 +269,13 @@
                                                 }
                                             </td>
                                             <td style="text-align: center">
-                                                <a href="@Url.Action("Edit", new { id = room.r_id })" class="btn btn-link" title="edit">
+                                                <a href="@Url.Action("Edit", "Room", new { id = room.r_id })" class="btn btn-link" title="edit">
                                                     <i class="fa fa-edit text-primary"></i>
                                                 </a>
-                                                <a href="@Url.Action("Details", new { id = room.r_id })" class="btn btn-link" title="details">
+                                                <a href="@Url.Action("Details", "Room", new { id = room.r_id })" class="btn btn-link" title="details">
                                                     <i class="fa fa-info-circle text-info"></i>
                                                 </a>
-                                                <a href="@Url.Action("Delete", new { id = room.r_id })" class="btn btn-link" title="delete">
+                                                <a href="@Url.Action("Delete", "Room", new { id = room.r_id })" class="btn btn-link" title="delete">
                                                     <i class="fa fa-trash text-danger"></i>
                                                 </a>
                                                 <a href="@Url.Action("Create", "Tenant", new { id = room.r_id })" class="btn btn-link" title="addtenant">

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using XyTech.Models;
@@ -43,10 +45,21 @@ namespace XyTech.Controllers
         // GET: Investor/Create
         public ActionResult Create()
         {
-            ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username");
+            ViewBag.Username = TempData["InvestorUsername"] as string;
+
+            using (var context = new XyTech.Models.db_XyTechEntities())
+            {
+                var username = ViewBag.Username as string;
+                var user = context.tb_user.FirstOrDefault(u => u.u_username == username);
+                if (user != null)
+                {
+                    var userList = context.tb_user.Select(u => new { u.u_id, u.u_username }).ToList();
+                    ViewBag.i_user = new SelectList(userList, "u_id", "u_username", user.u_id);
+                }
+            }
+
             return View();
         }
-
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -56,14 +69,67 @@ namespace XyTech.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.tb_investor.Add(tb_investor);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    var user = db.tb_user.Find(tb_investor.i_user);
+                    var u_email = user.u_email;
+                    var u_name = user.u_username;
+                    var u_pwd = user.u_pwd;
+                    email(u_email, u_name, u_pwd);
+
+                    var userId = Convert.ToInt32(Session["id"]);
+                    var financeTransaction = new tb_finance
+                    {
+                        f_floor = null, // Modify as per your requirement
+                        f_date = DateTime.Now, // Set the finance transaction date to current date
+                        f_transaction = tb_investor.i_amount, // Set the transaction amount as per your requirement
+                        f_transactiontype = "Inflow", // Set the transaction type as per your requirement
+                        f_paymentmethod = "Bank",
+                        f_user = userId,
+                        f_desc = "Investor " + u_name
+                    };
+
+                    //Hash Password
+
+                    db.tb_finance.Add(financeTransaction);
+                    db.tb_investor.Add(tb_investor);
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    var errorMessages = ex.EntityValidationErrors
+                        .SelectMany(e => e.ValidationErrors)
+                        .Select(e => e.ErrorMessage);
+
+                    // Log or handle the validation errors as needed
+                    foreach (var errorMessage in errorMessages)
+                    {
+                        ModelState.AddModelError("", errorMessage);
+                    }
+                }
             }
 
-            ViewBag.i_user = new SelectList(db.tb_user, "u_id", "u_username", tb_investor.i_user);
+            ViewBag.Username = TempData["InvestorUsername"] as string;
+            using (var context = new XyTech.Models.db_XyTechEntities())
+            {
+                var username = ViewBag.Username as string;
+                var user = context.tb_user.FirstOrDefault(u => u.u_username == username);
+                if (user != null)
+                {
+                    var userList = context.tb_user.Select(u => new { u.u_id, u.u_username }).ToList();
+                    ViewBag.i_user = new SelectList(userList, "u_id", "u_username", user.u_id);
+                }
+            }
+
             return View(tb_investor);
         }
+
+
+
+
+
 
         // GET: Investor/Edit/5
         public ActionResult Edit(int? id)
@@ -131,6 +197,47 @@ namespace XyTech.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public void email(string u_email, string username, string password)
+        {
+            using (db_XyTechEntities dc = new db_XyTechEntities())
+            {
+
+                    var verifyUrl = "/Login";
+                    var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
+
+                    var fromEmail = new MailAddress("akmalrentalsjb@gmail.com", "Akmal Rentals");
+                    var toEmail = new MailAddress(u_email);
+                    var fromEmailPassword = "wiuiwiwnutfzbqrm";
+
+                    string subject = "Akmal Rentals User Account";
+                    string body = "Dear " + username +
+                        ",<br/><br/>Your account has been created successfully. Here are your login credentials:<br/><br/>" +
+                        $"Username: {username}<br/>Password: {password}" +
+                        $"<br/><br/>Please keep these credentials secure and do not share them with anyone.<br/><br/>" +
+                        $"You can log in to your account by clicking on the following link: " +
+                        $"<a href='{link}'>Log In</a><br/><br/>Thank you for joining Akmal Rentals.\";";
+
+
+                    using (MailMessage mail = new MailMessage())
+                    {
+                        mail.From = fromEmail;
+                        mail.To.Add(toEmail);
+                        mail.Subject = subject;
+                        mail.Body = body;
+                        mail.IsBodyHtml = true;
+                        //mail.Attachments.Add(new Attachment("C:\\file.zip"));
+
+                        using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                        {
+                            smtp.UseDefaultCredentials = false;
+                            smtp.Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword);
+                            smtp.EnableSsl = true;
+                            smtp.Send(mail);
+                        }
+                    }
+            }
         }
 
 

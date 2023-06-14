@@ -138,6 +138,7 @@
     <Compile Include="Controllers\InvestorMainPageController.cs" />
     <Compile Include="Controllers\LandlordController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ProfitController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\TenantController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -2022,6 +2023,11 @@
     <Content Include="Views\Login\ResetLinkSent.cshtml" />
     <Content Include="Views\InvestorMainPage\InvestorMainPage.cshtml" />
     <Content Include="Views\User\Profile.cshtml" />
+    <Content Include="Views\Profit\Create.cshtml" />
+    <Content Include="Views\Profit\Delete.cshtml" />
+    <Content Include="Views\Profit\Details.cshtml" />
+    <Content Include="Views\Profit\Edit.cshtml" />
+    <Content Include="Views\Profit\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

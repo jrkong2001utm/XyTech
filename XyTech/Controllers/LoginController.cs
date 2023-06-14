@@ -38,7 +38,15 @@ namespace XyTech.Controllers
                             Session["id"] = obj.u_id.ToString();
                             Session["u_username"] = obj.u_username.ToString();
                             Session["usertype"] = obj.u_usertype.ToString();
-                            return RedirectToAction("Index", "Home");
+                            if (obj.u_usertype == "Investor")
+                            {
+                                return RedirectToAction("Index", "Profit");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Index", "Home");
+                            }
+                            
                         }
                         else
                         {
@@ -61,7 +69,7 @@ namespace XyTech.Controllers
         }
 
         [HttpPost]
-        public ActionResult forgot(string u_email)
+        public ActionResult forgot(string u_username)
         {
             //Verify Email ID
             //Generate Reset password link 
@@ -70,7 +78,7 @@ namespace XyTech.Controllers
 
             using (db_XyTechEntities dc = new db_XyTechEntities())
             {
-                var account = dc.tb_user.Where(a => a.u_email == u_email).FirstOrDefault();
+                var account = dc.tb_user.Where(a => a.u_username == u_username).FirstOrDefault();
                 if (account != null)
                 {
                     //Send email for reset password
@@ -112,7 +120,7 @@ namespace XyTech.Controllers
                     account.u_resetdate = DateTime.Now;
                     dc.Configuration.ValidateOnSaveEnabled = false;
                     dc.SaveChanges();
-                    return RedirectToAction("ResetLinkSent", new { email = u_email });
+                    return RedirectToAction("ResetLinkSent", new { email = account.u_email });
                 }
                 else
                 {

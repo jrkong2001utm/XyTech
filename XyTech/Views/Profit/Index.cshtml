@@ -1,0 +1,93 @@
+﻿@model IEnumerable<XyTech.Models.tb_profit>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <p class="card-title mb-0" style="font-size: x-large;">Investor Profit Sharing</p>
+                    
+                </div>
+                <br />
+                <div class="table-responsive pt-3">
+                    @{
+                        var sortedProfit = Model.OrderByDescending(p => int.Parse(p.p_month.Substring(0, 4))).ThenByDescending(p => int.Parse(p.p_month.Substring(5)));
+                    }
+
+                    <table class="table table-bordered" id="dataTable">
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    Year
+                                </th>
+                                <th>
+                                    Month
+                                </th>
+                                @if (Session["id"] != null && Session["usertype"].Equals("Admin"))
+                                {
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.InvestorUsername)
+                                    </th>
+                                }
+                                <th>
+                                    Profit Earned (RM)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in sortedProfit)
+                            {
+                                var year = int.Parse(item.p_month.Substring(0, 4));
+                                var month = int.Parse(item.p_month.Substring(5));
+
+                                <tr>
+
+                                    <td>
+                                        @year
+                                    </td>
+                                    <td>
+                                        @month
+                                    </td>
+                                    @if (Session["id"] != null && Session["usertype"].Equals("Admin"))
+                                    {
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.InvestorUsername)
+                                        </td>
+                                    }
+                                    <td id="profit">
+                                        @Html.DisplayFor(modelItem => item.p_profit)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            jQuery('#dataTable').DataTable();
+        });
+
+        var inflowAmounts = document.querySelectorAll("#profit");
+        inflowAmounts.forEach(function (element) {
+            element.textContent = parseFloat(element.textContent).toFixed(2);
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var allOption = document.querySelector('#f_floor option[value="select"]');
+            allOption.disabled = true;
+        });
+    </script>
+}

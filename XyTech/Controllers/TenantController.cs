@@ -64,8 +64,12 @@ namespace XyTech.Controllers
         }
 
         // GET: Tenant/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
+            var room = db.tb_room.Find(id);
+            ViewBag.RoomPrice = room.r_price;
+            ViewBag.RoomID = room.r_id;
+
             ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_no");
             var uniqueFloorIds = db.tb_room.Select(r => r.r_floor).Distinct().ToList();
             ViewBag.fl_id = new SelectList(uniqueFloorIds);
@@ -77,11 +81,16 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri,t_outstanding,t_paymentstatus,t_room")] tb_tenant tb_tenant, HttpPostedFileBase icfile, HttpPostedFileBase contractfile)
+        public ActionResult Create([Bind(Include = "t_id,t_name,t_ic,t_uploadic,t_contract,t_phone,t_emergency,t_indate,t_outdate,t_outsession,t_siri")] tb_tenant tb_tenant, HttpPostedFileBase icfile, HttpPostedFileBase contractfile)
         {
+            // Retrieve the room price and room number from the form data
+            var roomPrice = Request.Form["RoomPrice"];
+            var RoomID = Request.Form["RoomID"];
+            var method = Request.Form["PaymentMethod"];
+            var d_amount = Request.Form["DepositAmount"];
+
             if (ModelState.IsValid)
             {
-
                 if (icfile != null && icfile.ContentLength > 0)
                 {
                     if (icfile.ContentType.Contains("image"))
@@ -114,11 +123,36 @@ namespace XyTech.Controllers
                     }
                 }
 
+                // Set the room price and room number in the tenant object
+                tb_tenant.t_outstanding = Convert.ToDouble(roomPrice);
+                tb_tenant.t_room = Convert.ToInt32(RoomID);
+                tb_tenant.t_paymentstatus = 3;
+
                 var room = db.tb_room.FirstOrDefault(r => r.r_id == tb_tenant.t_room);
                 if (room != null)
                 {
                     room.r_availability = 0;
-                    db.SaveChanges();
+                    //db.SaveChanges();
+
+                    var userId = Convert.ToInt32(Session["id"]);
+                    double amount = Convert.ToDouble(d_amount);
+                    if (amount!=0 && !string.IsNullOrEmpty(method))
+                    {
+
+                        var financeTransaction = new tb_finance
+                        {
+                            f_floor = room.r_floor,
+                            f_date = DateTime.Now,
+                            f_transaction = amount,
+                            f_transactiontype = "Inflow",
+                            f_paymentmethod = method,
+                            f_user = userId,
+                            f_desc = "deposit " + tb_tenant.t_name + " " + room.r_no
+                        };
+
+                        db.tb_finance.Add(financeTransaction);
+                        db.SaveChanges();
+                    }
                 }
 
                 db.tb_tenant.Add(tb_tenant);
@@ -127,8 +161,61 @@ namespace XyTech.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.RoomPrice = roomPrice;
+            ViewBag.RoomID = RoomID;
             ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_no", tb_tenant.t_room);
             return View(tb_tenant);
+        }
+
+        [HttpPost]
+        public ActionResult Pay(int id, double amount, string method)
+        {
+            // Retrieve the tenant from the database
+            var tenant = db.tb_tenant.Find(id);
+
+            if (tenant == null)
+            {
+                // Tenant not found, handle the error accordingly
+                return HttpNotFound();
+            }
+
+            var userId = Convert.ToInt32(Session["id"]);
+            var room = db.tb_room.Find(tenant.t_room);
+
+            var financeTransaction = new tb_finance
+            {
+                f_floor = room.r_floor, // Modify as per your requirement
+                f_date = DateTime.Now, // Set the finance transaction date to current date
+                f_transaction = amount, // Set the transaction amount as per your requirement
+                f_transactiontype = "Inflow", // Set the transaction type as per your requirement
+                f_paymentmethod = method,
+                f_user = userId,
+                f_desc = "sewa " + tenant.t_name + " " + room.r_no
+            };
+
+            db.tb_finance.Add(financeTransaction);
+            db.SaveChanges();
+
+            // Update the outstanding amount based on the payment amount
+            if (tenant.t_outstanding != amount && amount != 0)
+            {
+                tenant.t_paymentstatus = 2;
+            }
+            else if (tenant.t_outstanding == amount)
+            {
+                tenant.t_paymentstatus = 1;
+            }
+            tenant.t_outstanding -= amount;
+
+            // Save the changes to the database
+            db.Entry(tenant).State = EntityState.Modified;
+            db.SaveChanges();
+
+            // Set a success message to be displayed on the index page
+            TempData["success"] = "Payment processed successfully!";
+
+            // Redirect back to the index page
+            return RedirectToAction("Index");
         }
 
         // GET: Tenant/Edit/5
@@ -182,7 +269,7 @@ namespace XyTech.Controllers
 
                 if (contractfile != null && contractfile.ContentLength > 0)
                 {
-                    if (icfile.ContentType.Contains("image"))
+                    if (contractfile.ContentType.Contains("image"))
                     {
                         string _FileName = Path.GetFileName(contractfile.FileName);
                         string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contractfile"), _FileName);
@@ -194,16 +281,6 @@ namespace XyTech.Controllers
                         ViewBag.Message = "Please choose image only.";
                         return View(tb_tenant);
                     }
-                }
-
-                if (updatetenant.t_paymentstatus == 2 && tb_tenant.t_paymentstatus == 3)
-                {
-                    updatetenant.t_outstanding = tb_tenant.t_outstanding / 2;
-                }
-
-                if ((updatetenant.t_paymentstatus == 1 && tb_tenant.t_paymentstatus == 3) || (updatetenant.t_paymentstatus == 1 && tb_tenant.t_paymentstatus == 2))
-                {
-                    updatetenant.t_outstanding = 0;
                 }
 
                 var previousRoom = db.tb_room.FirstOrDefault(r => r.r_id == tb_tenant.t_room);
@@ -219,6 +296,7 @@ namespace XyTech.Controllers
                     db.SaveChanges();
                 }
 
+
                 tb_tenant.t_id = updatetenant.t_id;
                 tb_tenant.t_name = updatetenant.t_name;
                 tb_tenant.t_ic = updatetenant.t_ic;
@@ -228,8 +306,6 @@ namespace XyTech.Controllers
                 tb_tenant.t_outdate = updatetenant.t_outdate;
                 tb_tenant.t_outsession = updatetenant.t_outsession;
                 tb_tenant.t_siri = updatetenant.t_siri;
-                tb_tenant.t_outstanding = updatetenant.t_outstanding;
-                tb_tenant.t_paymentstatus = updatetenant.t_paymentstatus;
                 tb_tenant.t_room = updatetenant.t_room;
 
                 db.Entry(tb_tenant).State = EntityState.Modified;

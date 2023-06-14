@@ -86,14 +86,39 @@
         </tbody>
     </table>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm("Delete", "Tenant", new { id = Model.t_id }, FormMethod.Post, new { id = "deleteForm" })) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-danger btn-rounded btn-fw" /> | 
+            <button type="button" class="btn btn-danger btn-rounded btn-fw" id="deleteButton">Delete</button> | 
             <span class="btn btn-dark btn-rounded btn-fw">
                 @Html.ActionLink("Back to List", "Index")
             </span>
-            </div>
+        </div>
     }
 </div>
+
+<script>
+    // JavaScript code using SweetAlert
+    document.addEventListener("DOMContentLoaded", function () {
+        var deleteButton = document.getElementById('deleteButton');
+
+        // Show the confirmation modal when deleteButton is clicked
+        deleteButton.addEventListener('click', function () {
+            swal({
+                title: "Confirm Delete",
+                text: "Are you sure you want to delete this user?",
+                icon: "warning",
+                buttons: ["Cancel", "Delete"],
+                dangerMode: true,
+            }).then((confirmed) => {
+                if (confirmed) {
+                    // Proceed with the deletion
+                    var form = document.getElementById('deleteForm');
+                    form.submit();
+                }
+            });
+        });
+    });
+
+</script>

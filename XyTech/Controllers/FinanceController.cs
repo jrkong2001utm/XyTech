@@ -1,13 +1,17 @@
-﻿using System;
+﻿using Antlr.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
 using XyTech.Attributes;
 using XyTech.Models;
+using static System.Net.WebRequestMethods;
 
 namespace XyTech.Controllers
 {
@@ -109,7 +113,7 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "f_id,f_floor,f_user,f_transaction,f_desc,f_transactiontype,f_paymentmethod,f_date,f_receipt")] tb_finance tb_finance)
+        public ActionResult Create([Bind(Include = "f_id,f_floor,f_user,f_transaction,f_desc,f_transactiontype,f_paymentmethod,f_date,f_receipt")] tb_finance tb_finance, HttpPostedFileBase contractfile)
         {
             if(tb_finance.f_floor == 0)
             {
@@ -117,8 +121,25 @@ namespace XyTech.Controllers
             }
             if (ModelState.IsValid)
             {
+                if (contractfile != null && contractfile.ContentLength > 0)
+                {
+                    if (contractfile.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(contractfile.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contractfile"), _FileName);
+                        contractfile.SaveAs(_path);
+                        tb_finance.f_receipt = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_finance);
+                    }
+                }
+
                 db.tb_finance.Add(tb_finance);
                 db.SaveChanges();
+                CalculateCurrentMonthProfit();
                 return RedirectToAction("Index");
             }
 
@@ -157,12 +178,55 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "f_id,f_floor,f_user,f_transaction,f_desc,f_transactiontype,f_paymentmethod,f_date,f_receipt")] tb_finance tb_finance)
+        public ActionResult Edit(tb_finance updatef, HttpPostedFileBase contractfile)
         {
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(tb_finance).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    CalculateCurrentMonthProfit();
+            //    return RedirectToAction("Index");
+            //}
+            
+            //return View(tb_finance);
+
+            tb_finance tb_finance = db.tb_finance.Find(updatef.f_id);
+            if (tb_finance == null)
+            {
+                return HttpNotFound();
+            }
+
             if (ModelState.IsValid)
             {
+
+                if (contractfile != null && contractfile.ContentLength > 0)
+                {
+                    if (contractfile.ContentType.Contains("image"))
+                    {
+                        string _FileName = Path.GetFileName(contractfile.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contractfile"), _FileName);
+                        contractfile.SaveAs(_path);
+                        tb_finance.f_receipt = _FileName;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Please choose image only.";
+                        return View(tb_finance);
+                    }
+                }
+                tb_finance.f_id = updatef.f_id;
+                tb_finance.f_floor = updatef.f_floor;
+                tb_finance.f_user = updatef.f_user;
+                tb_finance.f_transaction = updatef.f_transaction;
+                tb_finance.f_desc = updatef.f_desc;
+                tb_finance.f_transactiontype = updatef.f_transactiontype;
+                tb_finance.f_paymentmethod = updatef.f_paymentmethod;
+                tb_finance.f_date = updatef.f_date;
+
                 db.Entry(tb_finance).State = EntityState.Modified;
                 db.SaveChanges();
+                CalculateCurrentMonthProfit();
+                TempData["success"] = "Finance updated successfully!";
                 return RedirectToAction("Index");
             }
             ViewBag.f_user = Session["id"];
@@ -193,6 +257,7 @@ namespace XyTech.Controllers
             tb_finance tb_finance = db.tb_finance.Find(id);
             db.tb_finance.Remove(tb_finance);
             db.SaveChanges();
+            CalculateCurrentMonthProfit();
             return RedirectToAction("Index");
         }
 
@@ -203,6 +268,176 @@ namespace XyTech.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public void CalculateCurrentMonthProfit()
+        {
+            var currentMonth = DateTime.Now.Month;
+            var currentYear = DateTime.Now.Year;
+
+            //var currentDate = DateTime.Now.AddMonths(-1);
+            //var currentMonth = currentDate.Month;
+            //var currentYear = currentDate.Year;
+
+            // Retrieve the investors from the tb_investor table
+            var investors = db.tb_investor.ToList().Where(t => t.i_active == "active");
+
+            var financeData = db.tb_finance
+                .Where(t => t.f_date.Month == currentMonth && t.f_date.Year == currentYear && t.f_floor != null)
+                .GroupBy(t => new { t.f_floor })
+                .Select(g => new
+                {
+                    FloorId = g.Key.f_floor,
+                    Profit = g.Sum(t => t.f_transaction * (t.f_transactiontype == "Inflow" ? 1 : -1))
+                })
+                .ToList();
+
+            // Calculate the total profit for the current month
+            var profit = financeData.Sum(t => t.Profit);
+            var partner = 3;
+            var lot = db.tb_investor.Select(x => x.i_lot).Distinct().Count();
+            var priceperlot = 50000;
+            profit = profit * 0.6 / (partner + lot);
+            var p_month = $"{currentYear}-{currentMonth}";
+            int i = 0;
+
+            foreach (var investor in investors)
+            {
+                var sharing = profit * (investor.i_amount / priceperlot);
+
+                // Check if a profit entry already exists for the current month and investor
+                var existingProfit = db.tb_profit.FirstOrDefault(p => p.p_investor == investor.i_id && p.p_month == p_month);
+
+                if (existingProfit != null)
+                {
+                    // Update the existing profit entry
+                    existingProfit.p_profit = sharing;
+                    db.Entry(existingProfit).State = EntityState.Modified;
+
+                    var user = db.tb_user.Find(investor.i_user);
+                }
+                else
+                {
+                    // Create a new profit entry
+                    var profitEntry = new tb_profit
+                    {
+                        p_investor = investor.i_id,
+                        p_month = $"{currentYear}-{currentMonth}",
+                        p_profit = sharing
+                    };
+
+                    // Add the profit entry to the table
+                    db.tb_profit.Add(profitEntry);
+
+                    if(i == 0)
+                    {
+                        ShareTransaction();
+                        i++;
+                    }
+                    
+                }
+            }
+
+            // Save the changes to the database
+            db.SaveChanges();
+        }
+
+        public void ShareTransaction()
+        {
+            var uid = Convert.ToInt32(Session["id"]);
+            var currentMonth = DateTime.Now.Month;
+            var currentYear = DateTime.Now.Year;
+            var lastMonth = currentMonth - 1;
+            var lastYear = currentYear;
+
+            if (lastMonth == 0)
+            {
+                lastMonth = 12;
+                lastYear--;
+            }
+
+            var lastYearMonth = $"{lastYear}-{lastMonth}";
+            var lastMonthProfit = db.tb_profit
+                .Where(p => p.p_month == lastYearMonth)
+                .GroupBy(p => p.p_investor)
+                .Select(g => new
+                {
+                    InvestorId = g.Key,
+                    Profit = g.Sum(p => p.p_profit)
+                })
+                .ToList();
+
+            bool check = true;
+            double ori_profit = 0;
+
+            foreach (var profitEntry in lastMonthProfit)
+            {
+                var investorId = profitEntry.InvestorId;
+                var profit = profitEntry.Profit;
+                var investor = db.tb_investor.Find(investorId);
+                var user = db.tb_user.Find(investor.i_user);
+                string name = user.u_username;
+
+                var financeEntry = new tb_finance
+                {
+                    f_floor = null, // Modify as per your requirement
+                    f_date = DateTime.Now, // Set the date to the current date
+                    f_transaction = profit, // Set the profit as the transaction amount
+                    f_transactiontype = "Outflow", // Set the transaction type as "Outflow"
+                    f_paymentmethod = "Bank", // Modify as per your requirement
+                    f_user = uid, // Modify as per your requirement
+                    f_desc = $"Share {name}" // Modify the description as per your requirement
+                };
+
+                // Add the finance entry to the table
+                db.tb_finance.Add(financeEntry);
+
+                if (check)
+                {
+                    ori_profit = profit / investor.i_amount * 50000;
+                    check = false;
+                }
+            }
+
+            var partners = new List<string> { "Anas", "Nizam", "Aiezad" };
+            foreach (var partner in partners)
+            {
+                var financeEntry = new tb_finance
+                {
+                    f_floor = null, // Modify as per your requirement
+                    f_date = DateTime.Now, // Set the date to the current date
+                    f_transaction = ori_profit, // Set the profit as the transaction amount
+                    f_transactiontype = "Outflow", // Set the transaction type as "Outflow"
+                    f_paymentmethod = "Bank", // Modify as per your requirement
+                    f_user = uid, // Modify as per your requirement
+                    f_desc = $"Share {partner}" // Modify the description as per your requirement
+                };
+
+                // Add the finance entry to the table
+                db.tb_finance.Add(financeEntry);
+            }
+            // Save the ch anges to the database
+            db.SaveChanges();
+        }
+
+        public void FloorGaji(int uid, double amount)
+        {
+            var floors = db.tb_floor;
+            foreach (var floor in floors)
+            {
+                var id = floor.fl_id;
+
+                var financeEntry = new tb_finance
+                {
+                    f_floor = id, // Modify as per your requirement
+                    f_date = DateTime.Now, // Set the date to the current date
+                    f_transaction = 200, // Set the profit as the transaction amount
+                    f_transactiontype = "Outflow", // Set the transaction type as "Outflow"
+                    f_paymentmethod = "Bank", // Modify as per your requirement
+                    f_user = uid, // Modify as per your requirement
+                    f_desc = $"Gaji Anas" // Modify the description as per your requirement
+                };
+            }
         }
     }
 }
