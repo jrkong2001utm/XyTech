@@ -22,52 +22,68 @@
                         </button>
                     </div>
                 }
-            <div class="d-flex justify-content-between">
-                <p class="card-title mb-0" style="font-size: x-large;">Finance</p>
+                <div class="d-flex justify-content-between">
+                    <p class="card-title mb-0" style="font-size: x-large;">Finance</p>
+                    
+                    <!--Print PDF Button-->
+                    <button id="exportPDFButton" class="btn btn-primary" type="button" onclick="pdf()">Export to PDF</button>
 
+                    @Html.ActionLink("New Transaction", "Create", null, new { @class = "btn btn-success btn-rounded" })
+                </div>
 
-                @*@Html.ActionLink("Summary", "Summary", "Finance", null, new { @class = "btn btn-primary btn-rounded" })*@
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" id="dateRangePicker" class="form-control" autocomplete="off" placeholder="Select Date To View" />
+                            <div class="input-group-append">
+                            </div>
+                        </div>
+                    </div>
 
-                @Html.ActionLink("New Transaction", "Create", null, new { @class = "btn btn-success btn-rounded" })
+                    <div class="col-3">
+                        <form id="floorFilterForm">
+                            @Html.DropDownList("floorFilter", ViewData["FloorFilter"] as IEnumerable<SelectListItem>, new { @class = "form-control", id = "floorFilter" })
+                        </form>
+                    </div>
+                </div>
             </div>
-                <br />
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="dataTable" class="display expandable-table" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Year
-                                        </th>
-                                        <th>
-                                            Month
-                                        </th>
-                                        <th>
-                                            Day
-                                        </th>
-                                        <th>
-                                            Inflow
-                                        </th>
-                                        <th>
-                                            Outflow
-                                        </th>
-                                        <th>
-                                            Bank/Cash
-                                        </th>
-                                        <th>
-                                            Details
-                                        </th>
-                                        <th>
-                                            Floor ID
-                                        </th>
-                                        <th>
-                                            Action
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="dataTable" class="display expandable-table" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Year
+                                    </th>
+                                    <th>
+                                        Month
+                                    </th>
+                                    <th>
+                                        Day
+                                    </th>
+                                    <th>
+                                        Inflow
+                                    </th>
+                                    <th>
+                                        Outflow
+                                    </th>
+                                    <th>
+                                        Bank/Cash
+                                    </th>
+                                    <th>
+                                        Details
+                                    </th>
+                                    <th>
+                                        Floor ID
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            @*<tbody>
                                     @foreach (var item in Model)
                                     {
                                         // Extract year, month, and day from f_date
@@ -76,7 +92,6 @@
                                         var day = item.f_date.Day;
 
                                         <tr>
-
                                             <td>
                                                 @year
                                             </td>
@@ -98,14 +113,12 @@
                                                     <span class="inflow-amount">@item.f_transaction</span>
                                                 }
                                             </td>
-
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.f_paymentmethod)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.f_desc)
                                             </td>
-
                                             @if (item.tb_floor?.fl_id == null)
                                             {
                                                 <td>
@@ -118,51 +131,137 @@
                                                     @Html.DisplayFor(modelItem => item.tb_floor.fl_bname)
                                                 </td>
                                             }
-
-                                        <td>
-                                            <a href="@Url.Action("Edit", new { id = item.f_id })" class="btn btn-link" title="edit">
-                                                <i class="fa fa-edit text-primary"></i>
-                                            </a>
-                                            <a href="@Url.Action("Details", new { id = item.f_id })" class="btn btn-link" title="details">
-                                                <i class="fa fa-info-circle text-info"></i>
-                                            </a>
-                                            <a href="@Url.Action("Delete", new { id = item.f_id })" class="btn btn-link" title="delete">
-                                                <i class="fa fa-trash text-danger"></i>
-                                            </a>
-
-                                        </td>
+                                            <td>
+                                                <a href="@Url.Action("Edit", new { id = item.f_id })" class="btn btn-link" title="edit">
+                                                    <i class="fa fa-edit text-primary"></i>
+                                                </a>
+                                                <a href="@Url.Action("Details", new { id = item.f_id })" class="btn btn-link" title="details">
+                                                    <i class="fa fa-info-circle text-info"></i>
+                                                </a>
+                                                <a href="@Url.Action("Delete", new { id = item.f_id })" class="btn btn-link" title="delete">
+                                                    <i class="fa fa-trash text-danger"></i>
+                                                </a>
+                                            </td>
                                         </tr>
-
-
                                     }
-                                </tbody>
-
-
-                            </table>
-                        </div>
+                                </tbody>*@
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
-
-
 @section Scripts {
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" rel="stylesheet" />
+
     <script>
         $(document).ready(function () {
-            jQuery('#dataTable').DataTable();
-        });
+            //$('#dataTable').DataTable();
 
-        var inflowAmounts = document.querySelectorAll(".inflow-amount");
-        inflowAmounts.forEach(function (element) {
-            element.textContent = parseFloat(element.textContent).toFixed(2);
-        });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            var allOption = document.querySelector('#f_floor option[value="select"]');
-            allOption.disabled = true;
+
+            //var allOption = document.querySelector('#floorFilter option[value="0"]');
+            //allOption.disabled = true;
+
+            @*document.getElementById("floorFilter").addEventListener("change", function () {
+                //this.form.submit();
+            //    table.ajax.url('@Url.Action("GetFilteredData", "Finance")?startDate=' + startDate + '&endDate=' + endDate).load();
+            });*@
+
+            var table = $('#dataTable').DataTable({
+                ajax: {
+                    url: '@Url.Action("GetFilteredData", "Finance")',
+                    data: function (d) {
+                        d.startDate = $('#startDate').val(); // Pass the startDate value
+                        d.endDate = $('#endDate').val(); // Pass the endDate value
+                        d.floorFilter = $('#floorFilter').val(); // Pass the floorFilter value
+                    },
+                    dataSrc: ''
+                },
+                columns: [
+                    { data: 'f_year'},
+                    { data: 'f_month'},
+                    { data: 'f_day'},
+                    {
+                        data: 'f_type',
+                        render: function (data, type, row) {
+                            if (data == "Inflow") {
+                                return '<span class="text-success inflow-amount">' + parseFloat(row.f_transaction).toFixed(2) + '</span>'; // Inflow
+                            } else {
+                                return ''; // Empty for Outflow
+                            }
+                        }
+                    },
+                    {
+                        data: 'f_type',
+                        render: function (data, type, row) {
+                            if (data == "Outflow") {
+                                return '<span class="text-danger inflow-amount">' + parseFloat(row.f_transaction).toFixed(2) + '</span>'; // Outflow
+                            } else {
+                                return ''; // Empty for Inflow
+                            }
+                        }
+                    },
+                    { data: 'f_paymentmethod' }, // Bank/Cash
+                    { data: 'f_desc' }, // Details
+                    {
+                        data: 'f_floor',
+                        render: function (data, type, row) {
+                            if (data == null) {
+                                return "General";
+                            } else {
+                                return data; // Empty for Outflow
+                            }
+                        }
+                    }, // Floor ID
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            return '<a href="@Url.Action("Edit", "Finance")/' + row.f_id + '" class="btn btn-link" title="edit"><i class="fa fa-edit text-primary"></i></a>' +
+                                '<a href="@Url.Action("Details", "Finance")/' + row.f_id + '" class="btn btn-link" title="details"><i class="fa fa-info-circle text-info"></i></a>' +
+                                '<a href="@Url.Action("Delete", "Finance")/' + row.f_id + '" class="btn btn-link" title="delete"><i class="fa fa-trash text-danger"></i></a>'; // Action buttons
+                        }
+                    }
+                ]
+            });
+
+            $('#dateRangePicker').daterangepicker({
+                autoUpdateInput: false,
+                locale: {
+                    cancelLabel: 'Clear',
+                    format: 'YYYY-MM-DD'
+                }
+            });
+
+            $('#dateRangePicker').on('apply.daterangepicker', function (ev, picker) {
+                var startDate = picker.startDate.format('YYYY-MM-DD');
+                var endDate = picker.endDate.format('YYYY-MM-DD');
+                table.ajax.url('@Url.Action("GetFilteredData", "Finance")?startDate=' + startDate + '&endDate=' + endDate).load();
+
+                $(this).val(startDate + "  -  " + endDate);
+            });
+
+            $('#dateRangePicker').on('cancel.daterangepicker', function (ev, picker) {
+                $(this).val('');
+                picker.setStartDate(moment());
+                picker.setEndDate(moment());
+                table.ajax.url('@Url.Action("GetFilteredData", "Finance")').load();
+            });
+
+            document.getElementById("floorFilter").addEventListener("change", function () {
+                table.ajax.reload();
+            });
         });
     </script>
 }
+

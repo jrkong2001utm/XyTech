@@ -301,7 +301,7 @@
             //jQuery('#dataTable').DataTable();
             jQuery('#dataTable2').DataTable();
             jQuery('#dataTable3').DataTable();
-            
+
         });
 
         function initDataTable() {
@@ -321,7 +321,8 @@
         // Prepare the data for the pie chart
         var labels = ['Inflow', 'Outflow'];
         var values = [@ViewBag.TotalInflow, @ViewBag.TotalOutflow];
-        var colors = ['green', 'red']; // Specify the colors for each segment
+        var colors = ['#77DD77', '#FF6961']; // Update with your desired pale colors
+
 
         // Calculate the total value for percentage calculation
         var totalValue = values.reduce((a, b) => a + b, 0);
@@ -353,5 +354,7 @@
                 }
             }
         });
+
+
     </script>
 }

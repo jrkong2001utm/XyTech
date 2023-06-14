@@ -21,26 +21,78 @@ namespace XyTech.Controllers
         private db_XyTechEntities db = new db_XyTechEntities();
 
         // GET: Finance
-        public ActionResult Index()
+        public ActionResult Index(int? floorFilter)
         {
-            ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
-            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_outdate <= DateTime.Today && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+           
+            // Populate floor options for the dropdown list
+            var floorOptions = db.tb_floor.Select(f => new SelectListItem
+            {
+                Text = f.fl_bname,
+                Value = f.fl_id.ToString(),
+                Selected = (floorFilter.HasValue && floorFilter.Value == f.fl_id)
+            }).ToList();
 
-            var tb_finance = db.tb_finance
-                .Include(t => t.tb_user)
-                .Include(t => t.tb_floor)
-                .OrderByDescending(t => t.f_date)
-                .ToList(); // Order by f_date in descending order
+            // Add a default option at the beginning of the list
+            floorOptions.Insert(0, new SelectListItem
+            {
+                Text = "All Floors",
+                Value = null,
+                Selected = (!floorFilter.HasValue)
+            });
 
-            var floors = db.tb_floor.ToList();
-            ViewBag.Floors = floors;
+            floorOptions.Insert(1, new SelectListItem
+            {
+                Text = "General",
+                Value = "0",
+                Selected = (floorFilter.HasValue && floorFilter.Value == 0)
+            });
 
-            if (TempData.Count > 0)
+            // Add the floor options to ViewData
+            ViewData["FloorFilter"] = floorOptions;
+
+            if (TempData.ContainsKey("success"))
             {
                 ViewBag.Message = TempData["success"].ToString();
             }
-            return View(tb_finance);
+            return View();
         }
+
+        public ActionResult GetFilteredData(DateTime? startDate, DateTime? endDate, int? floorFilter)
+        {
+            var query = db.tb_finance.AsQueryable();
+
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                query = query.Where(a => a.f_date >= startDate && a.f_date <= endDate);
+            }
+
+            if (floorFilter.HasValue && floorFilter.Value != 0)
+            {
+                query = query.Where(a => a.tb_floor.fl_id == floorFilter.Value);
+            }
+            else if (floorFilter.HasValue && floorFilter.Value == 0)
+            {
+                query = query.Where(a => a.f_floor == null);
+            }
+
+            var data = query.Select(a => new
+            {
+                f_date = a.f_date,
+                f_year = a.f_date.Year,
+                f_month = a.f_date.Month,
+                f_day = a.f_date.Day,
+                f_type = a.f_transactiontype,
+                f_transaction = a.f_transaction,
+                f_paymentmethod = a.f_paymentmethod,
+                f_desc = a.f_desc,
+                f_floor = a.tb_floor.fl_bname,
+                f_id = a.f_id
+            }).OrderByDescending(a => a.f_date).ToList();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+
 
         public ActionResult Summary()
         {
@@ -283,12 +335,12 @@ namespace XyTech.Controllers
 
         public void CalculateCurrentMonthProfit()
         {
-            //var currentMonth = DateTime.Now.Month;
-            //var currentYear = DateTime.Now.Year;
+            var currentMonth = DateTime.Now.Month;
+            var currentYear = DateTime.Now.Year;
 
-            var currentDate = DateTime.Now.AddMonths(-1);
-            var currentMonth = currentDate.Month;
-            var currentYear = currentDate.Year;
+            //var currentDate = DateTime.Now.AddMonths(-1);
+            //var currentMonth = currentDate.Month;
+            //var currentYear = currentDate.Year;
 
             // Retrieve the investors from the tb_investor table
             var investors = db.tb_investor.ToList().Where(t => t.i_active == "active");
