@@ -7,72 +7,74 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <div>
-        <div class="floorlayout" width="300" height="800">
-            <img src="@Url.Content("~/Content/assets/images/roomPicture/" + Model.r_pic)" alt="Uploaded Image" width="300" />
+    <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+            <div class="floorlayout" width="300" height="800">
+                <img src="@Url.Content("~/Content/assets/images/roomPicture/" + Model.r_pic)" alt="Uploaded Image" style="width: 450px; height: auto;" />
+            </div>
         </div>
-    </div>
 
-    <div class="col-8 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Room Information</h4>
-                <p class="card-description">
-                    These are the information for the room.
-                </p>
-                <form class="forms-sample">
-                    <div class="form-group row">
-                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Room Number</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.r_no)
+        <div class="col-md-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Room Information</h4>
+                    <p class="card-description">
+                        These are the information for the room.
+                    </p>
+                    <form class="forms-sample">
+                        <div class="form-group row">
+                            <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Room Number</label>
+                            <div class="col-sm-7 col-form-label">
+                                @Html.DisplayFor(model => model.r_no)
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Building Name</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.ActionLink(Model.tb_floor.fl_bname, "Details", "Floor", new { id = Model.tb_floor.fl_id }, new { @class = "ilink" })
+                        <div class="form-group row">
+                            <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Building Name</label>
+                            <div class="col-sm-7 col-form-label">
+                                @Html.ActionLink(Model.tb_floor.fl_bname, "Details", "Floor", new { id = Model.tb_floor.fl_id }, new { @class = "ilink" })
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Floor Level</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.tb_floor.fl_bid)
+                        <div class="form-group row">
+                            <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Floor Level</label>
+                            <div class="col-sm-7 col-form-label">
+                                @Html.DisplayFor(model => model.tb_floor.fl_bid)
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="exampleInputMobile" class="col-sm-4 col-form-label">Price (RM)</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.r_price)
+                        <div class="form-group row">
+                            <label for="exampleInputMobile" class="col-sm-4 col-form-label">Price (RM)</label>
+                            <div class="col-sm-7 col-form-label">
+                                @Html.DisplayFor(model => model.r_price)
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="exampleInputMobile" class="col-sm-4 col-form-label">Number of Beds</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.r_size)
+                        <div class="form-group row">
+                            <label for="exampleInputMobile" class="col-sm-4 col-form-label">Number of Beds</label>
+                            <div class="col-sm-7 col-form-label">
+                                @Html.DisplayFor(model => model.r_size)
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="exampleInputPassword2" class="col-sm-4 col-form-label">Room Availability</label>
-                        <div class="col-sm-7 col-form-label">
-                            @if (Model.r_availability == 1)
-                            {
-                                <span style="color: forestgreen;">Available</span>
-                            }
-                            else if (Model.r_availability == 0)
-                            {
-                                <span style="color: red;">Unavailable</span>
-                            }
+                        <div class="form-group row">
+                            <label for="exampleInputPassword2" class="col-sm-4 col-form-label">Room Availability</label>
+                            <div class="col-sm-7 col-form-label">
+                                @if (Model.r_availability == 1)
+                                {
+                                    <span style="color: forestgreen;">Available</span>
+                                }
+                                else if (Model.r_availability == 0)
+                                {
+                                    <span style="color: red;">Unavailable</span>
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-auto">
-                            @Html.ActionLink("Edit", "Edit", new { id = Model.r_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
+                        <div class="form-group row">
+                            <div class="col-auto">
+                                @Html.ActionLink("Edit", "Edit", new { id = Model.r_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
+                            </div>
+                            <div class="col-auto">
+                                @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
+                            </div>
                         </div>
-                        <div class="col-auto">
-                            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

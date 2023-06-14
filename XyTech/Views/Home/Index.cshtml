@@ -48,7 +48,7 @@
     <div class="col-md-4 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <p class="card-title">Finance Details</p>
+                <p class="card-title">@ViewBag.Month's Finance Details</p>
                 <div class="d-flex flex-wrap mb-5">
                     <div class="mr-5 mt-3">
                         <p class="text-muted">Total Profit</p>
@@ -189,7 +189,7 @@
                                                                 @foreach (var weektenant in ViewBag.weektenant)
                                                                 {
                                                                     var phoneNumber = weektenant.t_phone;
-                                                                    var encodedMessage = "Dear " + weektenant.t_name + ",Your rental fee due is coming soon " + weektenant.t_outdate + ". Please kindly pay the rental fee (RM" + weektenant.t_outstanding + ") as soon as possible. Thank You.";
+                                                                    var encodedMessage = "Dear " + weektenant.t_name + ", Your rental fee due is coming soon on " + weektenant.t_indate.Day + " this month. Please kindly pay the rental fee (RM" + weektenant.t_outstanding + ") as soon as possible. Thank You.";
                                                                     var urlwhatsapp = "https://wa.me/+6" + phoneNumber + "?text=" + encodedMessage;
                                                                     <tr>
                                                                         <td>@weektenant.t_name</td>
