@@ -230,8 +230,8 @@ namespace XyTech.Controllers
             }
             var floor = new tb_floor(); // Replace tb_inventory with the appropriate class name and constructor if necessary
                                         // Assign values to other properties of the inventory object if needed
-
-            ViewBag.fl_landlord = new SelectList(db.tb_landlord.Where(l => l.l_active == "1"), "l_id", "l_name", floor.fl_landlord);
+            var selectedLId = tb_floor.fl_landlord;
+            ViewBag.fl_landlord = new SelectList(db.tb_landlord.Where(l => l.l_active == "1"), "l_id", "l_name", selectedLId);
             return View(tb_floor);
         }
 
@@ -285,7 +285,8 @@ namespace XyTech.Controllers
             var floor = new tb_floor(); // Replace tb_inventory with the appropriate class name and constructor if necessary
                                         // Assign values to other properties of the inventory object if needed
 
-            ViewBag.fl_landlord = new SelectList(db.tb_landlord.Where(l => l.l_active == "1"), "l_id", "l_name", floor.fl_landlord);
+            var selectedLId = tb_floor.fl_landlord;
+            ViewBag.fl_landlord = new SelectList(db.tb_landlord.Where(l => l.l_active == "1"), "l_id", "l_name", selectedLId);
 
             return View(tb_floor);
         }
