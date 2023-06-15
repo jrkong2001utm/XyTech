@@ -23,7 +23,14 @@ namespace XyTech.Controllers
         public ActionResult Index()
         {
             ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
-            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_indate.Day >= DateTime.Today.Day && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+            int currentDay = DateTime.Today.Day;
+            var tenants = db.tb_tenant.ToList();
+
+            if (currentDay < 7 && tenants.Any(t => t.t_indate.Day > 23))
+            {
+                currentDay += 30;
+            }
+            ViewBag.counttenant = tenants.Count(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Day < currentDay && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
 
             var tb_tenant = db.tb_tenant.Include(t => t.tb_room);
             if (TempData.Count > 0)
@@ -31,6 +38,31 @@ namespace XyTech.Controllers
                 ViewBag.Message = TempData["success"].ToString();
             }
             return View(tb_tenant.ToList());
+        }
+
+        public ActionResult GetFilteredTenantData(DateTime? startDate, DateTime? endDate)
+        {
+            var query = db.tb_tenant.AsQueryable();
+
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                query = query.Where(a => a.t_indate >= startDate && a.t_outdate <= endDate);
+            }
+
+            var data = query.Select(a => new
+            {
+                t_name = a.t_name,
+                t_ic = a.t_ic,
+                t_phone = a.t_phone,
+                t_indate = a.t_indate,
+                t_outdate = a.t_outdate,
+                t_outstanding = a.t_outstanding,
+                t_paymentstatus = a.t_paymentstatus,
+                t_room = a.tb_room.r_no,
+                t_id = a.t_id
+            }).OrderByDescending(a => a.t_indate).ToList();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Tenant/Details/5
@@ -52,7 +84,7 @@ namespace XyTech.Controllers
         public ActionResult GetRoomNumbers(int floorId)
         {
             var roomNumbers = db.tb_room
-             .Where(r => r.r_floor == floorId && r.r_availability == 1)
+             .Where(r => r.r_floor == floorId && r.r_availability == 1 && r.r_active == "active")
                 .Select(r => new SelectListItem
                 {
                     Value = r.r_id.ToString(),
@@ -234,8 +266,8 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
-            var uniqueFloorIds = db.tb_floor.Select(r => r.fl_id).Distinct().ToList();
-            ViewBag.fl_id = new SelectList(uniqueFloorIds);
+            var uniqueFloorIds = db.tb_floor.Select(r => new { r.fl_id, r.fl_bname }).Distinct().ToList();
+            ViewBag.fl_id = new SelectList(uniqueFloorIds, "fl_id", "fl_bname");
             ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_no", tb_tenant.t_room);
             return View(tb_tenant);
         }
@@ -296,10 +328,32 @@ namespace XyTech.Controllers
                 var updateRoom = db.tb_room.FirstOrDefault(r => r.r_id == updatetenant.t_room);
                 if (updateRoom != null)
                 {
+                    if (tb_tenant.t_paymentstatus == 0)
+                    {
+                        updatetenant.t_outstanding = tb_tenant.t_outstanding + updateRoom.r_price;
+                        updatetenant.t_paymentstatus = 2;
+                    }
+                    else if (tb_tenant.t_paymentstatus == 1)
+                    {
+                        updatetenant.t_outstanding = updateRoom.r_price;
+                        updatetenant.t_paymentstatus = 3;
+                    }
+                    else if (tb_tenant.t_paymentstatus == 2)
+                    {
+                        updatetenant.t_outstanding = updateRoom.r_price - (previousRoom.r_price - tb_tenant.t_outstanding);
+                        updatetenant.t_paymentstatus = 3;
+                    }
+                    else if (tb_tenant.t_paymentstatus == 3)
+                    {
+                        updatetenant.t_outstanding = updateRoom.r_price;
+                        updatetenant.t_paymentstatus = 3;
+                    }
+
+                    tb_tenant.t_paymentstatus = updatetenant.t_paymentstatus;
+                    tb_tenant.t_outstanding = updatetenant.t_outstanding;
                     updateRoom.r_availability = 0;
                     db.SaveChanges();
                 }
-
 
                 tb_tenant.t_id = updatetenant.t_id;
                 tb_tenant.t_name = updatetenant.t_name;

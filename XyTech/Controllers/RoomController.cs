@@ -18,16 +18,51 @@ namespace XyTech.Controllers
         private db_XyTechEntities db = new db_XyTechEntities();
 
         // GET: Room
-        public ActionResult Index()
+        public ActionResult Index(int? floorFilter)
         {
             ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
-            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_indate.Day >= DateTime.Today.Day && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3)); if (TempData.Count > 0)
+            int currentDay = DateTime.Today.Day;
+            var tenants = db.tb_tenant.ToList();
+
+            if (currentDay < 7 && tenants.Any(t => t.t_indate.Day > 23))
+            {
+                currentDay += 30;
+            }
+            ViewBag.counttenant = tenants.Count(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Day < currentDay && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+
+            if (TempData.Count > 0)
             {
                 ViewBag.Message = TempData["success"].ToString();
             }
-            var tb_room = db.tb_room.Include(t => t.tb_floor).Where(p => p.r_active.Equals("active"));
-            return View(tb_room.ToList());
+
+            var floorOptions = db.tb_floor.Select(f => new SelectListItem
+            {
+                Text = f.fl_bname,
+                Value = f.fl_id.ToString(),
+                Selected = (floorFilter.HasValue && floorFilter.Value == f.fl_id)
+            }).ToList();
+
+            // Add a default option at the beginning of the list
+            floorOptions.Insert(0, new SelectListItem
+            {
+                Text = "All Floors",
+                Value = null,
+                Selected = (!floorFilter.HasValue)
+            });
+
+            ViewData["FloorFilter"] = floorOptions;
+
+            IQueryable<tb_room> tb_roomQuery = db.tb_room.Include(t => t.tb_floor).Where(p => p.r_active.Equals("active"));
+
+            if (floorFilter.HasValue)
+            {
+                tb_roomQuery = tb_roomQuery.Where(p => p.r_floor == floorFilter);
+            }
+
+            var tb_roomList = tb_roomQuery.ToList();
+            return View(tb_roomList);
         }
+
 
         // GET: Room/Details/5
         public ActionResult Details(int? id)

@@ -48,8 +48,17 @@
                     </script>
                 }
                 @*<p class="btn btn-success btn-rounded btn-fw">
-                    @Html.ActionLink("Create New", "Create")
-                </p>*@
+                        @Html.ActionLink("Create New", "Create")
+                    </p>*@
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" id="dateRangePicker" class="form-control" autocomplete="off" placeholder="Select Date To View" />
+                            <div class="input-group-append">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="table-responsive">
@@ -66,7 +75,7 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                @*<tbody>
                                     @foreach (var item in Model)
                                     {
                                         <tr>
@@ -134,7 +143,7 @@
                                             {
                                                 <td style="text-align: center">
                                                     @Html.ActionLink(" ", "Edit", new { id = item.t_id }, new { @class = "fa fa-pencil text-primary" }) |
-                                                    @Html.ActionLink(" ", "Details", new { id = item.t_id }, new { @class = "fa fa-info-circle text-info" }) | 
+                                                    @Html.ActionLink(" ", "Details", new { id = item.t_id }, new { @class = "fa fa-info-circle text-info" }) |
                                                     <button class="btn btn-primary mdi mdi-cash-usd" data-toggle="modal" data-target="#paymentModal-@item.t_id"></button>
 
                                                     <!-- Payment Modal -->
@@ -172,12 +181,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </td>
                                             }
                                         </tr>
                                     }
-                                </tbody>
+                                </tbody>*@
                             </table>
                         </div>
                     </div>
@@ -189,9 +197,141 @@
 
 
 @section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" rel="stylesheet" />
+
     <script>
         $(document).ready(function () {
-            jQuery('#dataTable').DataTable();
+            //jQuery('#dataTable').DataTable();
+            var table = $('#dataTable').DataTable({
+                ajax: {
+                    url: '@Url.Action("GetFilteredTenantData", "Tenant")',
+                    data: function (d) {
+                        d.startDate = $('#startDate').val(); // Pass the startDate value
+                        d.endDate = $('#endDate').val(); // Pass the endDate value
+                    },
+                    dataSrc: ''
+                },
+                columns: [
+                    { data: 't_name' },
+                    { data: 't_phone' },
+                    {
+                        data: 't_indate',
+                        render: function (data, type, row) {
+                            return moment(data).format('DD-MM-YYYY');
+                        }
+                    },
+                    {
+                        data: 't_outdate',
+                        render: function (data, type, row) {
+                            return moment(data).format('DD-MM-YYYY');
+                        }
+                    },
+                    { data: 't_outstanding', className: 'text-center' },
+                    {
+                        data: 't_paymentstatus',
+                        render: function (data, type, row) {
+                            var paymentStatusText = "";
+
+                            switch (data) {
+                                case 0:
+                                    paymentStatusText = "Overpaid";
+                                    return '<div class="badge badge-info">' + paymentStatusText + '</div>';
+                                case 1:
+                                    paymentStatusText = "Successfully Paid";
+                                    return '<div class="badge badge-success">' + paymentStatusText + '</div>';
+                                case 2:
+                                    paymentStatusText = "Partially Paid";
+                                    return '<div class="badge badge-warning">' + paymentStatusText + '</div>';
+                                case 3:
+                                    paymentStatusText = "Unpaid";
+                                    return '<div class="badge badge-danger">' + paymentStatusText + '</div>';
+                                default:
+                                    return '';
+                            }
+                        },
+                        className: 'text-center'
+                    },
+                    { data: 't_room', className: 'text-center' },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            if (row.t_paymentstatus === 1 || row.t_paymentstatus === 0)
+                            {
+                                return '<a href="@Url.Action("Edit", "Tenant")/' + row.t_id + '" class="fa fa-pencil text-primary" title="edit"></a> | ' +
+                                    '<a href="@Url.Action("Details", "Tenant")/' + row.t_id + '" class="fa fa-info-circle text-info" title="details"></a> | ' +
+                                    '<a href="@Url.Action("Delete", "Tenant")/' + row.t_id + '" class="fa fa-trash text-danger" title="delete"></a>';
+                            }
+                            else
+                            {
+                                return '<a href="@Url.Action("Edit", "Tenant")/' + row.t_id + '" class="fa fa-pencil text-primary" title="edit"></a> | ' +
+                                    '<a href="@Url.Action("Details", "Tenant")/' + row.t_id + '" class="fa fa-info-circle text-info" title="details"></a> | ' +
+                                    '<button class="btn btn-primary mdi mdi-cash-usd" data-toggle="modal" data-target="#paymentModal-' + row.t_id + '"></button>' +
+                                    '<div class="modal fade" id="paymentModal-' + row.t_id + '" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-' + row.t_id + '" aria-hidden="true">' + 
+                                                        '<div class="modal-dialog" role="document">' + 
+                                                            '<div class="modal-content">' + 
+                                                                '<div class="modal-header">' + 
+                                                                    '<h5 class="modal-title" id="paymentModalLabel-' + row.t_id + '">Make Payment</h5>' + 
+                                                                    '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' + 
+                                                                        '<span aria-hidden="true">&times;</span>' + 
+                                                                    '</button>' + 
+                                                                '</div>' + 
+                                                                '<div class="modal-body">' + 
+                                                                    '<form id="paymentForm-' + row.t_id + '" method="post" action="@Url.Action("Pay", "Tenant")/' + row.t_id + '">' + 
+                                                                        '<div style="overflow: hidden;">' + 
+                                                                            '<span style="float: left;">' + row.t_name + '</span>' + 
+                                                                            '<span style="float: right;">Current Outstanding: ' + row.t_outstanding + '</span>' + 
+                                                                        '</div>' + 
+                                                                        '<br />' + 
+                                                                        '<div class="form-group">' + 
+                                                                            '<label for="amount-' + row.t_id + '">Amount:</label>' + 
+                                                                            '<input type="number" class="form-control" id="amount" name="amount" required>' + 
+                                                                        '</div>' + 
+                                                                        '<div class="form-group">' + 
+                                                                            '<label for="method-' + row.t_id + '">Payment Method:</label>' + 
+                                                                            '<select class="form-control" id="method" name="method" required>' + 
+                                                                                '<option value="" selected disabled hidden>Select Method</option>' + 
+                                                                                '<option value="Bank">Bank</option>' + 
+                                                                                '<option value="Cash">Cash</option>' + 
+                                                                            '</select>' + 
+                                                                        '</div>' + 
+                                                                        '<button type="submit" class="btn btn-primary">Submit Payment</button>' + 
+                                                                    '</form>' + 
+                                                                '</div>' + 
+                                                            '</div>' + 
+                                                        '</div>' + 
+                                                    '</div>';
+                            }
+                        },
+                        className: 'text-center'
+                    }
+                ]
+            });
+
+            $('#dateRangePicker').daterangepicker({
+                autoUpdateInput: false,
+                locale: {
+                    cancelLabel: 'Clear',
+                    format: 'YYYY-MM-DD'
+                }
+            });
+
+            $('#dateRangePicker').on('apply.daterangepicker', function (ev, picker) {
+                var startDate = picker.startDate.format('YYYY-MM-DD');
+                var endDate = picker.endDate.format('YYYY-MM-DD');
+                table.ajax.url('@Url.Action("GetFilteredTenantData", "Tenant")?startDate=' + startDate + '&endDate=' + endDate).load();
+
+                $(this).val(startDate + " - " + endDate);
+            });
+
+            $('#dateRangePicker').on('cancel.daterangepicker', function (ev, picker) {
+                $(this).val('');
+                picker.setStartDate(moment());
+                picker.setEndDate(moment());
+                table.ajax.url('@Url.Action("GetFilteredTenantData", "Tenant")').load();
+            });
         });
     </script>
 }

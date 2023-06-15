@@ -76,12 +76,46 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-auto">
-                            @Html.ActionLink("Edit", "FloorList", null, new { @class = "btn btn-primary btn-rounded btn-fw" })
+                        <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">Preset Message</label>
+                        <div class="col-sm-7 col-form-label">
+                            [
+                            <br />
+                            (attached layout bilik GE1)
+                            <br />
+                            dalam gambar 👆🏼
+                            <br />
+                            --> harga sewa bulanan
+                            <br />
+                            termasuk api dan air
+                            <br />
+                            --> bilik masih kosong
+                            <br />
+                            yang tidak bertanda ❌
+                            <br />
+                            <br />
+                            + deposit RM100
+                            <br />
+                            <br />
+                            Tingkat 1
+                            <br />
+                            <br />
+                            video bilik:<br />
+                            https://youtube.com/playlist?list=PLPU6s1lrzEXI-J-97LIi_wn5kcMS6JURd
+                            <br />
+                            <br />
+                            lokasi:<br />
+                            https://maps.app.goo.gl/S585ppM3axYT3Xv16
+                            <br />
+                            di atas Klinik Dr. Hani
+                            <br />
+                            <br />
+                            ]
                         </div>
-                        <div class="col-auto">
-                            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
-                        </div>
+                    </div>
+                    <div style="margin-top: 25px;">
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.fl_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
+                        @Html.ActionLink("See Rooms", "Index", "Room", new { id = Model.fl_id }, new { @class = "btn btn-dark btn-rounded btn-fw" })
+                        @Html.ActionLink("Back", "FloorList", null, new { @class = "btn btn-light btn-rounded btn-fw" })
                     </div>
                 </form>
             </div>

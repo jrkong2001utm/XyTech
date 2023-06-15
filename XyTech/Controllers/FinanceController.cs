@@ -23,7 +23,16 @@ namespace XyTech.Controllers
         // GET: Finance
         public ActionResult Index(int? floorFilter)
         {
-           
+            int currentDay = DateTime.Today.Day;
+            var tenants = db.tb_tenant.ToList();
+
+            if (currentDay < 7 && tenants.Any(t => t.t_indate.Day > 23))
+            {
+                currentDay += 30;
+            }
+            ViewBag.counttenant = tenants.Count(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Day < currentDay && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+            ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
+
             // Populate floor options for the dropdown list
             var floorOptions = db.tb_floor.Select(f => new SelectListItem
             {
@@ -483,24 +492,24 @@ namespace XyTech.Controllers
             db.SaveChanges();
         }
 
-        public void FloorGaji(int uid, double amount)
-        {
-            var floors = db.tb_floor;
-            foreach (var floor in floors)
-            {
-                var id = floor.fl_id;
+        //public void FloorGaji(int uid, double amount)
+        //{
+        //    var floors = db.tb_floor;
+        //    foreach (var floor in floors)
+        //    {
+        //        var id = floor.fl_id;
 
-                var financeEntry = new tb_finance
-                {
-                    f_floor = id, // Modify as per your requirement
-                    f_date = DateTime.Now, // Set the date to the current date
-                    f_transaction = 200, // Set the profit as the transaction amount
-                    f_transactiontype = "Outflow", // Set the transaction type as "Outflow"
-                    f_paymentmethod = "Bank", // Modify as per your requirement
-                    f_user = uid, // Modify as per your requirement
-                    f_desc = $"Gaji Anas" // Modify the description as per your requirement
-                };
-            }
-        }
+        //        var financeEntry = new tb_finance
+        //        {
+        //            f_floor = id, // Modify as per your requirement
+        //            f_date = DateTime.Now, // Set the date to the current date
+        //            f_transaction = 200, // Set the profit as the transaction amount
+        //            f_transactiontype = "Outflow", // Set the transaction type as "Outflow"
+        //            f_paymentmethod = "Bank", // Modify as per your requirement
+        //            f_user = uid, // Modify as per your requirement
+        //            f_desc = $"Gaji Anas" // Modify the description as per your requirement
+        //        };
+        //    }
+        //}
     }
 }
