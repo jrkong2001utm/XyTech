@@ -90,7 +90,9 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            jQuery('#dataTable').DataTable();
+            jQuery('#dataTable').DataTable({
+                "order": []
+            });
         });
     </script>
 }
