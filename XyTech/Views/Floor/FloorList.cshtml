@@ -72,9 +72,66 @@
                                         <a href="@Url.Action("Edit", new { id = item.fl_id })" class="btn btn-link" title="edit">
                                             <i class="fa fa-edit text-primary"></i>
                                         </a>
-                                        <a href="@Url.Action("Details", new { id = item.fl_id })" class="btn btn-link" title="details">
-                                            <i class="fa fa-info-circle text-info"></i>
-                                        </a>
+                                        @if (item.fl_id == 1)
+                                        {
+                                            <a href="@Url.Action("Details_DL1", new { id = item.fl_id })" class="btn btn-link" title="details">
+                                                <i class="fa fa-info-circle text-info"></i>
+                                            </a>
+                                        }
+                                        else if (item.fl_id == 2)
+                                        {
+                                            <a href="@Url.Action("Details_DL5", new { id = item.fl_id })" class="btn btn-link" title="details">
+                                                <i class="fa fa-info-circle text-info"></i>
+                                            </a>
+                                        }
+                                        else if (item.fl_id == 3)
+                                        {
+                                            <a href="@Url.Action("Details_GE1", new { id = item.fl_id })" class="btn btn-link" title="details">
+                                                <i class="fa fa-info-circle text-info"></i>
+                                            </a>
+                                        }
+                                        else if (item.fl_id == 4)
+                                        {
+                                            <a href="@Url.Action("Details_GE2", new { id = item.fl_id })" class="btn btn-link" title="details">
+                                                <i class="fa fa-info-circle text-info"></i>
+                                            </a>
+                                        }
+                                        else if (item.fl_id == 5)
+                                        {
+                                            <a href="@Url.Action("Details_GE3", new { id = item.fl_id })" class="btn btn-link" title="details">
+                                                <i class="fa fa-info-circle text-info"></i>
+                                            </a>
+                                        }
+                                        else if (item.fl_id == 6)
+                                        {
+                                            <a href="@Url.Action("Details_TN1", new { id = item.fl_id })" class="btn btn-link" title="details">
+                                                <i class="fa fa-info-circle text-info"></i>
+                                            </a>
+                                        }
+                                        else if (item.fl_id == 7)
+                                        {
+                                            <a href="@Url.Action("Details_TN2", new { id = item.fl_id })" class="btn btn-link" title="details">
+                                                <i class="fa fa-info-circle text-info"></i>
+                                            </a>
+                                        }
+                                        else if (item.fl_id == 8)
+                                        {
+                                            <a href="@Url.Action("Details_TN3", new { id = item.fl_id })" class="btn btn-link" title="details">
+                                                <i class="fa fa-info-circle text-info"></i>
+                                            </a>
+                                        }
+                                        else if (item.fl_id == 9)
+                                        {
+                                            <a href="@Url.Action("Details_TN4", new { id = item.fl_id })" class="btn btn-link" title="details">
+                                                <i class="fa fa-info-circle text-info"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Details", new { id = item.fl_id })" class="btn btn-link" title="details">
+                                                <i class="fa fa-info-circle text-info"></i>
+                                            </a>
+                                        }
                                         <a href="@Url.Action("Delete", new { id = item.fl_id })" class="btn btn-link" title="delete">
                                             <i class="fa fa-trash text-danger"></i>
                                         </a>
