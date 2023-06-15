@@ -52,7 +52,7 @@
                                 </th>
 
                                 <td class="col-6">
-                                    @Html.DisplayFor(model => model.l_due)
+                                    @Html.Raw(Model.l_due.ToString("dd/MM/yyyy"))
                                 </td>
                             </tr>
 

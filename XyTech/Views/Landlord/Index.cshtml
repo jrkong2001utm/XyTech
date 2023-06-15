@@ -18,7 +18,7 @@
                         </button>
                     </div>
                 }
-                @if (ViewBag.Message == "Landlord is deleted.")
+                else if (ViewBag.Message == "Landlord is deleted.")
                 {
                     <div class="alert alert-danger">
                         <strong>@ViewBag.Message</strong>
@@ -27,6 +27,14 @@
                         </button>
                     </div>
                 }
+                else if (ViewBag.Message == "Payment processed successfully!")
+                {
+                    <script>
+                        $(document).ready(function () {
+                            swal("Payment Recorded!", "Transaction has been recorded in the Finance", "success");
+                        });
+                    </script>
+                }
                 <div class="d-flex justify-content-between">
                     <p class="card-title mb-0" style="font-size: x-large;">Landlords</p>
 
@@ -34,64 +42,171 @@
                 </div>
                 <br />
 
-                    <!--<p class="card-title mb-0">Landlords</p>-->
+                <!--<p class="card-title mb-0">Landlords</p>-->
 
-                    <div class="table-responsive">
-                        <table id="dataTable" class="display expandable-table" style="width:100%">
-                            <thead>
+                <div class="table-responsive">
+                    <table id="dataTable" class="display expandable-table" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Contact Number</th>
+                                <th>Rental Fees</th>
+                                <th>Rental Due</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Contact Number</th>
-                                    <th>Rental Fees</th>
-                                    <th>Rental Due</th>
-                                    <th>Actions</th>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.l_name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.l_phone)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.l_fee)
+                                    </td>
+                                    <td>
+                                        @item.l_due.ToString("dd/MM/yyyy")
+                                    </td>
+
+
+                                    <td>
+                                        <a href="@Url.Action("Edit", new { id = item.l_id })" class="btn btn-link" title="edit">
+                                            <i class="fa fa-edit text-primary"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.l_id })" class="btn btn-link" title="details">
+                                            <i class="fa fa-info-circle text-info"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item.l_id })" class="btn btn-link" title="delete">
+                                            <i class="fa fa-trash text-danger"></i>
+                                        </a>
+                                        <button class="btn mdi mdi-cash-usd" data-toggle="modal" data-target="#paymentModal-@item.l_id"></button>
+
+                                        <!-- Payment Modal -->
+                                        <div class="modal fade" id="paymentModal-@item.l_id" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-@item.l_id" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="paymentModalLabel-@item.l_id">Make Payment</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form id="paymentForm-@item.l_id" method="post" action="@Url.Action("Pay", "Landlord", new { id = item.l_id })">
+                                                            <div style="overflow: hidden;">
+                                                                <div class="form-group">
+                                                                    <label for="text-@item.l_id">Name:</label>
+                                                                    <input type="text" class="form-control" id="name" name="name" value="@item.l_name" readonly>
+
+                                                                </div>
+                                                            </div>
+                                                            <br />
+
+                                                            @{var floorList = item.FloorList ?? new SelectList(new List<SelectListItem>(), "fl_id", "fl_bname"); }
+
+                                                                    <div class="form-group">
+                                                                        <label for="method-@item.l_id">Floor:</label>
+                                                                        <div class="form-group">
+                                                                            <select name="floor" required>
+                                                                                <option value="">Select a floor</option>
+                                                                                @foreach (var floorItem in floorList)
+                                                                                {
+                                                                                    string selected = floorItem.Selected ? "selected" : "";
+                                                                                    int floorValue = floorItem.Value != null ? Convert.ToInt32(floorItem.Value) : 0;
+                                                                                    <option value="@floorValue" @selected>@floorItem.Text</option>
+                                                                                }
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="amount-@item.l_id">Amount:</label>
+                                                                        <input type="number" class="form-control" id="amount" name="amount" value="@item.l_fee" readonly>
+
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="method-@item.l_id">Payment Method:</label>
+                                                                        <select class="form-control" id="method" name="method" required>
+                                                                            <option value="" selected disabled hidden>Select Method</option>
+                                                                            <option value="Bank">Bank</option>
+                                                                            <option value="Cash">Cash</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <button type="submit" class="btn btn-primary">Submit Payment</button>
+                                                                    </form>
+</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.l_name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.l_phone)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.l_fee)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.l_due)
-                                        </td>
-
-
-                                        <td>
-                                            <a href="@Url.Action("Edit", new { id = item.l_id })" class="btn btn-link" title="edit">
-                                                <i class="fa fa-edit text-primary"></i>
-                                            </a>
-                                            <a href="@Url.Action("Details", new { id = item.l_id })" class="btn btn-link" title="details">
-                                                <i class="fa fa-info-circle text-info"></i>
-                                            </a>
-                                            <a href="@Url.Action("Delete", new { id = item.l_id })" class="btn btn-link" title="delete">
-                                                <i class="fa fa-trash text-danger"></i>
-                                            </a>
-
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     <script>
         $(document).ready(function () {
-            jQuery('#dataTable').DataTable({
-                "order": []
+
+            $('#dataTable').DataTable({
+                "columnDefs": [
+                    {
+                        "type": "date-eu",
+                        "targets": [3],
+                        "render": function (data, type, full, meta) {
+                            if (type === 'sort' || type === 'type') {
+                                // Convert the date string to a JavaScript Date object
+                                var dateParts = data.split('/');
+                                var date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+                                return date;
+                            }
+                            return data;
+                        }
+                    }
+                ],
+                "order": [[3, "asc"]],
+                "columnSorting": false, // Disable DataTables built-in sorting
+                "lengthMenu": [
+                    [5, 10, 15, -1],
+                    [5, 10, 15, "All"]
+                ],
+                "pageLength": 10,
+                "language": {
+                    "search": ""
+                },
+                "drawCallback": function (settings) {
+                    // Manually sort the table by the date column after each draw
+                    var api = this.api();
+                    api.columns().every(function () {
+                        var column = this;
+                        if (column.index() === 3) { // Assuming the date column is the fourth column (index 3)
+                            column.data().sort(function (a, b) {
+                                return a.getTime() - b.getTime();
+                            });
+                        }
+                    });
+                    api.draw();
+                }
+            });
+
+            $('#dataTable').each(function () {
+                var datatable = $(this);
+                // SEARCH - Add the placeholder for Search and Turn this into in-line form control
+                var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
+                search_input.attr('placeholder', 'Search');
+                search_input.removeClass('form-control-sm');
+                // LENGTH - Inline-Form control
+                var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+                length_sel.removeClass('form-control-sm');
             });
         });
     </script>
