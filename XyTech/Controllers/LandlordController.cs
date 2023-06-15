@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -30,13 +31,13 @@ namespace XyTech.Controllers
             ViewBag.counttenant = tenants.Count(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Day < currentDay && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
 
             ViewBag.counttenant = db.tb_tenant.Count(t => t.t_indate.Day >= DateTime.Today.Day && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
-            
+
 
             var landlords = db.tb_landlord
-                .Where(l => l.l_active != "0")
-                .Include(l => l.tb_bankname)
-                .OrderBy(l => l.l_due)
-                .ToList();
+                        .Where(l => l.l_active != "0")
+                        .Include(l => l.tb_bankname)
+                        .OrderBy(l => l.l_due)
+                        .ToList();
 
             if (TempData.Count > 0)
             {
@@ -81,7 +82,16 @@ namespace XyTech.Controllers
 
             db.tb_finance.Add(financeTransaction);
             db.SaveChanges();
+            //DateTime l_due = landlord.l_due;
+            landlord.l_due = landlord.l_due.AddMonths(1);
+            db.Entry(landlord).State = EntityState.Modified;
+            db.SaveChanges();
 
+            var landlords = db.tb_landlord
+                        .Where(l => l.l_active != "0")
+                        .Include(l => l.tb_bankname)
+                        .OrderBy(l => l.l_due.Year)
+                        .ToList();
             // Set a success message to be displayed on the index page
             TempData["success"] = "Payment processed successfully!";
 
@@ -124,8 +134,14 @@ namespace XyTech.Controllers
         {
             if (ModelState.IsValid)
             {
+                //tb_landlord.l_due = DateTime.ParseExact(tb_landlord.FormattedLDue, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 db.tb_landlord.Add(tb_landlord);
                 db.SaveChanges();
+                var landlords = db.tb_landlord
+                        .Where(l => l.l_active != "0")
+                        .Include(l => l.tb_bankname)
+                        .OrderBy(l => l.l_due.Year)
+                        .ToList();
                 TempData["success"] = "Landlord is successfully saved!";
                 return RedirectToAction("Index");
             }
@@ -161,8 +177,14 @@ namespace XyTech.Controllers
         {
             if (ModelState.IsValid)
             {
+                //tb_landlord.l_due = DateTime.ParseExact(tb_landlord.l_due.ToString("MM/dd/yyyy"), "MM/dd/yyyy", CultureInfo.InvariantCulture);
                 db.Entry(tb_landlord).State = EntityState.Modified;
                 db.SaveChanges();
+                var landlords = db.tb_landlord
+                        .Where(l => l.l_active != "0")
+                        .Include(l => l.tb_bankname)
+                        .OrderBy(l => l.l_due.Year)
+                        .ToList();
                 TempData["success"] = "Landlord is successfully saved!";
                 return RedirectToAction("Index");
             }

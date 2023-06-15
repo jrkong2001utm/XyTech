@@ -69,7 +69,7 @@
                                         @Html.DisplayFor(modelItem => item.l_fee)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.l_due)
+                                        @item.l_due.ToString("dd/MM/yyyy")
                                     </td>
 
 
@@ -156,7 +156,58 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            jQuery('#dataTable').DataTable();
+
+            $('#dataTable').DataTable({
+                "columnDefs": [
+                    {
+                        "type": "date-eu",
+                        "targets": [3],
+                        "render": function (data, type, full, meta) {
+                            if (type === 'sort' || type === 'type') {
+                                // Convert the date string to a JavaScript Date object
+                                var dateParts = data.split('/');
+                                var date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+                                return date;
+                            }
+                            return data;
+                        }
+                    }
+                ],
+                "order": [[3, "asc"]],
+                "columnSorting": false, // Disable DataTables built-in sorting
+                "lengthMenu": [
+                    [5, 10, 15, -1],
+                    [5, 10, 15, "All"]
+                ],
+                "pageLength": 10,
+                "language": {
+                    "search": ""
+                },
+                "drawCallback": function (settings) {
+                    // Manually sort the table by the date column after each draw
+                    var api = this.api();
+                    api.columns().every(function () {
+                        var column = this;
+                        if (column.index() === 3) { // Assuming the date column is the fourth column (index 3)
+                            column.data().sort(function (a, b) {
+                                return a.getTime() - b.getTime();
+                            });
+                        }
+                    });
+                    api.draw();
+                }
+            });
+
+            $('#dataTable').each(function () {
+                var datatable = $(this);
+                // SEARCH - Add the placeholder for Search and Turn this into in-line form control
+                var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
+                search_input.attr('placeholder', 'Search');
+                search_input.removeClass('form-control-sm');
+                // LENGTH - Inline-Form control
+                var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+                length_sel.removeClass('form-control-sm');
+            });
         });
     </script>
 }
