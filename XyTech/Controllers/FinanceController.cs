@@ -23,7 +23,16 @@ namespace XyTech.Controllers
         // GET: Finance
         public ActionResult Index(int? floorFilter)
         {
-           
+            int currentDay = DateTime.Today.Day;
+            var tenants = db.tb_tenant.ToList();
+
+            if (currentDay < 7 && tenants.Any(t => t.t_indate.Day > 23))
+            {
+                currentDay += 30;
+            }
+            ViewBag.counttenant = tenants.Count(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Day < currentDay && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+            ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
+
             // Populate floor options for the dropdown list
             var floorOptions = db.tb_floor.Select(f => new SelectListItem
             {
