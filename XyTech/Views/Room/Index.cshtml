@@ -35,18 +35,17 @@
                         </button>
                     </div>
                 }
-                <div class="d-flex justify-content-between">
-                    <p class="card-title mb-0" style="font-size: x-large;">List of Rooms</p>
 
-                    <div class="col-3">
-                        <form id="floorFilterForm">
-                            @Html.DropDownList("floorFilter", ViewData["FloorFilter"] as IEnumerable<SelectListItem>, new { @class = "form-control", id = "floorFilter" })
-                        </form>
-                    </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="card-title mb-0" style="font-size: x-large;">List of Rooms</p>
 
+                <div class="col-3 d-flex">
+                    <form id="floorFilterForm" class="mr-2">
+                        @Html.DropDownList("floorFilter", ViewData["FloorFilter"] as IEnumerable<SelectListItem>, new { @class = "form-control", id = "floorFilter" })
+                    </form>
                     @Html.ActionLink("Add", "Create", null, new { @class = "btn btn-success btn-rounded btn-fw" })
-
                 </div>
+            </div>
 
                 <br />
 
