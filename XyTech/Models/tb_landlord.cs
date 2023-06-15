@@ -12,7 +12,9 @@ namespace XyTech.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
 
+    
     public partial class tb_landlord
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +22,10 @@ namespace XyTech.Models
         {
             this.tb_floor = new HashSet<tb_floor>();
         }
-    
+
+        public int SelectedFloorId { get; set; }
+        public SelectList FloorList { get; set; }
+
         public int l_id { get; set; }
         public string l_name { get; set; }
         public string l_phone { get; set; }

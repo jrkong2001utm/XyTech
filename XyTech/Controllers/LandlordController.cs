@@ -21,6 +21,7 @@ namespace XyTech.Controllers
         {
             ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
             ViewBag.counttenant = db.tb_tenant.Count(t => t.t_indate.Day >= DateTime.Today.Day && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+            
 
             var landlords = db.tb_landlord
                 .Where(l => l.l_active != "0")
@@ -32,8 +33,53 @@ namespace XyTech.Controllers
             {
                 ViewBag.Message = TempData["success"].ToString();
             }
+            foreach (var landlord in landlords)
+            {
+                landlord.FloorList = new SelectList(db.tb_floor.Where(r => r.fl_active == "active"), "fl_id", "fl_bname");
+            }
             return View(landlords);
         }
+
+        
+
+
+        
+        [HttpPost]
+        public ActionResult Pay(int id, double amount, string method, int floor)
+        {
+
+            // Retrieve the landlord from the database
+            var landlord = db.tb_landlord.Find(id);
+
+            if (landlord == null)
+            {
+                // Landlord not found, handle the error accordingly
+                return HttpNotFound();
+            }
+
+            var userId = Convert.ToInt32(Session["id"]);
+
+            var financeTransaction = new tb_finance
+            {
+                f_floor = floor, // Modify as per your requirement
+                f_date = DateTime.Now, // Set the finance transaction date to the current date
+                f_transaction = amount, // Set the transaction amount as per your requirement
+                f_transactiontype = "Outflow", // Set the transaction type as per your requirement
+                f_paymentmethod = method,
+                f_user = userId,
+                f_desc = "sewa Owner - " + landlord.l_name
+            };
+
+            db.tb_finance.Add(financeTransaction);
+            db.SaveChanges();
+
+            // Set a success message to be displayed on the index page
+            TempData["success"] = "Payment processed successfully!";
+
+            // Redirect back to the index page
+            return RedirectToAction("Index");
+        }
+
 
         // GET: Landlord/Details/5
         public ActionResult Details(int? id)
