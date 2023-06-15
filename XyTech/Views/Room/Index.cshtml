@@ -38,6 +38,12 @@
                 <div class="d-flex justify-content-between">
                     <p class="card-title mb-0" style="font-size: x-large;">List of Rooms</p>
 
+                    <div class="col-3">
+                        <form id="floorFilterForm">
+                            @Html.DropDownList("floorFilter", ViewData["FloorFilter"] as IEnumerable<SelectListItem>, new { @class = "form-control", id = "floorFilter" })
+                        </form>
+                    </div>
+
                     @Html.ActionLink("Add", "Create", null, new { @class = "btn btn-success btn-rounded btn-fw" })
 
                 </div>
@@ -119,6 +125,10 @@
     <script>
         $(document).ready(function () {
             jQuery('#dataTable').DataTable();
+
+            document.getElementById("floorFilter").addEventListener("change", function () {
+                this.form.submit();
+            });
         });
     </script>
 }
