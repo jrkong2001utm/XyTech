@@ -72,6 +72,7 @@ namespace XyTech.Controllers
                     p_investor = p.p_investor,
                     p_month = p.p_month,
                     p_profit = p.p_profit,
+                    p_lot = p.tb_investor.i_lot,
                     InvestorUsername = db.tb_user.FirstOrDefault(u => u.u_id == p.tb_investor.i_user)?.u_username
                 })
                 .OrderByDescending(p => Convert.ToInt32(p.p_month.Split('-')[0])) // Order by year

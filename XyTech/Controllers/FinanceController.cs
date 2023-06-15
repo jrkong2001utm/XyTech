@@ -483,24 +483,24 @@ namespace XyTech.Controllers
             db.SaveChanges();
         }
 
-        public void FloorGaji(int uid, double amount)
-        {
-            var floors = db.tb_floor;
-            foreach (var floor in floors)
-            {
-                var id = floor.fl_id;
+        //public void FloorGaji(int uid, double amount)
+        //{
+        //    var floors = db.tb_floor;
+        //    foreach (var floor in floors)
+        //    {
+        //        var id = floor.fl_id;
 
-                var financeEntry = new tb_finance
-                {
-                    f_floor = id, // Modify as per your requirement
-                    f_date = DateTime.Now, // Set the date to the current date
-                    f_transaction = 200, // Set the profit as the transaction amount
-                    f_transactiontype = "Outflow", // Set the transaction type as "Outflow"
-                    f_paymentmethod = "Bank", // Modify as per your requirement
-                    f_user = uid, // Modify as per your requirement
-                    f_desc = $"Gaji Anas" // Modify the description as per your requirement
-                };
-            }
-        }
+        //        var financeEntry = new tb_finance
+        //        {
+        //            f_floor = id, // Modify as per your requirement
+        //            f_date = DateTime.Now, // Set the date to the current date
+        //            f_transaction = 200, // Set the profit as the transaction amount
+        //            f_transactiontype = "Outflow", // Set the transaction type as "Outflow"
+        //            f_paymentmethod = "Bank", // Modify as per your requirement
+        //            f_user = uid, // Modify as per your requirement
+        //            f_desc = $"Gaji Anas" // Modify the description as per your requirement
+        //        };
+        //    }
+        //}
     }
 }
