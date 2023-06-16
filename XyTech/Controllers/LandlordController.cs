@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -29,18 +30,75 @@ namespace XyTech.Controllers
             }
             ViewBag.counttenant = tenants.Count(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Day < currentDay && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
 
+            ViewBag.counttenant = db.tb_tenant.Count(t => t.t_indate.Day >= DateTime.Today.Day && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+
+
             var landlords = db.tb_landlord
-                .Where(l => l.l_active != "0")
-                .Include(l => l.tb_bankname)
-                .OrderBy(l => l.l_due)
-                .ToList();
+                        .Where(l => l.l_active != "0")
+                        .Include(l => l.tb_bankname)
+                        .OrderBy(l => l.l_due)
+                        .ToList();
 
             if (TempData.Count > 0)
             {
                 ViewBag.Message = TempData["success"].ToString();
             }
+            foreach (var landlord in landlords)
+            {
+                landlord.FloorList = new SelectList(db.tb_floor.Where(r => r.fl_active == "active"), "fl_id", "fl_bname");
+            }
             return View(landlords);
         }
+
+        
+
+
+        
+        [HttpPost]
+        public ActionResult Pay(int id, double amount, string method, int floor)
+        {
+
+            // Retrieve the landlord from the database
+            var landlord = db.tb_landlord.Find(id);
+
+            if (landlord == null)
+            {
+                // Landlord not found, handle the error accordingly
+                return HttpNotFound();
+            }
+
+            var userId = Convert.ToInt32(Session["id"]);
+
+            var financeTransaction = new tb_finance
+            {
+                f_floor = floor, // Modify as per your requirement
+                f_date = DateTime.Now, // Set the finance transaction date to the current date
+                f_transaction = amount, // Set the transaction amount as per your requirement
+                f_transactiontype = "Outflow", // Set the transaction type as per your requirement
+                f_paymentmethod = method,
+                f_user = userId,
+                f_desc = "sewa Owner - " + landlord.l_name
+            };
+
+            db.tb_finance.Add(financeTransaction);
+            db.SaveChanges();
+            //DateTime l_due = landlord.l_due;
+            landlord.l_due = landlord.l_due.AddMonths(1);
+            db.Entry(landlord).State = EntityState.Modified;
+            db.SaveChanges();
+
+            var landlords = db.tb_landlord
+                        .Where(l => l.l_active != "0")
+                        .Include(l => l.tb_bankname)
+                        .OrderBy(l => l.l_due.Year)
+                        .ToList();
+            // Set a success message to be displayed on the index page
+            TempData["success"] = "Payment processed successfully!";
+
+            // Redirect back to the index page
+            return RedirectToAction("Index");
+        }
+
 
         // GET: Landlord/Details/5
         public ActionResult Details(int? id)
@@ -76,8 +134,14 @@ namespace XyTech.Controllers
         {
             if (ModelState.IsValid)
             {
+                //tb_landlord.l_due = DateTime.ParseExact(tb_landlord.FormattedLDue, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 db.tb_landlord.Add(tb_landlord);
                 db.SaveChanges();
+                var landlords = db.tb_landlord
+                        .Where(l => l.l_active != "0")
+                        .Include(l => l.tb_bankname)
+                        .OrderBy(l => l.l_due.Year)
+                        .ToList();
                 TempData["success"] = "Landlord is successfully saved!";
                 return RedirectToAction("Index");
             }
@@ -113,8 +177,14 @@ namespace XyTech.Controllers
         {
             if (ModelState.IsValid)
             {
+                //tb_landlord.l_due = DateTime.ParseExact(tb_landlord.l_due.ToString("MM/dd/yyyy"), "MM/dd/yyyy", CultureInfo.InvariantCulture);
                 db.Entry(tb_landlord).State = EntityState.Modified;
                 db.SaveChanges();
+                var landlords = db.tb_landlord
+                        .Where(l => l.l_active != "0")
+                        .Include(l => l.tb_bankname)
+                        .OrderBy(l => l.l_due.Year)
+                        .ToList();
                 TempData["success"] = "Landlord is successfully saved!";
                 return RedirectToAction("Index");
             }

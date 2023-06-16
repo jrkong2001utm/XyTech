@@ -35,7 +35,7 @@ namespace XyTech.Controllers
                 ViewBag.Message = TempData["success"].ToString();
             }
 
-            var floorOptions = db.tb_floor.Select(f => new SelectListItem
+            var floorOptions = db.tb_floor.Where(f => f.fl_active == "active").Select(f => new SelectListItem
             {
                 Text = f.fl_bname,
                 Value = f.fl_id.ToString(),
