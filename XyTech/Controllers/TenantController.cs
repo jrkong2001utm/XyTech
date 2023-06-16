@@ -103,7 +103,7 @@ namespace XyTech.Controllers
             ViewBag.RoomID = room.r_id;
 
             ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_no");
-            var uniqueFloorIds = db.tb_room.Select(r => r.r_floor).Distinct().ToList();
+            var uniqueFloorIds = db.tb_room.Where(r => r.tb_floor.fl_active == "active").Select(r => r.r_floor).Distinct().ToList();
             ViewBag.fl_id = new SelectList(uniqueFloorIds);
             return View();
         }
@@ -266,7 +266,7 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
-            var uniqueFloorIds = db.tb_floor.Select(r => new { r.fl_id, r.fl_bname }).Distinct().ToList();
+            var uniqueFloorIds = db.tb_floor.Where(r => r.fl_active == "active").Select(r => new { r.fl_id, r.fl_bname }).Distinct().ToList();
             ViewBag.fl_id = new SelectList(uniqueFloorIds, "fl_id", "fl_bname");
             ViewBag.t_room = new SelectList(db.tb_room, "r_id", "r_no", tb_tenant.t_room);
             return View(tb_tenant);

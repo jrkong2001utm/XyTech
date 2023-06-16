@@ -76,116 +76,116 @@
                                     </tr>
                                 </thead>
                                 @*<tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.t_name)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.t_phone)
-                                            </td>
-                                            <td>
-                                                @item.t_indate.ToString("dd-MM-yyyy")
-                                            </td>
-                                            <td>
-                                                @item.t_outdate.ToString("dd-MM-yyyy")
-                                            </td>
-                                            <td style="text-align: center">
-                                                @Html.DisplayFor(modelItem => item.t_outstanding)
-                                            </td>
-                                            <td style="text-align: center">
-                                                @{
-                                                    var paymentStatusText = "";
-
-                                                    switch (item.t_paymentstatus)
-                                                    {
-                                                        case 0:
-                                                            paymentStatusText = "Overpaid";
-                                                            <div class="badge badge-info">
-                                                                @Html.DisplayFor(modelItem => paymentStatusText)
-                                                            </div>
-                                                            break;
-                                                        case 1:
-                                                            paymentStatusText = "Successfully Paid";
-                                                            <div class="badge badge-success">
-                                                                @Html.DisplayFor(modelItem => paymentStatusText)
-                                                            </div>
-                                                            break;
-                                                        case 2:
-                                                            paymentStatusText = "Partially Paid";
-                                                            <div class="badge badge-warning">
-                                                                @Html.DisplayFor(modelItem => paymentStatusText)
-                                                            </div>
-                                                            break;
-                                                        case 3:
-                                                            paymentStatusText = "Unpaid";
-                                                            <div class="badge badge-danger">
-                                                                @Html.DisplayFor(modelItem => paymentStatusText)
-                                                            </div>
-                                                            break;
-                                                    }
-                                                }
-                                            </td>
-                                            <td style="text-align: center">
-                                                @Html.DisplayFor(modelItem => item.tb_room.r_no)
-                                            </td>
-
-                                            @if (item.t_paymentstatus == 1 || item.t_paymentstatus == 0)
-                                            {
-                                                <td style="text-align: center">
-                                                    @Html.ActionLink(" ", "Edit", new { id = item.t_id }, new { @class = "fa fa-pencil text-primary" }) |
-                                                    @Html.ActionLink(" ", "Details", new { id = item.t_id }, new { @class = "fa fa-info-circle text-info" }) |
-                                                    @Html.ActionLink(" ", "Delete", new { id = item.t_id }, new { @class = " fa fa-trash text-danger" })
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.t_name)
                                                 </td>
-                                            }
-                                            else
-                                            {
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.t_phone)
+                                                </td>
+                                                <td>
+                                                    @item.t_indate.ToString("dd-MM-yyyy")
+                                                </td>
+                                                <td>
+                                                    @item.t_outdate.ToString("dd-MM-yyyy")
+                                                </td>
                                                 <td style="text-align: center">
-                                                    @Html.ActionLink(" ", "Edit", new { id = item.t_id }, new { @class = "fa fa-pencil text-primary" }) |
-                                                    @Html.ActionLink(" ", "Details", new { id = item.t_id }, new { @class = "fa fa-info-circle text-info" }) |
-                                                    <button class="btn btn-primary mdi mdi-cash-usd" data-toggle="modal" data-target="#paymentModal-@item.t_id"></button>
+                                                    @Html.DisplayFor(modelItem => item.t_outstanding)
+                                                </td>
+                                                <td style="text-align: center">
+                                                    @{
+                                                        var paymentStatusText = "";
 
-                                                    <!-- Payment Modal -->
-                                                    <div class="modal fade" id="paymentModal-@item.t_id" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-@item.t_id" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="paymentModalLabel-@item.t_id">Make Payment</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
+                                                        switch (item.t_paymentstatus)
+                                                        {
+                                                            case 0:
+                                                                paymentStatusText = "Overpaid";
+                                                                <div class="badge badge-info">
+                                                                    @Html.DisplayFor(modelItem => paymentStatusText)
                                                                 </div>
-                                                                <div class="modal-body">
-                                                                    <form id="paymentForm-@item.t_id" method="post" action="@Url.Action("Pay", "Tenant", new { id = item.t_id })">
-                                                                        <div style="overflow: hidden;">
-                                                                            <span style="float: left;">@Html.DisplayFor(modelItem => item.t_name)</span>
-                                                                            <span style="float: right;">Current Outstanding: @Html.DisplayFor(modelItem => item.t_outstanding)</span>
-                                                                        </div>
-                                                                        <br />
-                                                                        <div class="form-group">
-                                                                            <label for="amount-@item.t_id">Amount:</label>
-                                                                            <input type="number" class="form-control" id="amount" name="amount" required>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="method-@item.t_id">Payment Method:</label>
-                                                                            <select class="form-control" id="method" name="method" required>
-                                                                                <option value="" selected disabled hidden>Select Method</option>
-                                                                                <option value="Bank">Bank</option>
-                                                                                <option value="Cash">Cash</option>
-                                                                            </select>
-                                                                        </div>
-                                                                        <button type="submit" class="btn btn-primary">Submit Payment</button>
-                                                                    </form>
+                                                                break;
+                                                            case 1:
+                                                                paymentStatusText = "Successfully Paid";
+                                                                <div class="badge badge-success">
+                                                                    @Html.DisplayFor(modelItem => paymentStatusText)
+                                                                </div>
+                                                                break;
+                                                            case 2:
+                                                                paymentStatusText = "Partially Paid";
+                                                                <div class="badge badge-warning">
+                                                                    @Html.DisplayFor(modelItem => paymentStatusText)
+                                                                </div>
+                                                                break;
+                                                            case 3:
+                                                                paymentStatusText = "Unpaid";
+                                                                <div class="badge badge-danger">
+                                                                    @Html.DisplayFor(modelItem => paymentStatusText)
+                                                                </div>
+                                                                break;
+                                                        }
+                                                    }
+                                                </td>
+                                                <td style="text-align: center">
+                                                    @Html.DisplayFor(modelItem => item.tb_room.r_no)
+                                                </td>
+
+                                                @if (item.t_paymentstatus == 1 || item.t_paymentstatus == 0)
+                                                {
+                                                    <td style="text-align: center">
+                                                        @Html.ActionLink(" ", "Edit", new { id = item.t_id }, new { @class = "fa fa-pencil text-primary" }) |
+                                                        @Html.ActionLink(" ", "Details", new { id = item.t_id }, new { @class = "fa fa-info-circle text-info" }) |
+                                                        @Html.ActionLink(" ", "Delete", new { id = item.t_id }, new { @class = " fa fa-trash text-danger" })
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="text-align: center">
+                                                        @Html.ActionLink(" ", "Edit", new { id = item.t_id }, new { @class = "fa fa-pencil text-primary" }) |
+                                                        @Html.ActionLink(" ", "Details", new { id = item.t_id }, new { @class = "fa fa-info-circle text-info" }) |
+                                                        <button class="btn btn-primary mdi mdi-cash-usd" data-toggle="modal" data-target="#paymentModal-@item.t_id"></button>
+
+                                                        <!-- Payment Modal -->
+                                                        <div class="modal fade" id="paymentModal-@item.t_id" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-@item.t_id" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="paymentModalLabel-@item.t_id">Make Payment</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form id="paymentForm-@item.t_id" method="post" action="@Url.Action("Pay", "Tenant", new { id = item.t_id })">
+                                                                            <div style="overflow: hidden;">
+                                                                                <span style="float: left;">@Html.DisplayFor(modelItem => item.t_name)</span>
+                                                                                <span style="float: right;">Current Outstanding: @Html.DisplayFor(modelItem => item.t_outstanding)</span>
+                                                                            </div>
+                                                                            <br />
+                                                                            <div class="form-group">
+                                                                                <label for="amount-@item.t_id">Amount:</label>
+                                                                                <input type="number" class="form-control" id="amount" name="amount" required>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="method-@item.t_id">Payment Method:</label>
+                                                                                <select class="form-control" id="method" name="method" required>
+                                                                                    <option value="" selected disabled hidden>Select Method</option>
+                                                                                    <option value="Bank">Bank</option>
+                                                                                    <option value="Cash">Cash</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <button type="submit" class="btn btn-primary">Submit Payment</button>
+                                                                        </form>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                            }
-                                        </tr>
-                                    }
-                                </tbody>*@
+                                                    </td>
+                                                }
+                                            </tr>
+                                        }
+                                    </tbody>*@
                             </table>
                         </div>
                     </div>
@@ -201,10 +201,14 @@
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.13.4/sorting/datetime-moment.js"></script>
 
     <script>
         $(document).ready(function () {
-            //jQuery('#dataTable').DataTable();
+            $.fn.dataTable.moment('DD-MM-YYYY');
+            $.fn.dataTable.moment('DD-MM-YYYY');
+            
             var table = $('#dataTable').DataTable({
                 ajax: {
                     url: '@Url.Action("GetFilteredTenantData", "Tenant")',
@@ -214,6 +218,7 @@
                     },
                     dataSrc: ''
                 },
+                order: [[3, 'asc']],
                 columns: [
                     { data: 't_name' },
                     { data: 't_phone' },
@@ -227,7 +232,7 @@
                         data: 't_outdate',
                         render: function (data, type, row) {
                             return moment(data).format('DD-MM-YYYY');
-                        }
+                        },
                     },
                     { data: 't_outstanding', className: 'text-center' },
                     {
@@ -260,48 +265,48 @@
                         render: function (data, type, row) {
                             if (row.t_paymentstatus === 1 || row.t_paymentstatus === 0)
                             {
-                                return '<a href="@Url.Action("Edit", "Tenant")/' + row.t_id + '" class="fa fa-pencil text-primary" title="edit"></a> | ' +
-                                    '<a href="@Url.Action("Details", "Tenant")/' + row.t_id + '" class="fa fa-info-circle text-info" title="details"></a> | ' +
-                                    '<a href="@Url.Action("Delete", "Tenant")/' + row.t_id + '" class="fa fa-trash text-danger" title="delete"></a>';
+                                return '<a href="@Url.Action("Edit", "Tenant")/' + row.t_id + '" class="btn btn-link" title="edit"><i class="fa fa-edit text-primary"></i></a>' +
+                                    '<a href="@Url.Action("Details", "Tenant")/' + row.t_id + '" class="btn btn-link" title="details"><i class="fa fa-info-circle text-info"></i></a>' +
+                                    '<a href="@Url.Action("Delete", "Tenant")/' + row.t_id + '" class="btn btn-link" title="delete"><i class="fa fa-trash text-danger"></i></a>';
                             }
                             else
                             {
-                                return '<a href="@Url.Action("Edit", "Tenant")/' + row.t_id + '" class="fa fa-pencil text-primary" title="edit"></a> | ' +
-                                    '<a href="@Url.Action("Details", "Tenant")/' + row.t_id + '" class="fa fa-info-circle text-info" title="details"></a> | ' +
-                                    '<button class="btn btn-primary mdi mdi-cash-usd" data-toggle="modal" data-target="#paymentModal-' + row.t_id + '"></button>' +
-                                    '<div class="modal fade" id="paymentModal-' + row.t_id + '" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-' + row.t_id + '" aria-hidden="true">' + 
-                                                        '<div class="modal-dialog" role="document">' + 
-                                                            '<div class="modal-content">' + 
-                                                                '<div class="modal-header">' + 
-                                                                    '<h5 class="modal-title" id="paymentModalLabel-' + row.t_id + '">Make Payment</h5>' + 
-                                                                    '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' + 
-                                                                        '<span aria-hidden="true">&times;</span>' + 
-                                                                    '</button>' + 
-                                                                '</div>' + 
-                                                                '<div class="modal-body">' + 
-                                                                    '<form id="paymentForm-' + row.t_id + '" method="post" action="@Url.Action("Pay", "Tenant")/' + row.t_id + '">' + 
-                                                                        '<div style="overflow: hidden;">' + 
-                                                                            '<span style="float: left;">' + row.t_name + '</span>' + 
-                                                                            '<span style="float: right;">Current Outstanding: ' + row.t_outstanding + '</span>' + 
-                                                                        '</div>' + 
-                                                                        '<br />' + 
-                                                                        '<div class="form-group">' + 
-                                                                            '<label for="amount-' + row.t_id + '">Amount:</label>' + 
-                                                                            '<input type="number" class="form-control" id="amount" name="amount" required>' + 
-                                                                        '</div>' + 
-                                                                        '<div class="form-group">' + 
-                                                                            '<label for="method-' + row.t_id + '">Payment Method:</label>' + 
-                                                                            '<select class="form-control" id="method" name="method" required>' + 
-                                                                                '<option value="" selected disabled hidden>Select Method</option>' + 
-                                                                                '<option value="Bank">Bank</option>' + 
-                                                                                '<option value="Cash">Cash</option>' + 
-                                                                            '</select>' + 
-                                                                        '</div>' + 
-                                                                        '<button type="submit" class="btn btn-primary">Submit Payment</button>' + 
-                                                                    '</form>' + 
-                                                                '</div>' + 
-                                                            '</div>' + 
-                                                        '</div>' + 
+                                return '<a href="@Url.Action("Edit", "Tenant")/' + row.t_id + '" class="btn btn-link" title="edit"><i class="fa fa-edit text-primary"></i></a>' +
+                                    '<a href="@Url.Action("Details", "Tenant")/' + row.t_id + '" class="btn btn-link" title="details"><i class="fa fa-info-circle text-info"></i></a>' +
+                                    '<button class="btn mdi mdi-cash-usd text-success" data-toggle="modal" data-target="#paymentModal-' + row.t_id + '"></button>' +
+                                    '<div class="modal fade" id="paymentModal-' + row.t_id + '" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-' + row.t_id + '" aria-hidden="true">' +
+                                                        '<div class="modal-dialog" role="document">' +
+                                                            '<div class="modal-content">' +
+                                                                '<div class="modal-header">' +
+                                                                    '<h5 class="modal-title" id="paymentModalLabel-' + row.t_id + '">Make Payment</h5>' +
+                                                                    '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                                                                        '<span aria-hidden="true">&times;</span>' +
+                                                                    '</button>' +
+                                                                '</div>' +
+                                                                '<div class="modal-body">' +
+                                                                    '<form id="paymentForm-' + row.t_id + '" method="post" action="@Url.Action("Pay", "Tenant")/' + row.t_id + '">' +
+                                                                        '<div style="overflow: hidden;">' +
+                                                                            '<span style="float: left;">' + row.t_name + '</span>' +
+                                                                            '<span style="float: right;">Current Outstanding: ' + row.t_outstanding + '</span>' +
+                                                                        '</div>' +
+                                                                        '<br />' +
+                                                                        '<div class="form-group">' +
+                                                                            '<label for="amount-' + row.t_id + '">Amount:</label>' +
+                                                                            '<input type="number" class="form-control" id="amount" name="amount" required>' +
+                                                                        '</div>' +
+                                                                        '<div class="form-group">' +
+                                                                            '<label for="method-' + row.t_id + '">Payment Method:</label>' +
+                                                                            '<select class="form-control" id="method" name="method" required>' +
+                                                                                '<option value="" selected disabled hidden>Select Method</option>' +
+                                                                                '<option value="Bank">Bank</option>' +
+                                                                                '<option value="Cash">Cash</option>' +
+                                                                            '</select>' +
+                                                                        '</div>' +
+                                                                        '<button type="submit" class="btn btn-primary">Submit Payment</button>' +
+                                                                    '</form>' +
+                                                                '</div>' +
+                                                            '</div>' +
+                                                        '</div>' +
                                                     '</div>';
                             }
                         },

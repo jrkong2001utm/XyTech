@@ -90,7 +90,117 @@ namespace XyTech.Controllers
             double percentProfit = (totalInflow / (totalInflow + totalOutflow)) * 100;
             string formattedPercentProfit = percentProfit.ToString("F2");
             ViewBag.PercentProfit = formattedPercentProfit;
+
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
+            foreach (var landlord in db.tb_landlord)
+            {
+                landlord.FloorList = new SelectList(db.tb_floor.Where(r => r.fl_active == "active"), "fl_id", "fl_bname");
+            }
+
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Pay(int id, double amount, string method)
+        {
+            // Retrieve the tenant from the database
+            var tenant = db.tb_tenant.Find(id);
+
+            if (tenant == null)
+            {
+                // Tenant not found, handle the error accordingly
+                return HttpNotFound();
+            }
+
+            var userId = Convert.ToInt32(Session["id"]);
+            var room = db.tb_room.Find(tenant.t_room);
+
+            var financeTransaction = new tb_finance
+            {
+                f_floor = room.r_floor, // Modify as per your requirement
+                f_date = DateTime.Now, // Set the finance transaction date to current date
+                f_transaction = amount, // Set the transaction amount as per your requirement
+                f_transactiontype = "Inflow", // Set the transaction type as per your requirement
+                f_paymentmethod = method,
+                f_user = userId,
+                f_desc = "sewa " + tenant.t_name + " " + room.r_no
+            };
+
+            db.tb_finance.Add(financeTransaction);
+            db.SaveChanges();
+
+            // Update the outstanding amount based on the payment amount
+            if (tenant.t_outstanding > amount && amount != 0)
+            {
+                tenant.t_paymentstatus = 2;
+            }
+            else if (tenant.t_outstanding == amount)
+            {
+                tenant.t_paymentstatus = 1;
+            }
+            else if (tenant.t_outstanding < amount)
+            {
+                tenant.t_paymentstatus = 0;
+            }
+            tenant.t_outstanding -= amount;
+
+            // Save the changes to the database
+            db.Entry(tenant).State = EntityState.Modified;
+            db.SaveChanges();
+
+            // Set a success message to be displayed on the index page
+            TempData["success"] = "Payment processed successfully!";
+
+            // Redirect back to the index page
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult PayLandlord(int id, double amount, string method, int floor)
+        {
+
+            // Retrieve the landlord from the database
+            var landlord = db.tb_landlord.Find(id);
+
+            if (landlord == null)
+            {
+                // Landlord not found, handle the error accordingly
+                return HttpNotFound();
+            }
+
+            var userId = Convert.ToInt32(Session["id"]);
+
+            var financeTransaction = new tb_finance
+            {
+                f_floor = floor, // Modify as per your requirement
+                f_date = DateTime.Now, // Set the finance transaction date to the current date
+                f_transaction = amount, // Set the transaction amount as per your requirement
+                f_transactiontype = "Outflow", // Set the transaction type as per your requirement
+                f_paymentmethod = method,
+                f_user = userId,
+                f_desc = "sewa Owner - " + landlord.l_name
+            };
+
+            db.tb_finance.Add(financeTransaction);
+            db.SaveChanges();
+            //DateTime l_due = landlord.l_due;
+            landlord.l_due = landlord.l_due.AddMonths(1);
+            db.Entry(landlord).State = EntityState.Modified;
+            db.SaveChanges();
+
+            var landlords = db.tb_landlord
+                        .Where(l => l.l_active != "0")
+                        .Include(l => l.tb_bankname)
+                        .OrderBy(l => l.l_due.Year)
+                        .ToList();
+            // Set a success message to be displayed on the index page
+            TempData["success"] = "Payment processed successfully!";
+
+            // Redirect back to the index page
+            return RedirectToAction("Index");
         }
 
         public ActionResult About()

@@ -60,34 +60,38 @@ namespace XyTech.Controllers
                         ModelState.AddModelError("", "Incorrect Username or Password");
                     }
 
-                    //var tenants = db.tb_tenant.ToList();
-                    //foreach (var tenant in tenants)
+                    // Auto Update Tenant Monthly
+                    //var currentUser = db.tb_user.FirstOrDefault(u => u.u_id == obj.u_id && u.u_usertype == "Admin");
+
+                    //if (!currentUser.u_resetdate.HasValue || (currentUser.u_resetdate.Value.Date != DateTime.Today && currentUser.u_token == null))
                     //{
-                    //    var room = db.tb_room.FirstOrDefault(r => r.r_id == tenant.t_room);
+                    //    // Update the u_resetdate to the current date
+                    //    currentUser.u_resetdate = DateTime.Today;
+                    //    db.SaveChanges();
 
-                    //    var checkInDate = tenant.t_indate;
-
-                    //    // Calculate the due date by adding 7 days to the check-in date
-                    //    var dueDate = checkInDate.Date.AddDays(7);
-
-                    //    // Get today's date
-                    //    var today = DateTime.Today;
-
-                    //    // Calculate the number of days between the due date and today
-                    //    var daysDifference = (today - dueDate).TotalDays;
-
-                    //    if (daysDifference == 0 && tenant.t_paymentstatus == 0)
+                    //    var tenants = db.tb_tenant.ToList();
+                    //    foreach (var tenant in tenants)
                     //    {
-                    //        tenant.t_outstanding += room.r_price;
-                    //        tenant.t_paymentstatus = 2;
-                    //    }
-                    //    else if (daysDifference == 0 && tenant.t_outstanding < room.r_price)
-                    //    {
-                    //        tenant.t_outstanding += room.r_price;// The rental fee is due within one week
-                    //        tenant.t_paymentstatus = 3; 
-                    //    }
+                    //        var room = db.tb_room.FirstOrDefault(r => r.r_id == tenant.t_room);
 
-                    //    db.Entry(tenant).State = EntityState.Modified;
+                    //        var checkInDate = tenant.t_indate;
+
+                    //        if (checkInDate.Day == currentUser.u_resetdate.Value.Day)
+                    //        {
+                    //            if (tenant.t_paymentstatus == 0)
+                    //            {
+                    //                tenant.t_outstanding += room.r_price;
+                    //                tenant.t_paymentstatus = 2;
+                    //            }
+                    //            else
+                    //            {
+                    //                tenant.t_outstanding += room.r_price;
+                    //                tenant.t_paymentstatus = 3;
+                    //            }
+                    //        }
+
+                    //        db.Entry(tenant).State = EntityState.Modified;
+                    //    }
                     //}
 
                     //db.SaveChanges();
