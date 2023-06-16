@@ -118,47 +118,13 @@
                             </span>
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Deposit and Payment Method</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="DepositAmount" class="control-label">Deposit Amount</label>
-                        <div>
-                            <input type="text" id="DepositAmount" name="DepositAmount" class="form-control" required />
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="PaymentMethod" class="control-label">Payment Method</label>
-                        <div>
-                            <select id="PaymentMethod" name="PaymentMethod" class="form-control" required>
-                                <option value="" selected disabled>Select Payment Method</option>
-                                <option value="Bank">Bank</option>
-                                <option value="Cash">Cash</option>
-                            </select>
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-secondary" id="btnNoDeposit">No Deposit</button>
-                    <button type="submit" class="btn btn-primary" id="submitButton">Create</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
 
 }
@@ -186,7 +152,7 @@
                 dateFormat: "dd/MM/yy",
                 changeMonth: true,
                 changeYear: true,
-                minDate: "0D",
+                //minDate: "0D",
                 onSelect: function (selected) {
                     var dt = new Date(selected);
                     dt.setDate(dt.getDate() + 1);

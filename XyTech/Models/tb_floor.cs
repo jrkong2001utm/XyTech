@@ -33,6 +33,8 @@ namespace XyTech.Models
         public string fl_layout { get; set; }
         public string fl_bname { get; set; }
         public Nullable<int> fl_landlord { get; set; }
+        public string fl_preset_potential { get; set; }
+        public string fl_preset_current { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_attendance> tb_attendance { get; set; }
