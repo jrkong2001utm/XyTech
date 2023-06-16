@@ -2,6 +2,15 @@
     ViewBag.Title = "Home Page";
 }
 
+@if (ViewBag.Message == "Payment processed successfully!")
+{
+    <script>
+        $(document).ready(function () {
+            swal("Payment Recorded!", "Transaction has been recorded in the Finance", "success");
+        });
+    </script>
+}
+
 <div class="row">
     <div class="col-md-6 grid-margin transparent">
         <div class="row">
@@ -92,7 +101,7 @@
                                     <td>@landlord.l_fee</td>
                                     <td>@landlord.l_due.ToString("dd-MM-yyyy")</td>
                                     <td style="text-align: center">
-                                        <a href="@whatsapp" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a> 
+                                        <a href="@whatsapp" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a> |
                                         <a href="@Url.Action("Edit", "Landlord", new { id = landlord.l_id })" class="btn btn-link" title="edit">
                                             <i class="fa fa-edit text-primary"></i>
                                         </a>
@@ -150,7 +159,44 @@
                                                                             <a href="@whatsappUrl" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a> |
                                                                             <a href="@Url.Action("Edit", "Tenant", new { id = tenant.t_id })" class="btn btn-link" title="edit">
                                                                                 <i class="fa fa-edit text-primary"></i>
-                                                                            </a>
+                                                                            </a>|
+                                                                            <button class="btn mdi mdi-cash-usd" data-toggle="modal" data-target="#paymentModal-@tenant.t_id"></button>
+
+                                                                            <!-- Payment Modal -->
+                                                                            <div class="modal fade" id="paymentModal-@tenant.t_id" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-@tenant.t_id" aria-hidden="true">
+                                                                                <div class="modal-dialog" role="document">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title" id="paymentModalLabel-@tenant.t_id">Make Payment</h5>
+                                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                <span aria-hidden="true">&times;</span>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            <form id="paymentForm-@tenant.t_id" method="post" action="@Url.Action("Pay", "Home", new { id = tenant.t_id })">
+                                                                                                <div style="overflow: hidden;">
+                                                                                                    <span style="float: left;">@tenant.t_name</span>
+                                                                                                    <span style="float: right;">Current Outstanding: @tenant.t_outstanding</span>
+                                                                                                </div>
+                                                                                                <br />
+                                                                                                <div class="form-group">
+                                                                                                    <label for="amount-@tenant.t_id">Amount:</label>
+                                                                                                    <input type="number" class="form-control" id="amount" name="amount" required>
+                                                                                                </div>
+                                                                                                <div class="form-group">
+                                                                                                    <label for="method-@tenant.t_id">Payment Method:</label>
+                                                                                                    <select class="form-control" id="method" name="method" required>
+                                                                                                        <option value="" selected disabled hidden>Select Method</option>
+                                                                                                        <option value="Bank">Bank</option>
+                                                                                                        <option value="Cash">Cash</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                                <button type="submit" class="btn btn-primary">Submit Payment</button>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </td>
                                                                     </tr>
                                                                 }
@@ -202,7 +248,44 @@
                                                                             <a href="@urlwhatsapp" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a> |
                                                                             <a href="@Url.Action("Edit", "Tenant", new { id = weektenant.t_id })" class="btn btn-link" title="edit">
                                                                                 <i class="fa fa-edit text-primary"></i>
-                                                                            </a>
+                                                                            </a>|
+                                                                            <button class="btn mdi mdi-cash-usd" data-toggle="modal" data-target="#paymentModal-@weektenant.t_id"></button>
+
+                                                                            <!-- Payment Modal -->
+                                                                            <div class="modal fade" id="paymentModal-@weektenant.t_id" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-@weektenant.t_id" aria-hidden="true">
+                                                                                <div class="modal-dialog" role="document">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title" id="paymentModalLabel-@weektenant.t_id">Make Payment</h5>
+                                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                <span aria-hidden="true">&times;</span>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            <form id="paymentForm-@weektenant.t_id" method="post" action="@Url.Action("Pay", "Home", new { id = weektenant.t_id })">
+                                                                                                <div style="overflow: hidden;">
+                                                                                                    <span style="float: left;">@weektenant.t_name</span>
+                                                                                                    <span style="float: right;">Current Outstanding: @weektenant.t_outstanding</span>
+                                                                                                </div>
+                                                                                                <br />
+                                                                                                <div class="form-group">
+                                                                                                    <label for="amount-@weektenant.t_id">Amount:</label>
+                                                                                                    <input type="number" class="form-control" id="amount" name="amount" required>
+                                                                                                </div>
+                                                                                                <div class="form-group">
+                                                                                                    <label for="method-@weektenant.t_id">Payment Method:</label>
+                                                                                                    <select class="form-control" id="method" name="method" required>
+                                                                                                        <option value="" selected disabled hidden>Select Method</option>
+                                                                                                        <option value="Bank">Bank</option>
+                                                                                                        <option value="Cash">Cash</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                                <button type="submit" class="btn btn-primary">Submit Payment</button>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </td>
                                                                     </tr>
                                                                 }
@@ -252,7 +335,7 @@
                                 <tbody>
                                     @foreach (var room in ViewBag.room)
                                     {
-                                        <tr>  
+                                        <tr>
                                             <td>@room.tb_floor.fl_bname</td>
                                             <td>@room.r_no</td>
                                             <td>@room.r_price</td>
