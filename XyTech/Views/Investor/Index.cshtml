@@ -89,7 +89,7 @@
                                     <th>Lot ID</th>
                                     <th>Amount (RM)</th>
                                     <th>Active</th>
-                                    <th>Action</th>
+                                    <th style="text-align: center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -108,7 +108,7 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.i_amount)
                                         </td>
-                                        <td>
+                                        <td style="text-align: center">
                                             @if (item.i_active == "active")
                                             {
                                                 <label class="badge badge-success">@item.i_active</label>
@@ -118,7 +118,7 @@
                                                 <label class="badge badge-danger">@item.i_active</label>
                                             }
                                         </td>
-                                        <td>
+                                        <td style="text-align: center">
                                             <a href="@Url.Action("Edit", new { id = item.i_id })" class="btn btn-link" title="edit">
                                                 <i class="fa fa-edit text-primary"></i>
                                             </a>

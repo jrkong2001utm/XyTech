@@ -53,7 +53,7 @@
                                         <th>
                                             Active
                                         </th>
-                                        <th>
+                                        <th style="text-align: center">
                                             Action
                                         </th>
                                     </tr>
@@ -74,7 +74,7 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.u_usertype)
                                             </td>
-                                            <td>
+                                            <td style="text-align: center">
                                                 @if (item.u_active == "active")
                                                 {
                                                     <label class="badge badge-success">@item.u_active</label>
@@ -84,7 +84,7 @@
                                                     <label class="badge badge-danger">@item.u_active</label>
                                                 }
                                             </td>
-                                            <td>
+                                            <td style="text-align: center">
                                                 <a href="@Url.Action("Edit", new { id = item.u_id })" class="btn btn-link" title="edit">
                                                     <i class="fa fa-edit text-primary"></i>
                                                 </a>

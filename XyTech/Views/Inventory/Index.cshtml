@@ -100,10 +100,10 @@
                                     <th>
                                         Item
                                     </th>
-                                    <th>
+                                    <th style="text-align:center">
                                         Quantity
                                     </th>
-                                    <th>
+                                    <th style="text-align:center">
                                         Action
                                     </th>
                                 </tr>
@@ -116,11 +116,11 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.iv_item)
                                         </td>
-                                        <td>
+                                        <td style="text-align:center">
                                             @Html.DisplayFor(modelItem => item.iv_count)
                                         </td>
 
-                                        <td>
+                                        <td style="text-align:center">
                                             <a href="@Url.Action("Edit", new { id = item.iv_id })" class="btn btn-link" title="edit">
                                                 <i class="fa fa-edit text-primary"></i>
                                             </a>
