@@ -72,7 +72,7 @@
                     {
                         @Html.AntiForgeryToken()
 
-                        <button type="button" class="btn btn-danger" id="deleteButton">Delete</button>
+                        <button type="button" class="btn btn-danger mr-2" id="deleteButton">Delete</button>
                         @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
                         <div id="confirmDeleteModal" style="display: none;">
                             <p>Are you sure you want to delete this user?</p>

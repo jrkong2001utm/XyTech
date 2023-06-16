@@ -4,98 +4,140 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<div align="center">
+    <div align="left" class="col-lg-9 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Tenant</h4>
+                <p class="card-description">
+                    Details of tenant
+                </p>
+                <div class="table-responsive">
+                    <table class="table table-striped table-borderless">
+                        <tbody>
+                            <tr>
+                                <th>Name</th>
+                                <td>@Html.DisplayFor(model => model.t_name)</td>
+                            </tr>
+                            <tr>
+                                <th>IC Number</th>
+                                <td>@Html.DisplayFor(model => model.t_ic)</td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+                                        <span class="menu-title">IC Picture</span>
+                                        <i class="mdi mdi-eye"></i>
+                                    </a>
+                                </th>
+                                <td>
+                                    <div class="collapse" id="form-elements">
+                                        <img src="@Url.Content("~/Content/assets/images/Icfile/" + Model.t_uploadic)" alt="Uploaded Image" style="width: 400px; height: auto;" />
+                                    </div>
+                                    @Html.DisplayFor(model => model.t_uploadic)
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
+                                        <span class="menu-title">Contract</span>
+                                        <i class="mdi mdi-eye"></i>
+                                    </a>
+                                </th>
+                                <td>
+                                    <div class="collapse" id="icons">
+                                        <img src="@Url.Content("~/Content/assets/images/Contractfile/" + Model.t_contract)" alt="Uploaded Image" style="width: 400px; height: auto;" />
+                                    </div>
+                                    @Html.DisplayFor(model => model.t_contract)
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Phone Number</th>
+                                <td>@Html.DisplayFor(model => model.t_phone)</td>
+                            </tr>
+                            <tr>
+                                <th>Emergency Contact</th>
+                                <td>@Html.DisplayFor(model => model.t_emergency)</td>
+                            </tr>
+                            <tr>
+                                <th>Check In Date</th>
+                                <td>@Model.t_indate.ToString("dd-MM-yyyy")</td>
+                            </tr>
+                            <tr>
+                                <th>Check Out Date</th>
+                                <td>@Model.t_outdate.ToString("dd-MM-yyyy")</td>
+                            </tr>
+                            <tr>
+                                <th>Out Session</th>
+                                <td>@Html.DisplayFor(model => model.t_outsession)</td>
+                            </tr>
+                            <tr>
+                                <th>Siri Number</th>
+                                <td>@Html.DisplayFor(model => model.t_siri)</td>
+                            </tr>
+                            <tr>
+                                <th>Outstanding</th>
+                                <td>@Html.DisplayFor(model => model.t_outstanding)</td>
+                            </tr>
+                            <tr>
+                                <th>Payment Status</th>
+                                <td>
+                                    @{
+                                        var paymentStatusText = "";
 
-<h3>Are you sure you want to delete this tenant?</h3>
-<div>
-    <hr />
-    <table class="display expandable-table">
-        <tbody>
-            <tr>
-                <th>Name</th>
-                <td>@Html.DisplayFor(model => model.t_name)</td>
-            </tr>
-            <tr>
-                <th>IC Number</th>
-                <td>@Html.DisplayFor(model => model.t_ic)</td>
-            </tr>
-            <tr>
-                <th>
-                    <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
-                        <span class="menu-title">IC Picture</span>
-                        <i class="mdi mdi-eye"></i>
-                    </a>
-                </th>
-                <td>
-                    <div class="collapse" id="form-elements">
-                        <img src="@Url.Content("~/Content/assets/images/Icfile/" + Model.t_uploadic)" alt="Uploaded Image" style="width: 400px; height: auto;" />
+                                        switch (Model.t_paymentstatus)
+                                        {
+                                            case 0:
+                                                paymentStatusText = "Overpaid";
+                                                <div class="badge badge-info">
+                                                    @Html.DisplayFor(model => paymentStatusText)
+                                                </div>
+                                                break;
+                                            case 1:
+                                                paymentStatusText = "Successfully Paid";
+                                                <div class="badge badge-success">
+                                                    @Html.DisplayFor(model => paymentStatusText)
+                                                </div>
+                                                break;
+                                            case 2:
+                                                paymentStatusText = "Partially Paid";
+                                                <div class="badge badge-warning">
+                                                    @Html.DisplayFor(model => paymentStatusText)
+                                                </div>
+                                                break;
+                                            case 3:
+                                                paymentStatusText = "Unpaid";
+                                                <div class="badge badge-danger">
+                                                    @Html.DisplayFor(model => paymentStatusText)
+                                                </div>
+                                                break;
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Room Number</th>
+                                <td>@Html.DisplayFor(model => model.tb_room.r_no)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="margin-top: 25px;">
+                        @using (Html.BeginForm("Delete", "Tenant", new { id = Model.t_id }, FormMethod.Post, new { id = "deleteForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <button type="button" class="btn btn-danger mr-2" id="deleteButton">Delete</button> 
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+                            <div id="confirmDeleteModal" style="display: none;">
+                                <p>Are you sure you want to delete this user?</p>
+                            </div>
+                        }
                     </div>
-                    @Html.DisplayFor(model => model.t_uploadic)
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
-                        <span class="menu-title">Contract</span>
-                        <i class="mdi mdi-eye"></i>
-                    </a>
-                </th>
-                <td>
-                    <div class="collapse" id="icons">
-                        <img src="@Url.Content("~/Content/assets/images/Contractfile/" + Model.t_contract)" alt="Uploaded Image" style="width: 400px; height: auto;" />
-                    </div>
-                    @Html.DisplayFor(model => model.t_contract)
-                </td>
-            </tr>
-            <tr>
-                <th>Phone Number</th>
-                <td>@Html.DisplayFor(model => model.t_phone)</td>
-            </tr>
-            <tr>
-                <th>Emergency Contact</th>
-                <td>@Html.DisplayFor(model => model.t_emergency)</td>
-            </tr>
-            <tr>
-                <th>Check In Date</th>
-                <td>@Model.t_indate.ToString("dd-MM-yyyy")</td>
-            </tr>
-            <tr>
-                <th>Check Out Date</th>
-                <td>@Model.t_outdate.ToString("dd-MM-yyyy")</td>
-            </tr>
-            <tr>
-                <th>Out Session</th>
-                <td>@Html.DisplayFor(model => model.t_outsession)</td>
-            </tr>
-            <tr>
-                <th>Siri Number</th>
-                <td>@Html.DisplayFor(model => model.t_siri)</td>
-            </tr>
-            <tr>
-                <th>Outstanding</th>
-                <td>@Html.DisplayFor(model => model.t_outstanding)</td>
-            </tr>
-            <tr>
-                <th>Payment Status</th>
-                <td>@Html.DisplayFor(model => model.t_paymentstatus)</td>
-            </tr>
-            <tr>
-                <th>Room Number</th>
-                <td>@Html.DisplayFor(model => model.tb_room.r_floor)</td>
-            </tr>
-        </tbody>
-    </table>
-
-    @using (Html.BeginForm("Delete", "Tenant", new { id = Model.t_id }, FormMethod.Post, new { id = "deleteForm" })) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <button type="button" class="btn btn-danger btn-rounded btn-fw" id="deleteButton">Delete</button> | 
-            <span class="btn btn-dark btn-rounded btn-fw">
-                @Html.ActionLink("Back to List", "Index")
-            </span>
+                </div>
+            </div>
         </div>
-    }
+    </div>
 </div>
 
 <script>
