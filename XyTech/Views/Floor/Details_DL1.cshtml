@@ -117,7 +117,7 @@
                     </div>
                     <div style="margin-top: 25px;">
                         @Html.ActionLink("Edit", "Edit", new { id = Model.fl_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
-                        @Html.ActionLink("See Rooms", "Index", "Room", new { id = Model.fl_id }, new { @class = "btn btn-dark btn-rounded btn-fw" })
+                        @Html.ActionLink("See Rooms", "Index", "Room", new { floorFilter = Model.fl_id }, new { @class = "btn btn-dark btn-rounded btn-fw" })
                         @Html.ActionLink("Back to Floor List", "FloorList", null, new { @class = "btn btn-light btn-rounded btn-fw" })
                     </div>
                 </form>
