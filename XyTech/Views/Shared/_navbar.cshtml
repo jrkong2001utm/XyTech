@@ -28,7 +28,7 @@
                 </li>
             </ul>
             <ul class="navbar-nav navbar-nav-right">
-                @if (Session["usertype"] == "Admin")
+                @if (Session["usertype"].Equals("Admin"))
                 {
                 <li class="nav-item dropdown">
                     @if (ViewBag.countlandlord == 0 && ViewBag.counttenant == 0)
