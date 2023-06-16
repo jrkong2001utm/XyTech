@@ -26,6 +26,15 @@
                         </button>
                     </div>
                 }
+                @if (ViewBag.Message == "User is associated with other records and cannot be deleted.")
+                {
+                    <div class="alert alert-danger">
+                        <strong>User is associated with other records and cannot be deleted. Please delete those records first!</strong>
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span class="mdi mdi-close"></span>
+                        </button>
+                    </div>
+                }
                 <div class="d-flex justify-content-between">
                     <p class="card-title mb-0" style="font-size: x-large;">User</p>
                     @Html.ActionLink("New User", "Create", null, new { @class = "btn btn-success btn-rounded btn-fw" })
@@ -53,7 +62,7 @@
                                         <th>
                                             Active
                                         </th>
-                                        <th>
+                                        <th style="text-align: center">
                                             Action
                                         </th>
                                     </tr>
@@ -74,7 +83,7 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.u_usertype)
                                             </td>
-                                            <td>
+                                            <td style="text-align: center">
                                                 @if (item.u_active == "active")
                                                 {
                                                     <label class="badge badge-success">@item.u_active</label>
@@ -84,7 +93,7 @@
                                                     <label class="badge badge-danger">@item.u_active</label>
                                                 }
                                             </td>
-                                            <td>
+                                            <td style="text-align: center">
                                                 <a href="@Url.Action("Edit", new { id = item.u_id })" class="btn btn-link" title="edit">
                                                     <i class="fa fa-edit text-primary"></i>
                                                 </a>

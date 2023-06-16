@@ -57,21 +57,125 @@
                             <div class="col-sm-7 col-form-label">
                                 @if (Model.r_availability == 1)
                                 {
+                                    
                                     <span style="color: forestgreen;">Available</span>
+                                    <a href="@Url.Action("Create", "Tenant", new { id = Model.r_id })" class="btn btn-info btn-rounded" title="addtenant">
+                                        Add New Tenant
+                                    </a>
                                 }
                                 else if (Model.r_availability == 0)
                                 {
                                     <span style="color: red;">Unavailable</span>
+                                    if (Model.tb_tenant != null)
+                                    {
+                                        foreach (var tenant in Model.tb_tenant)
+                                        {
+
+                                            <button type="button" class="btn btn-info btn-rounded" data-toggle="modal" data-target="#tenantModal-@tenant.t_id" title="Tenant Details">
+                                                View Tenant Details
+                                            </button>
+
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="tenantModal-@tenant.t_id" tabindex="-1" role="dialog" aria-labelledby="tenantModalLabel-@tenant.t_id" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="tenantModalLabel-@tenant.t_id">Tenant Details</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <table class="table">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th>Tenant Name</th>
+                                                                        <td>@tenant.t_name</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Tenant IC</th>
+                                                                        <td>@tenant.t_ic</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Tenant Phone</th>
+                                                                        <td>@tenant.t_phone</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Check in date</th>
+                                                                        <td>@tenant.t_indate</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Check out date</th>
+                                                                        <td>@tenant.t_outdate</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Outstanding</th>
+                                                                        <td>@tenant.t_outstanding</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Payment Status</th>
+                                                                        <td>
+                                                                            @{
+                                                                                var paymentStatusText = "";
+
+                                                                                switch (@tenant.t_paymentstatus)
+                                                                                {
+                                                                                    case 0:
+                                                                                        paymentStatusText = "Overpaid";
+                                                                                        <div class="badge badge-info">
+                                                                                            @Html.DisplayFor(modelItem => paymentStatusText)
+                                                                                        </div>
+                                                                                        break;
+                                                                                    case 1:
+                                                                                        paymentStatusText = "Successfully Paid";
+                                                                                        <div class="badge badge-success">
+                                                                                            @Html.DisplayFor(modelItem => paymentStatusText)
+                                                                                        </div>
+                                                                                        break;
+                                                                                    case 2:
+                                                                                        paymentStatusText = "Partially Paid";
+                                                                                        <div class="badge badge-warning">
+                                                                                            @Html.DisplayFor(modelItem => paymentStatusText)
+                                                                                        </div>
+                                                                                        break;
+                                                                                    case 3:
+                                                                                        paymentStatusText = "Unpaid";
+                                                                                        <div class="badge badge-danger">
+                                                                                            @Html.DisplayFor(modelItem => paymentStatusText)
+                                                                                        </div>
+                                                                                        break;
+                                                                                }
+                                                                            }
+                                                                        </td>
+                                                                    </tr>
+                                                                    <!-- Add more rows for additional details -->
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a href="@Url.Action("Edit", "Tenant", new { id = tenant.t_id })" class="btn btn-primary">Edit</a>
+                                                            <a href="@Url.Action("Details", "Tenant", new { id = tenant.t_id })" class="btn btn-info">More Details</a>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        }
+                                    }
                                 }
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-auto">
-                                @Html.ActionLink("Edit", "Edit", new { id = Model.r_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
+                                @Html.ActionLink("Edit", "Edit", new { id = Model.r_id }, new { @class = "btn btn-primary sm-2" })
                             </div>
-                            <div class="col-auto">
-                                @Html.ActionLink("Back to Room List", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
-                            </div>
+                            <span>
+                                @Html.ActionLink("Back to Room List", "Index", null, new { @class = "btn btn-light" })
+                            </span>
                         </div>
                     </form>
                 </div>

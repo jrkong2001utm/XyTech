@@ -145,7 +145,6 @@ namespace XyTech.Controllers
         }
 
 
-
         // GET: Finance/Details/5
         public ActionResult Details(int? id)
         {

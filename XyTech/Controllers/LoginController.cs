@@ -39,6 +39,51 @@ namespace XyTech.Controllers
                             Session["id"] = obj.u_id.ToString();
                             Session["u_username"] = obj.u_username.ToString();
                             Session["usertype"] = obj.u_usertype.ToString();
+
+                            if ((obj.u_resetdate == null || obj.u_resetdate.Value.Date != DateTime.Today) && obj.u_id == 1)
+                            {
+                                // Update the u_resetdate to the current date
+                                obj.u_resetdate = DateTime.Today;
+                                db.SaveChanges();
+
+                                var tenants = db.tb_tenant.ToList();
+                                foreach (var tenant in tenants)
+                                {
+                                    var room = db.tb_room.FirstOrDefault(r => r.r_id == tenant.t_room);
+
+                                    var checkInDate = tenant.t_indate;
+
+                                    if (checkInDate.Day == obj.u_resetdate.Value.Day && checkInDate != DateTime.Today)
+                                    {
+                                        if (tenant.t_paymentstatus == 0)
+                                        {
+                                            tenant.t_outstanding += room.r_price;
+
+                                            if (tenant.t_outstanding < 0)
+                                            {
+                                                tenant.t_paymentstatus = 0;
+                                            }
+                                            else if (tenant.t_outstanding == 0)
+                                            {
+                                                tenant.t_paymentstatus = 1;
+                                            }
+                                            else
+                                            {
+                                                tenant.t_paymentstatus = 2;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            tenant.t_outstanding += room.r_price;
+                                            tenant.t_paymentstatus = 3;
+                                        }
+                                    }
+
+                                    db.Entry(tenant).State = EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                            }
+
                             if (obj.u_usertype == "Investor")
                             {
                                 return RedirectToAction("Index", "Profit");
@@ -59,42 +104,6 @@ namespace XyTech.Controllers
                     {
                         ModelState.AddModelError("", "Incorrect Username or Password");
                     }
-
-                    // Auto Update Tenant Monthly
-                    //var currentUser = db.tb_user.FirstOrDefault(u => u.u_id == obj.u_id && u.u_usertype == "Admin");
-
-                    //if (!currentUser.u_resetdate.HasValue || (currentUser.u_resetdate.Value.Date != DateTime.Today && currentUser.u_token == null))
-                    //{
-                    //    // Update the u_resetdate to the current date
-                    //    currentUser.u_resetdate = DateTime.Today;
-                    //    db.SaveChanges();
-
-                    //    var tenants = db.tb_tenant.ToList();
-                    //    foreach (var tenant in tenants)
-                    //    {
-                    //        var room = db.tb_room.FirstOrDefault(r => r.r_id == tenant.t_room);
-
-                    //        var checkInDate = tenant.t_indate;
-
-                    //        if (checkInDate.Day == currentUser.u_resetdate.Value.Day)
-                    //        {
-                    //            if (tenant.t_paymentstatus == 0)
-                    //            {
-                    //                tenant.t_outstanding += room.r_price;
-                    //                tenant.t_paymentstatus = 2;
-                    //            }
-                    //            else
-                    //            {
-                    //                tenant.t_outstanding += room.r_price;
-                    //                tenant.t_paymentstatus = 3;
-                    //            }
-                    //        }
-
-                    //        db.Entry(tenant).State = EntityState.Modified;
-                    //    }
-                    //}
-
-                    //db.SaveChanges();
                 }
             }
             return View(objchk);

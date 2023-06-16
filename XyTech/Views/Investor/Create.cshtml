@@ -48,15 +48,15 @@
 
                         <tr>
                             <td>@Html.LabelFor(model => model.i_lot, "Lot ID")</td>
-                            <td>@Html.EditorFor(model => model.i_lot, new { htmlAttributes = new { @class = "form-control", required = true } })</td>
+                            <td>@Html.EditorFor(model => model.i_lot, new { htmlAttributes = new { @class = "form-control", required = true, type = "number", step = "1" } })</td>
                             @*<td>@Html.ValidationMessageFor(model => model.i_lot, "", new { @class = "text-danger" })</td>*@
                         </tr>
 
                         <tr>
                             <td>@Html.LabelFor(model => model.i_amount, "Amount")</td>
-                            <td>@Html.EditorFor(model => model.i_amount, new { htmlAttributes = new { @class = "form-control", required = true } })</td>
-                            @*<td>@Html.ValidationMessageFor(model => model.i_amount, "", new { @class = "text-danger" })</td>
-                                </tr>*@
+                            <td>@Html.TextBoxFor(model => model.i_amount, new { @class = "form-control", required = true, type = "number", min = "10000", max = "50000" })</td>
+                            @*<td>@Html.ValidationMessageFor(model => model.i_amount, "", new { @class = "text-danger" })</td>*@
+                        </tr>
 
                             @Html.DropDownList("i_active", new List<SelectListItem>
                             {

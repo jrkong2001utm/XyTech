@@ -231,6 +231,13 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
+            bool existsInInvestorTable = db.tb_investor.Any(p => p.i_user == id);
+            bool existsInFinanceTable = db.tb_finance.Any(p => p.f_user == id);
+            if (existsInInvestorTable || existsInFinanceTable)
+            {
+                TempData["success"] = "User is associated with other records and cannot be deleted.";
+                return RedirectToAction("Index");
+            }
             return View(tb_user);
         }
 

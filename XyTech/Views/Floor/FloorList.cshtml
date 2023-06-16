@@ -52,7 +52,7 @@
                                 <th>Building Name</th>
                                 <th>Floor Level</th>
                                 <th>Address</th>
-                                <th>Action</th>
+                                <th style="text-align: center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,7 +68,7 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.fl_address)
                                     </td>
-                                    <td>
+                                    <td style="text-align: center">
                                         <a href="@Url.Action("Edit", new { id = item.fl_id })" class="btn btn-link" title="edit">
                                             <i class="fa fa-edit text-primary"></i>
                                         </a>
