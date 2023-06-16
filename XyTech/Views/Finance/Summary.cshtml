@@ -8,7 +8,11 @@
     .footer-row {
         background-color: #f2f2f2;
         font-weight: bold;
-        /* Add any other styles you want */
+        display: table-row !important;
+    }
+
+    .negative-profit {
+        color: red;
     }
 
     .dt-buttons {
@@ -55,6 +59,13 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <p class="card-title mb-0" style="font-size: x-large;">Summary of Finance</p>
+                    <select id="yearFilter" class="form-control col-3">
+                        <option value="">All</option>
+                        @foreach (var yearEntry in Model.OrderByDescending(x => x.Key))
+                        {
+                            <option value="@yearEntry.Key">@yearEntry.Key</option>
+                        }
+                    </select>
                 </div>
 
                 <br />
@@ -88,14 +99,40 @@
                                                 <td>@month</td>
                                                 @foreach (var floor in allFloors)
                                                 {
-                                                    <td>@(Model.ContainsKey(year) && Model[year].ContainsKey(month) && Model[year][month].ContainsKey(floor) ? Model[year][month][floor].ToString() : "0")</td>
+                                                    <td>
+                                                        @{
+                                                            if (Model.ContainsKey(year) && Model[year].ContainsKey(month) && Model[year][month].ContainsKey(floor))
+                                                            {
+                                                                var profit = Model[year][month][floor];
+                                                                if (profit < 0)
+                                                                {
+                                                                    <span class="negative-profit">@profit.ToString()</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    @profit.ToString()
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>0</span>
+                                                            }
+                                                        }
+                                                    </td>
                                                 }
                                                 <td>
                                                     @{
                                                         if (Model.ContainsKey(year) && Model[year].ContainsKey(month))
                                                         {
                                                             var totalProfit = Model[year][month].Values.Sum();
-                                                            @totalProfit
+                                                            if (totalProfit < 0)
+                                                            {
+                                                                <span class="negative-profit">@totalProfit</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                @totalProfit
+                                                            }
                                                         }
                                                         else
                                                         {
@@ -117,17 +154,31 @@
                                             <td>
                                                 @{
                                                     var floorProfit = Model.SelectMany(x => x.Value).Where(d => d.Value.ContainsKey(floor)).Sum(d => d.Value[floor]);
-                                                    @floorProfit
+                                                    if (floorProfit < 0)
+                                                    {
+                                                        <span class="negative-profit">@floorProfit</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @floorProfit
+                                                    }
                                                 }
                                             </td>
                                         }
 
-                                        <td>
-                                            @{
-                                                var totalOverallProfit = Model.SelectMany(x => x.Value.SelectMany(y => y.Value.Values)).Sum(d => d);
+                                    <td>
+                                        @{
+                                            var totalOverallProfit = Model.SelectMany(x => x.Value.SelectMany(y => y.Value.Values)).Sum(d => d);
+                                            if (totalOverallProfit < 0)
+                                            {
+                                                <span class="negative-profit">@totalOverallProfit</span>
+                                            }
+                                            else
+                                            {
                                                 @totalOverallProfit
                                             }
-                                        </td>
+                                        }
+                                    </td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -154,7 +205,7 @@
 
 
         $(document).ready(function () {
-                var currentDate = new Date().toISOString().slice(0, 10); // Get the current date in YYYY-MM-DD format
+            var currentDate = new Date().toISOString().slice(0, 10); // Get the current date in YYYY-MM-DD format
 
             $('#dataTable').DataTable({
                 dom: '<"row"<"col-sm-3"l><"col-sm-6"f><"col-sm-3"B>>tip',
@@ -162,23 +213,38 @@
                     {
                         extend: 'csv',
                         text: 'CSV',
-                        filename: 'AR_Summary_' + currentDate
+                        filename: 'AR_Summary_' + currentDate,
+                        footer: true
+
                     },
                     {
                         extend: 'excel',
                         text: 'Excel',
-                        filename: 'AR_Summary_' + currentDate
+                        filename: 'AR_Summary_' + currentDate,
+                        footer: true
                     },
                     {
                         extend: 'pdf',
                         text: 'PDF',
-                        filename: 'AR_Summary_' + currentDate
+                        filename: 'AR_Summary_' + currentDate,
+                        footer: true
                     },
                     {
                         extend: 'print',
                         text: 'Print',
+                        footer: true
                     }
                 ]
+            });
+
+            $('#yearFilter').on('change', function () {
+                var year = $(this).val();
+
+                if (year === "") {
+                    table.column(0).search("").draw();
+                } else {
+                    table.column(0).search("^" + year + "$", true, false).draw();
+                }
             });
         });
     </script>
