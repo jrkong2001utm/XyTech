@@ -5,42 +5,6 @@
 }
 
 
-<style>
-    .collapsible {
-        background-color: #7978E9;
-        color: white;
-        cursor: pointer;
-        padding: 18px;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        font-size: 15px;
-        margin-bottom: 15px;
-    }
-
-        .active, .collapsible:hover {
-            background-color: #7DA0FA;
-        }
-
-        .collapsible:after {
-            content: 'Show';
-            color: white;
-            font-weight: bold;
-            float: right;
-            margin-left: 5px;
-        }
-
-    .content {
-        padding: 0 18px;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.2s ease-out;
-        margin-bottom: 15px;
-    }
-</style>
-
-
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
@@ -73,72 +37,59 @@
                     </div>
                 }
 
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between align-items-center">
                     <p class="card-title mb-0" style="font-size: x-large;">Inventory</p>
 
-                    @Html.ActionLink("Add", "Create", "Inventory", null, new { @class = "btn btn-success btn-rounded btn-fw" })
+                    <div class="col-3 d-flex">
+                        <form id="floorFilterForm" class="mr-2">
+                            @Html.DropDownList("floorFilter", ViewData["FloorFilter"] as IEnumerable<SelectListItem>, new { @class = "form-control", id = "floorFilter" })
+                        </form>
+                        @Html.ActionLink("Add", "Create", "Inventory", null, new { @class = "btn btn-success btn-rounded btn-fw" })
+                        
+                    </div>
                 </div>
+
                 <br />
 
-
-
-                @foreach (var floorGroup in Model.GroupBy(item => item.iv_floor))
-                {
-                    var floor = floorGroup.First().tb_floor;
-                    var tableId = "dataTable_" + floor.fl_id;
-
-                    <button class="collapsible">
-                        @floor.fl_bname
-                    </button>
-
-                    <div class="content">
-
-                        <table id="@tableId" class="display expandable-table" style="width:100%">
-
-                            <thead>
+                <div class="table-responsive">
+                    <table id="dataTable" class="display expandable-table" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Floor</th>
+                                <th>Item</th>
+                                <th>Quantity</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
                                 <tr>
-                                    <th>
-                                        Item
-                                    </th>
-                                    <th style="text-align:center">
-                                        Quantity
-                                    </th>
-                                    <th style="text-align:center">
-                                        Action
-                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tb_floor.fl_bname)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.iv_item)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.iv_count)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", new { id = item.iv_id })" class="btn btn-link" title="edit">
+                                            <i class="fa fa-edit text-primary"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.iv_id })" class="btn btn-link" title="details">
+                                            <i class="fa fa-info-circle text-info"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item.iv_id })" class="btn btn-link" title="delete">
+                                            <i class="fa fa-trash text-danger"></i>
+                                        </a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in floorGroup)
-                                {
-
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.iv_item)
-                                        </td>
-                                        <td style="text-align:center">
-                                            @Html.DisplayFor(modelItem => item.iv_count)
-                                        </td>
-
-                                        <td style="text-align:center">
-                                            <a href="@Url.Action("Edit", new { id = item.iv_id })" class="btn btn-link" title="edit">
-                                                <i class="fa fa-edit text-primary"></i>
-                                            </a>
-                                            <a href="@Url.Action("Details", new { id = item.iv_id })" class="btn btn-link" title="details">
-                                                <i class="fa fa-info-circle text-info"></i>
-                                            </a>
-                                            <a href="@Url.Action("Delete", new { id = item.iv_id })" class="btn btn-link" title="delete">
-                                                <i class="fa fa-trash text-danger"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-
-                    </div>
-                }
-
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -147,29 +98,14 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            // Iterate through each table with class 'expandable-table'
-            $('.expandable-table').each(function () {
-                $(this).DataTable();
+            jQuery('#dataTable').DataTable();
+
+            document.getElementById("floorFilter").addEventListener("change", function () {
+                this.form.submit();
             });
         });
     </script>
-
-    <script>
-        var coll = document.getElementsByClassName("collapsible");
-        var i;
-
-        for (i = 0; i < coll.length; i++) {
-            coll[i].addEventListener("click", function () {
-                this.classList.toggle("active");
-                var content = this.nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                }
-            });
-        }
-    </script>
 }
+
 
 
