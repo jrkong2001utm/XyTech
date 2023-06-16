@@ -101,10 +101,69 @@
                                     <td>@landlord.l_fee</td>
                                     <td>@landlord.l_due.ToString("dd-MM-yyyy")</td>
                                     <td style="text-align: center">
-                                        <a href="@whatsapp" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a> |
+                                        <a href="@whatsapp" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a>
                                         <a href="@Url.Action("Edit", "Landlord", new { id = landlord.l_id })" class="btn btn-link" title="edit">
                                             <i class="fa fa-edit text-primary"></i>
                                         </a>
+                                        <button class="btn mdi mdi-cash-usd" data-toggle="modal" data-target="#paymentModal-@landlord.l_id"></button>
+
+                                        <!-- Payment Modal -->
+                                        <div class="modal fade" id="paymentModal-@landlord.l_id" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-@landlord.l_id" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="paymentModalLabel-@landlord.l_id">Make Payment</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form id="paymentForm-@landlord.l_id" method="post" action="@Url.Action("PayLandlord", "Home", new { id = landlord.l_id })">
+                                                            <div style="overflow: hidden;">
+                                                                <div class="form-group">
+                                                                    <label for="text-@landlord.l_id">Name:</label>
+                                                                    <input type="text" class="form-control" id="name" name="name" value="@landlord.l_name" readonly>
+
+                                                                </div>
+                                                            </div>
+                                                            <br />
+
+                                                            @{var floorList = landlord.FloorList ?? new SelectList(new List<SelectListItem>(), "fl_id", "fl_bname"); }
+
+                                                            <div class="form-group">
+                                                                <label for="method-@landlord.l_id">Floor:</label>
+                                                                <div class="form-group">
+                                                                    <select name="floor" required>
+                                                                        <option value="">Select a floor</option>
+                                                                        @foreach (var floorItem in floorList)
+                                                                        {
+                                                                            string selected = floorItem.Selected ? "selected" : "";
+                                                                            int floorValue = floorItem.Value != null ? Convert.ToInt32(floorItem.Value) : 0;
+                                                                            <option value="@floorValue" @selected>@floorItem.Text</option>
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="amount-@landlord.l_id">Amount:</label>
+                                                                <input type="number" class="form-control" id="amount" name="amount" value="@landlord.l_fee" readonly>
+
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="method-@landlord.l_id">Payment Method:</label>
+                                                                <select class="form-control" id="method" name="method" required>
+                                                                    <option value="" selected disabled hidden>Select Method</option>
+                                                                    <option value="Bank">Bank</option>
+                                                                    <option value="Cash">Cash</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <button type="submit" class="btn btn-primary">Submit Payment</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             }
@@ -156,11 +215,11 @@
                                                                         <td style="text-align: center">@tenant.t_outstanding</td>
                                                                         <td style="text-align: center">@tenant.t_room</td>
                                                                         <td style="text-align: center">
-                                                                            <a href="@whatsappUrl" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a> |
+                                                                            <a href="@whatsappUrl" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a>
                                                                             <a href="@Url.Action("Edit", "Tenant", new { id = tenant.t_id })" class="btn btn-link" title="edit">
                                                                                 <i class="fa fa-edit text-primary"></i>
-                                                                            </a>|
-                                                                            <button class="btn mdi mdi-cash-usd" data-toggle="modal" data-target="#paymentModal-@tenant.t_id"></button>
+                                                                            </a>
+                                                                            <button class="btn mdi mdi-cash-usd text-success" data-toggle="modal" data-target="#paymentModal-@tenant.t_id"></button>
 
                                                                             <!-- Payment Modal -->
                                                                             <div class="modal fade" id="paymentModal-@tenant.t_id" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-@tenant.t_id" aria-hidden="true">
@@ -245,11 +304,11 @@
                                                                         <td style="text-align: center">@weektenant.t_outstanding</td>
                                                                         <td style="text-align: center">@weektenant.t_room</td>
                                                                         <td style="text-align: center">
-                                                                            <a href="@urlwhatsapp" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a> |
+                                                                            <a href="@urlwhatsapp" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a>
                                                                             <a href="@Url.Action("Edit", "Tenant", new { id = weektenant.t_id })" class="btn btn-link" title="edit">
                                                                                 <i class="fa fa-edit text-primary"></i>
-                                                                            </a>|
-                                                                            <button class="btn mdi mdi-cash-usd" data-toggle="modal" data-target="#paymentModal-@weektenant.t_id"></button>
+                                                                            </a>
+                                                                            <button class="btn mdi mdi-cash-usd text-success" data-toggle="modal" data-target="#paymentModal-@weektenant.t_id"></button>
 
                                                                             <!-- Payment Modal -->
                                                                             <div class="modal fade" id="paymentModal-@weektenant.t_id" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-@weektenant.t_id" aria-hidden="true">

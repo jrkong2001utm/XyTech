@@ -265,15 +265,15 @@
                         render: function (data, type, row) {
                             if (row.t_paymentstatus === 1 || row.t_paymentstatus === 0)
                             {
-                                return '<a href="@Url.Action("Edit", "Tenant")/' + row.t_id + '" class="fa fa-pencil text-primary" title="edit"></a> | ' +
-                                    '<a href="@Url.Action("Details", "Tenant")/' + row.t_id + '" class="fa fa-info-circle text-info" title="details"></a> | ' +
-                                    '<a href="@Url.Action("Delete", "Tenant")/' + row.t_id + '" class="fa fa-trash text-danger" title="delete"></a>';
+                                return '<a href="@Url.Action("Edit", "Tenant")/' + row.t_id + '" class="btn btn-link" title="edit"><i class="fa fa-edit text-primary"></i></a>' +
+                                    '<a href="@Url.Action("Details", "Tenant")/' + row.t_id + '" class="btn btn-link" title="details"><i class="fa fa-info-circle text-info"></i></a>' +
+                                    '<a href="@Url.Action("Delete", "Tenant")/' + row.t_id + '" class="btn btn-link" title="delete"><i class="fa fa-trash text-danger"></i></a>';
                             }
                             else
                             {
-                                return '<a href="@Url.Action("Edit", "Tenant")/' + row.t_id + '" class="fa fa-pencil text-primary" title="edit"></a> | ' +
-                                    '<a href="@Url.Action("Details", "Tenant")/' + row.t_id + '" class="fa fa-info-circle text-info" title="details"></a> | ' +
-                                    '<button class="btn btn-primary mdi mdi-cash-usd" data-toggle="modal" data-target="#paymentModal-' + row.t_id + '"></button>' +
+                                return '<a href="@Url.Action("Edit", "Tenant")/' + row.t_id + '" class="btn btn-link" title="edit"><i class="fa fa-edit text-primary"></i></a>' +
+                                    '<a href="@Url.Action("Details", "Tenant")/' + row.t_id + '" class="btn btn-link" title="details"><i class="fa fa-info-circle text-info"></i></a>' +
+                                    '<button class="btn mdi mdi-cash-usd text-success" data-toggle="modal" data-target="#paymentModal-' + row.t_id + '"></button>' +
                                     '<div class="modal fade" id="paymentModal-' + row.t_id + '" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-' + row.t_id + '" aria-hidden="true">' +
                                                         '<div class="modal-dialog" role="document">' +
                                                             '<div class="modal-content">' +
