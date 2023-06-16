@@ -105,7 +105,7 @@
                                         <a href="@Url.Action("Edit", "Landlord", new { id = landlord.l_id })" class="btn btn-link" title="edit">
                                             <i class="fa fa-edit text-primary"></i>
                                         </a>
-                                        <button class="btn mdi mdi-cash-usd" data-toggle="modal" data-target="#paymentModal-@landlord.l_id"></button>
+                                        <button class="btn mdi mdi-cash-usd text-success" data-toggle="modal" data-target="#paymentModal-@landlord.l_id"></button>
 
                                         <!-- Payment Modal -->
                                         <div class="modal fade" id="paymentModal-@landlord.l_id" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-@landlord.l_id" aria-hidden="true">
