@@ -75,6 +75,8 @@
                 <p class="card-title mb-0" style="font-size: x-large;">Attendance</p>
                 @Html.ActionLink("Create", "Create", "Attendance", null, new { @class = "btn btn-success btn-rounded btn-fw" })
             </div>
+
+
             <div class="table-responsive mt-3">
                 <div class="row mb-3">
                     <div class="col-md-6">
@@ -85,30 +87,38 @@
                         </div>
                     </div>
                 </div>
-                <table id="dataTable" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Date and Time</th>
-                            <th>Floor ID</th>
-                            <th>Floor Name</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="dataTable" class="display expandable-table" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Date and Time</th>
+                                        <th>Floor ID</th>
+                                        <th>Floor Name</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" rel="stylesheet" />
+    @section Scripts {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-    <script type="text/javascript">
+
+
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" rel="stylesheet" />
+
+
+
+        <script type="text/javascript">
         $(document).ready(function () {
             var table = $('#dataTable').DataTable({
                 ajax: {
@@ -156,5 +166,5 @@
                 table.ajax.url('@Url.Action("GetFilteredData", "Attendance")').load();
             });
         });
-    </script>
-}
+        </script>
+    }
