@@ -285,24 +285,44 @@
                         extend: 'csv',
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        },
+                        filename: function () {
+                            var floorFilter = $('#floorFilter option:selected').text();
+                            var dateRange = $('#dateRangePicker').val();
+                            return 'AR_Transaction_' + floorFilter + '_' + dateRange;
                         }
                     },
                     {
                         extend: 'excel',
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        },
+                        filename: function () {
+                            var floorFilter = $('#floorFilter option:selected').text();
+                            var dateRange = $('#dateRangePicker').val();
+                            return 'AR_Transaction_' + floorFilter + '_' + dateRange;
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        },
+                        filename: function () {
+                            var floorFilter = $('#floorFilter option:selected').text();
+                            var dateRange = $('#dateRangePicker').val();
+                            return 'AR_Transaction_' + floorFilter + '_' + dateRange;
                         }
                     },
                     {
                         extend: 'print',
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        },
+                        title: function () {
+                            var floorFilter = $('#floorFilter option:selected').text();
+                            var dateRange = $('#dateRangePicker').val();
+                            return 'AR_Transaction_' + floorFilter + '_' + dateRange;
                         }
                     },
                 ]

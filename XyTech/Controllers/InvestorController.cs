@@ -88,7 +88,7 @@ namespace XyTech.Controllers
                     var u_email = user.u_email;
                     var u_name = user.u_username;
                     var u_pwd = user.u_pwd;
-                    //email(u_email, u_name, u_pwd);
+                    email(u_email, u_name, u_pwd);
 
                     var userId = Convert.ToInt32(Session["id"]);
                     var financeTransaction = new tb_finance
@@ -186,10 +186,18 @@ namespace XyTech.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             tb_investor tb_investor = db.tb_investor.Find(id);
             if (tb_investor == null)
             {
                 return HttpNotFound();
+            }
+            bool existsInProfitTable = db.tb_profit.Any(p => p.p_investor == id);
+
+            if (existsInProfitTable)
+            {
+                TempData["success"] = "Investor is associated with profit records and cannot be deleted.";
+                return RedirectToAction("Index");
             }
             return View(tb_investor);
         }
