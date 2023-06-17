@@ -46,8 +46,8 @@ namespace XyTech.Controllers
             return View(tb_floor.ToList());
         }
 
-            // GET: Floor/Details/5
-            public ActionResult Details(int? id)
+        // GET: Floor/Details/5
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -58,6 +58,7 @@ namespace XyTech.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.room = db.tb_room.Where(r => r.r_active == "active" && r.r_floor == tb_floor.fl_id).ToList();
             ViewBag.fl_landlord = new SelectList(db.tb_landlord, "l_id", "l_name", tb_floor.fl_landlord);
             return View(tb_floor);
         }
@@ -66,6 +67,7 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
+                ViewBag.room = context.tb_room.Where(r => r.r_active == "active" && r.r_floor == 1).ToList();
                 var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(1)).FirstOrDefault();
                 ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
@@ -76,6 +78,7 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
+                ViewBag.room = context.tb_room.Where(r => r.r_active == "active" && r.r_floor == 2).ToList();
                 var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(2)).FirstOrDefault();
                 ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
@@ -86,6 +89,7 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
+                ViewBag.room = context.tb_room.Where(r => r.r_active == "active" && r.r_floor == 3).ToList();
                 var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(3)).FirstOrDefault();
                 ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
@@ -96,6 +100,7 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
+                ViewBag.room = context.tb_room.Where(r => r.r_active == "active" && r.r_floor == 4).ToList();
                 var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(4)).FirstOrDefault();
                 ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
@@ -106,6 +111,7 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
+                ViewBag.room = context.tb_room.Where(r => r.r_active == "active" && r.r_floor == 5).ToList();
                 var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(5)).FirstOrDefault();
                 ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
@@ -116,6 +122,7 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
+                ViewBag.room = context.tb_room.Where(r => r.r_active == "active" && r.r_floor == 6).ToList();
                 var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(6)).FirstOrDefault();
                 ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
@@ -126,6 +133,7 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
+                ViewBag.room = context.tb_room.Where(r => r.r_active == "active" && r.r_floor == 7).ToList();
                 var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(7)).FirstOrDefault();
                 ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
@@ -136,6 +144,7 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
+                ViewBag.room = context.tb_room.Where(r => r.r_active == "active" && r.r_floor == 8).ToList();
                 var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(8)).FirstOrDefault();
                 ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
@@ -146,6 +155,7 @@ namespace XyTech.Controllers
         {
             using (var context = new db_XyTechEntities())
             {
+                ViewBag.room = context.tb_room.Where(r => r.r_active == "active" && r.r_floor == 9).ToList();
                 var floor = context.tb_floor.Include(t => t.tb_landlord).Where(p => p.fl_id.Equals(9)).FirstOrDefault();
                 ViewBag.fl_landlord = new SelectList(context.tb_landlord, "l_id", "l_name", floor.fl_landlord);
                 return View(floor);
@@ -156,7 +166,7 @@ namespace XyTech.Controllers
         public ActionResult Create()
         {
             var floor = new tb_floor(); // Replace tb_inventory with the appropriate class name and constructor if necessary
-                                                // Assign values to other properties of the inventory object if needed
+                                        // Assign values to other properties of the inventory object if needed
 
             ViewBag.fl_landlord = new SelectList(db.tb_landlord.Where(l => l.l_active == "1"), "l_id", "l_name", floor.fl_landlord);
 
@@ -169,7 +179,7 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_bname,fl_address,fl_active,fl_layout")] tb_floor tb_floor, HttpPostedFileBase uploadqr, HttpPostedFileBase uploadly)
+        public ActionResult Create([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_bname,fl_address,fl_active,fl_layout,fl_preset_potential,fl_preset_current")] tb_floor tb_floor, HttpPostedFileBase uploadqr, HttpPostedFileBase uploadly)
         {
 
             //HttpPostedFileBase imageFile = Request.Files["imageFile"];
@@ -245,14 +255,13 @@ namespace XyTech.Controllers
         // POST: Floor/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_bname,fl_address,fl_active,fl_layout")] tb_floor tb_floor, HttpPostedFileBase uploadqr, HttpPostedFileBase uploadly)
+        public ActionResult Edit([Bind(Include = "fl_id,fl_bid,fl_wifipwd,fl_modemip,fl_cctvqr,fl_landlord,fl_bname,fl_address,fl_active,fl_layout,fl_preset_potential,fl_preset_current")] tb_floor tb_floor, HttpPostedFileBase uploadqr, HttpPostedFileBase uploadly)
         {
 
             if (ModelState.IsValid)
             {
-                if (uploadqr != null && uploadqr.ContentLength > 0)
+                /*if (uploadqr != null && uploadqr.ContentLength > 0)
                 {
-                    //System.IO.File.Delete(Path.Combine(Server.MapPath("~/Content/assets/images/cctvqr"), tb_floor.fl_cctvqr));
                     if (uploadqr.ContentType.Contains("image"))
                     {
                         string _FileName = Path.GetFileName(uploadqr.FileName);
@@ -265,11 +274,11 @@ namespace XyTech.Controllers
                         ViewBag.Message = "Please choose image only.";
                         return View(tb_floor);
                     }
-                }
+                }*/
 
                 if (uploadly != null && uploadly.ContentLength > 0)
                 {
-                    if (uploadqr.ContentType.Contains("image"))
+                    if (uploadly.ContentType.Contains("image"))
                     {
                         string _FileName = Path.GetFileName(uploadly.FileName);
                         string _path = Path.Combine(Server.MapPath("~/Content/assets/images/floorlayout"), _FileName);
@@ -331,14 +340,12 @@ namespace XyTech.Controllers
             return RedirectToAction("FloorList");
         }
 
-
-
         public ActionResult GetFile(string FileName)
         {
             string qrfilePath = Server.MapPath("~/Content/assets/images/cctvqr/" + FileName);
             string layoutfilePath = Server.MapPath("~/Content/assets/images/floorlayout/" + FileName);
 
-            if (System.IO.File.Exists(qrfilePath))
+            if (System.IO.File.Exists(layoutfilePath))
             {
                 return File(layoutfilePath, "image/png"); // Adjust the content type according to the actual file type
             }

@@ -49,9 +49,9 @@
                     <table id="dataTable" class="display expandable-table" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Building Name</th>
-                                <th>Floor Level</th>
+                                <th>Floor Name</th>
                                 <th>Address</th>
+                                <th>Landlord Name</th>
                                 <th style="text-align: center">Action</th>
                             </tr>
                         </thead>
@@ -63,10 +63,10 @@
                                         @Html.DisplayFor(modelItem => item.fl_bname)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.fl_bid)
+                                        @Html.DisplayFor(modelItem => item.fl_address)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.fl_address)
+                                        @Html.DisplayFor(modelItem => item.tb_landlord.l_name)
                                     </td>
                                     <td style="text-align: center">
                                         <a href="@Url.Action("Edit", new { id = item.fl_id })" class="btn btn-link" title="edit">

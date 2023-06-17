@@ -54,9 +54,9 @@
                         <thead>
                             <tr>
                                 <th>Room No.</th>
-                                <th>Building Name</th>
-                                <th>Floor Level</th>
-
+                                <th>Floor Name</th>
+                                <th>Access Card User ID</th>
+                                <th>Access Card Series No</th>
                                 <th>Price</th>
                                 <th style="text-align: center">Room Availability</th>
                                 <th style="text-align:center">Action</th>
@@ -73,7 +73,10 @@
                                         @Html.ActionLink(item.tb_floor.fl_bname, "Details", "Floor", new { id = item.tb_floor.fl_id }, new { @class = "ilink" })
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.tb_floor.fl_bid)
+                                        @Html.DisplayFor(modelItem => item.r_access_uid)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.r_access_siri)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.r_price)
