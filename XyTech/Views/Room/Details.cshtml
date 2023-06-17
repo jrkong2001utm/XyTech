@@ -171,11 +171,11 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-auto">
-                                @Html.ActionLink("Edit", "Edit", new { id = Model.r_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
+                                @Html.ActionLink("Edit", "Edit", new { id = Model.r_id }, new { @class = "btn btn-primary sm-2" })
                             </div>
-                            <div class="col-auto">
-                                @Html.ActionLink("Back to Room List", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
-                            </div>
+                            <span>
+                                @Html.ActionLink("Back to Room List", "Index", null, new { @class = "btn btn-light" })
+                            </span>
                         </div>
                     </form>
                 </div>

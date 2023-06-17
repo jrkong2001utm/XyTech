@@ -11,79 +11,85 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Please select the floor name and date to add attendance.</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Edit Attendance Information</h4>
+                <p class="card-description">
+                    Edit attendance information by filling the form below.
+                </p>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.a_floor, "Floor Name", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("a_floor", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.a_floor, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <form class="forms-sample">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.a_floor, "Floor Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-9">
+                            @Html.DropDownList("a_floor", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.a_floor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.a_check, "Date", htmlAttributes: new { @class = "control-label col-md-2" })
-            <i class="mdi mdi-calendar-plus menu-icon"></i>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.a_check, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
-                @Html.ValidationMessageFor(model => model.a_check, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.a_check, "Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-9">
+                            @Html.EditorFor(model => model.a_check, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.a_check, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                    <div class="form-group row">
+                        <div class="col-auto">
+                            <input type="submit" value="Create" class="btn btn-primary sm-2" />
+                        </div>
+                        <span>
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+                        </span>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@{
-    string errorMessage = TempData["ErrorMessage"] as string;
-    if (!string.IsNullOrEmpty(errorMessage))
-    {
-    <script>
-            window.onload = function() {
-                alert("@errorMessage");
-                window.location.href = '@Url.Action("Index", "Attendance")';
-            };
-    </script>
-    }
-}
+        @{
+            string errorMessage = TempData["ErrorMessage"] as string;
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <script>
+                    window.onload = function() {
+                        alert("@errorMessage");
+                        window.location.href = '@Url.Action("Index", "Attendance")';
+                    };
+                </script>
+            }
+        }
 
 
 
-@section Scripts {
+        @section Scripts {
 
 
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/jquery-ui-1.13.2.min.js"></script>
-    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+            <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+            <script src="~/Scripts/jquery-ui-1.13.2.min.js"></script>
+            <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#a_check').datepicker({
-                dateFormat: "yy/mm/dd",
-                changeMonth: true,
-                changeYear: true,
-                minDate: 0,
-                onSelect: function (selected) {
-                    var dt = new Date(selected);
-                    dt.setDate(dt.getDate() + 1);
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#a_check').datepicker({
+                        dateFormat: "yy/mm/dd",
+                        changeMonth: true,
+                        changeYear: true,
+                        minDate: 0,
+                        onSelect: function (selected) {
+                            var dt = new Date(selected);
+                            dt.setDate(dt.getDate() + 1);
 
-                    dt.setHours(currentDate.getHours());
-                    dt.setMinutes(currentDate.getMinutes());
+                            dt.setHours(currentDate.getHours());
+                            dt.setMinutes(currentDate.getMinutes());
 
-                    $("#a_check").datepicker("option", "minDate", dt);
-                }
-            });
-        });
-    </script>
-}
+                            $("#a_check").datepicker("option", "minDate", dt);
+                        }
+                    });
+                });
+            </script>
+        }

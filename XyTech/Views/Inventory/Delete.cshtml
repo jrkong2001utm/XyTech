@@ -59,8 +59,8 @@
                     @Html.AntiForgeryToken()
 
                     <div class="form-actions no-color" style="margin-top: 25px;">
-                        <input type="submit" value="Delete" class="btn btn-danger btn-rounded btn-fw" onclick="return confirm('Are you sure to delete this inventory?');" />
-                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-rounded btn-fw" })
+                        <input type="submit" value="Delete" class="btn btn-danger mr-2" onclick="return confirm('Are you sure to delete this inventory?');" />
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
                     </div>
                 }
 

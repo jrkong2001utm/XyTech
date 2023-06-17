@@ -11,14 +11,14 @@ namespace XyTech.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class tb_profit
     {
         public int p_id { get; set; }
         public int p_investor { get; set; }
         public string p_month { get; set; }
         public double p_profit { get; set; }
-    
+
         public virtual tb_investor tb_investor { get; set; }
 
         public string InvestorUsername { get; set; }

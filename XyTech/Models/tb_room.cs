@@ -28,6 +28,8 @@ namespace XyTech.Models
         public string r_active { get; set; }
         public string r_pic { get; set; }
         public string r_no { get; set; }
+        public string r_access_uid { get; set; }
+        public string r_access_siri { get; set; }
     
         public virtual tb_floor tb_floor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

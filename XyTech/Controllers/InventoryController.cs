@@ -17,7 +17,7 @@ namespace XyTech.Controllers
         private db_XyTechEntities db = new db_XyTechEntities();
 
         // GET: Inventory
-        public ActionResult Index()
+        public ActionResult Index(int? floorFilter)
         {
             ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
             int currentDay = DateTime.Today.Day;
@@ -29,12 +29,38 @@ namespace XyTech.Controllers
             }
             ViewBag.counttenant = tenants.Count(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Day < currentDay && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
 
-            var tb_inventory = db.tb_inventory.Where(t => t.iv_active == "1").Include(t => t.tb_floor);
             if (TempData.Count > 0)
             {
                 ViewBag.Message = TempData["success"].ToString();
             }
-            return View(tb_inventory.ToList());
+
+            var floorOptions = db.tb_floor.Where(f => f.fl_active == "active").Select(f => new SelectListItem
+            {
+                Text = f.fl_bname,
+                Value = f.fl_id.ToString(),
+                Selected = (floorFilter.HasValue && floorFilter.Value == f.fl_id)
+            }).ToList();
+
+            // Add a default option at the beginning of the list
+            floorOptions.Insert(0, new SelectListItem
+            {
+                Text = "All Floors",
+                Value = null,
+                Selected = (!floorFilter.HasValue)
+            });
+
+            ViewData["FloorFilter"] = floorOptions;
+
+            IQueryable<tb_inventory> tb_inventoryQuery = db.tb_inventory.Include(t => t.tb_floor).Where(p => p.iv_active == "1");
+
+            if (floorFilter.HasValue)
+            {
+                tb_inventoryQuery = tb_inventoryQuery.Where(p => p.iv_floor == floorFilter);
+            }
+
+            var tb_inventory = tb_inventoryQuery.ToList();
+            return View(tb_inventory);
+
         }
 
         // GET: Inventory/Details/5
