@@ -5,93 +5,223 @@
     ViewBag.Title = "Details_TN3";
 }
 
-<!DOCTYPE html>
-<html>
-<body>
-    <p class="card-title mb-0" style="font-size: x-large; font-weight:bold">Floor Information</p>
-    <br />
-    <div>
-        <img class="floorlayout" src="~/Content/assets/images/floor_layout_trim/TN3-2.jpeg" alt="DL1" usemap="#DL1map">
+<style>
+    .copy-text {
+        padding: 10px;
+        font-size: 18px;
+        color: #555;
+        border: none;
+        outline: none;
+    }
 
-        <map name="DL1map">
-            <area shape="poly" coords="193,26,247,28,246,85,169,87,166,51,182,43" alt="Room1" href="@Url.Action("Details", "Room", new { id = 94 })" id="r_id">
-            <area shape="rect" coords="168,91,244,154" alt="Room2" href="@Url.Action("Details", "Room", new { id = 95 })" id="r_id">
-            <area shape="rect" coords="168,161,244,216" alt="Room3" href="@Url.Action("Details", "Room", new { id = 96 })" id="r_id">
-            <area shape="rect" coords="166,220,245,278" alt="Room4" href="@Url.Action("Details", "Room", new { id = 97 })" id="r_id">
-            <area shape="rect" coords="167,285,246,343" alt="Room5" href="@Url.Action("Details", "Room", new { id = 98 })" id="r_id">
-            <area shape="rect" coords="167,352,245,407" alt="Room6" href="@Url.Action("Details", "Room", new { id = 99 })" id="r_id">
-            <area shape="rect" coords="168,411,246,474" alt="Room7" href="@Url.Action("Details", "Room", new { id = 100 })" id="r_id">
-            <area shape="rect" coords="168,481,245,576" alt="Room7" href="@Url.Action("Details", "Room", new { id = 101 })" id="r_id">
-            <area shape="poly" coords="191,584,184,601,168,606,168,650,246,649,247,584" alt="Room7" href="@Url.Action("Details", "Room", new { id = 102 })" id="r_id">
-            <area shape="poly" coords="58,476,131,475,135,541,110,565,56,564" alt="Room7" href="@Url.Action("Details", "Room", new { id = 103 })" id="r_id">
-            <area shape="rect" coords="58,409,136,469" alt="Room7" href="@Url.Action("Details", "Room", new { id = 104 })" id="r_id">
-            <area shape="poly" coords="58,172,111,174,134,198,134,232,59,232" alt="Room7" href="@Url.Action("Details", "Room", new { id = 105 })" id="r_id">
-            <area shape="poly" coords="132,167,60,165,59,93,99,89,102,49,111,37,134,39" alt="Room7" href="@Url.Action("Details", "Room", new { id = 106 })" id="r_id">
-        </map>
-    </div>
+        .copy-text button {
+            padding: 10px;
+            background: #5784f5;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+</style>
 
+<p class="card-title mb-0" style="font-size: x-large; font-weight:bold">Floor Information</p>
+<br />
+<div>
+    <img class="floorlayout" src="~/Content/assets/images/floor_layout_trim/TN3-2.jpeg" alt="DL1" usemap="#DL1map">
+
+    <map name="DL1map">
+        <area shape="poly" coords="193,26,247,28,246,85,169,87,166,51,182,43" alt="Room1" href="@Url.Action("Details", "Room", new { id = 94 })" id="r_id">
+        <area shape="rect" coords="168,91,244,154" alt="Room2" href="@Url.Action("Details", "Room", new { id = 95 })" id="r_id">
+        <area shape="rect" coords="168,161,244,216" alt="Room3" href="@Url.Action("Details", "Room", new { id = 96 })" id="r_id">
+        <area shape="rect" coords="166,220,245,278" alt="Room4" href="@Url.Action("Details", "Room", new { id = 97 })" id="r_id">
+        <area shape="rect" coords="167,285,246,343" alt="Room5" href="@Url.Action("Details", "Room", new { id = 98 })" id="r_id">
+        <area shape="rect" coords="167,352,245,407" alt="Room6" href="@Url.Action("Details", "Room", new { id = 99 })" id="r_id">
+        <area shape="rect" coords="168,411,246,474" alt="Room7" href="@Url.Action("Details", "Room", new { id = 100 })" id="r_id">
+        <area shape="rect" coords="168,481,245,576" alt="Room7" href="@Url.Action("Details", "Room", new { id = 101 })" id="r_id">
+        <area shape="poly" coords="191,584,184,601,168,606,168,650,246,649,247,584" alt="Room7" href="@Url.Action("Details", "Room", new { id = 102 })" id="r_id">
+        <area shape="poly" coords="58,476,131,475,135,541,110,565,56,564" alt="Room7" href="@Url.Action("Details", "Room", new { id = 103 })" id="r_id">
+        <area shape="rect" coords="58,409,136,469" alt="Room7" href="@Url.Action("Details", "Room", new { id = 104 })" id="r_id">
+        <area shape="poly" coords="58,172,111,174,134,198,134,232,59,232" alt="Room7" href="@Url.Action("Details", "Room", new { id = 105 })" id="r_id">
+        <area shape="poly" coords="132,167,60,165,59,93,99,89,102,49,111,37,134,39" alt="Room7" href="@Url.Action("Details", "Room", new { id = 106 })" id="r_id">
+    </map>
+</div>
+
+<div class="row">
     <div class="col-7 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <form class="forms-sample">
-                    <div class="form-group row">
-                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Building Name</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.fl_bname)
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Floor Level</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.fl_bid)
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="exampleInputMobile" class="col-sm-4 col-form-label">Address</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.fl_address)
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="exampleInputPassword2" class="col-sm-4 col-form-label">Landlord Name</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.tb_landlord.l_name)
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">WiFi Password</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.fl_wifipwd)
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">Modem IP</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.fl_modemip)
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">CCTV QR Code</label>
-                        <div class="col-sm-7 col-form-label">
-                            <img src="@Url.Content("~/Content/assets/images/cctvqr/" + Model.fl_cctvqr)" alt="Uploaded Image" style="width: 300px; height: auto;" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">Preset Message</label>
-                        <div class="col-sm-7 col-form-label">
+                <h4 class="card-title">Floor Information</h4>
+                <p class="card-description">
+                    These are the information for the floor.
+                </p>
 
-                        </div>
+
+                @Html.Hidden("fl_id")
+
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Floor Name</label>
+                    <div class="col-sm-7 col-form-label">
+                        @Html.DisplayFor(model => model.fl_bname)
                     </div>
-                    <div style="margin-top: 25px;">
-                        @Html.ActionLink("Edit", "Edit", new { id = Model.fl_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
-                        @Html.ActionLink("See Rooms", "Index", "Room", new { floorFilter = Model.fl_id }, new { @class = "btn btn-dark btn-rounded btn-fw" })
-                        @Html.ActionLink("Back to Floor List", "FloorList", null, new { @class = "btn btn-light btn-rounded btn-fw" })
+                </div>
+
+                <div class="form-group row">
+                    <label for="exampleInputMobile" class="col-sm-4 col-form-label">Address</label>
+                    <div class="col-sm-7 col-form-label">
+                        @Html.DisplayFor(model => model.fl_address)
                     </div>
-                </form>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputPassword2" class="col-sm-4 col-form-label">Landlord Name</label>
+                    <div class="col-sm-7 col-form-label">
+                        @Html.DisplayFor(model => model.tb_landlord.l_name)
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">WiFi Password</label>
+                    <div class="col-sm-7 col-form-label">
+                        @Html.DisplayFor(model => model.fl_wifipwd)
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputConfirmPassword2" class="col-sm-4 col-form-label">Modem IP</label>
+                    <div class="col-sm-7 col-form-label">
+                        @Html.DisplayFor(model => model.fl_modemip)
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.fl_id }, new { @class = "btn btn-primary btn-rounded btn-fw" })
+                    @Html.ActionLink("See Rooms", "Index", "Room", new { floorFilter = Model.fl_id }, new { @class = "btn btn-dark btn-rounded btn-fw" })
+                    @Html.ActionLink("Back to Floor List", "FloorList", null, new { @class = "btn btn-light btn-rounded btn-fw" })
+                </div>
+
             </div>
         </div>
     </div>
 
+    <div class="col-md-5 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Preset Message for Tenants</h4>
+                <div class="form-group row">
+                    <label class="col-sm-9 col-form-label">Potential</label>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.Hidden("fl_preset_potential", Model.fl_preset_potential)
+                        <button type="button" onclick="copyToClipboard()" class="copy-text mdi mdi-content-copy">Copy</button>
+                    }
 
-</body>
-</html>
+                    <div class="col-sm-12 col-form-label">
+                        <div class="copy-text">
+                            @Html.TextAreaFor(model => model.fl_preset_potential, new { @class = "form-control", id = "copy", @readonly = "readonly", rows = 4 })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-9 col-form-label">Current</label>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.Hidden("fl_preset_current", Model.fl_preset_current)
+                        <button type="button" onclick="copyToClipboard1()" class="copy-text mdi mdi-content-copy">Copy</button>
+                    }
+                    <div class="col-sm-12 col-form-label">
+                        <div class="copy-text">
+                            @Html.TextAreaFor(model => model.fl_preset_current, new { @class = "form-control", id = "copy", @readonly = "readonly", rows = 4 })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h4 class="card-title">Room Availability</h4>
+                    <button class="copy-text mdi mdi-content-copy" onclick="copyTableToClipboard3()">Copy</button>
+                </div>
+                <br />
+                <div class="table-responsive">
+                    <table id="dataTable" class="display expandable-table" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Room No.</th>
+                                <th style="text-align: center">Room Availability</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.room)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.r_no
+                                    </td>
+                                    <td style="text-align:center">
+                                        @if (item.r_availability == 1)
+                                        {
+                                            <div class="badge badge-success">
+                                                Available
+                                            </div>
+                                        }
+                                        else if (item.r_availability == 0)
+                                        {
+                                            <div class="badge badge-danger">
+                                                Unavailable
+                                            </div>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyToClipboard() {
+        var input = document.createElement("input");
+        input.setAttribute("value", document.getElementById("fl_preset_potential").value);
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+        alert("Copied to clipboard!");
+    }
+
+    function copyToClipboard1() {
+        var input = document.createElement("input");
+        input.setAttribute("value", document.getElementById("fl_preset_current").value);
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+        alert("Copied to clipboard!");
+    }
+
+    function copyTableToClipboard3() {
+        const table = document.getElementById("dataTable");
+        const range = document.createRange();
+        range.selectNode(table);
+        window.getSelection().addRange(range);
+
+        try {
+            const successful = document.execCommand('copy');
+            const message = successful ? 'Table copied to clipboard!' : 'Unable to copy table.';
+            alert(message);
+        } catch (err) {
+            console.log('Unable to copy table:', err);
+        }
+
+        window.getSelection().removeAllRanges();
+    }
+</script>
