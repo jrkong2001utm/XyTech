@@ -21,6 +21,12 @@ namespace XyTech.Controllers
         public ActionResult Index()
         {
             ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
+
+            if (TempData.ContainsKey("success"))
+            {
+                ViewBag.Message = TempData["success"].ToString();
+            }
+
             int currentDay = DateTime.Today.Day;
             var tenants = db.tb_tenant.ToList();
 
@@ -86,6 +92,7 @@ namespace XyTech.Controllers
                 .ThenByDescending(p => Convert.ToInt32(p.p_month.Split('-')[1])) // Order by month
                 .ToList();
 
+
             return View(profit);
             
         }
@@ -139,11 +146,31 @@ namespace XyTech.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             tb_profit tb_profit = db.tb_profit.Find(id);
+
             if (tb_profit == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.p_investor = new SelectList(db.tb_investor, "i_id", "i_active", tb_profit.p_investor);
+            int investorId = tb_profit.p_investor;
+            tb_investor investor = db.tb_investor.Find(investorId);
+            if (investor != null)
+            {
+                int userId = investor.i_user;
+                tb_user user = db.tb_user.Find(userId);
+                if (user != null)
+                {
+                    ViewBag.u_username = user.u_username;
+                }
+                else
+                {
+                    ViewBag.u_username = "N/A"; // Provide a default value if user is not found
+                }
+            }
+            else
+            {
+                ViewBag.u_username = "N/A"; // Provide a default value if investor is not found
+            }
+
             return View(tb_profit);
         }
 
@@ -158,9 +185,27 @@ namespace XyTech.Controllers
             {
                 db.Entry(tb_profit).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["success"] = "Profit is successfully edited!";
                 return RedirectToAction("Index");
             }
-            ViewBag.p_investor = new SelectList(db.tb_investor, "i_id", "i_active", tb_profit.p_investor);
+            tb_investor investor = db.tb_investor.Find(tb_profit.p_investor);
+            if (investor != null)
+            {
+                int userId = investor.i_user;
+                tb_user user = db.tb_user.Find(userId);
+                if (user != null)
+                {
+                    ViewBag.u_username = user.u_username;
+                }
+                else
+                {
+                    ViewBag.u_username = "N/A"; // Provide a default value if user is not found
+                }
+            }
+            else
+            {
+                ViewBag.u_username = "N/A"; // Provide a default value if investor is not found
+            }
             return View(tb_profit);
         }
 
