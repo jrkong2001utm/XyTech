@@ -17,150 +17,148 @@
                 </p>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                <form class="forms-sample">
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.t_name, "Name", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.t_name, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.t_name, "", new { @class = "text-danger" })
+            <form class="forms-sample">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.t_name, "Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.t_name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.t_name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.t_ic, "IC Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.t_ic, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.t_ic, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.t_uploadic, "Upload IC Picture", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-9">
+                        @Html.TextBox("icfile", "", new { type = "file", @class = "form-control", accept = "image/*" })
+                        @Html.ValidationMessageFor(model => model.t_uploadic, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.t_contract, "Uplaod Contract", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-9">
+                        @Html.TextBox("contractfile", "", new { type = "file", @class = "form-control", accept = "image/*" })
+                        @Html.ValidationMessageFor(model => model.t_contract, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.t_phone, "Phone Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.t_phone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.t_phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.t_emergency, "Emergency Contact", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.t_emergency, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.t_emergency, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.t_indate, "Check In Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.t_indate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.t_indate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.t_outdate, "Check Out Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.t_outdate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.t_outdate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.t_outsession, "Out Session", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-9">
+                        @Html.DropDownList("t_outsession", new List<SelectListItem>
+                        {
+                            new SelectListItem { Text = "-- Select Out Session --", Selected = true, Disabled = true },
+                            new SelectListItem { Text = "Morning", Value = "Morning" },
+                            new SelectListItem { Text = "Afternoon", Value = "Afternoon" },
+                            new SelectListItem { Text = "Night", Value = "Night" },
+                            new SelectListItem { Text = "Wait", Value = "Wait" }
+                        }, new { @class = "form-control", @required = true })
+                        @Html.ValidationMessageFor(model => model.t_outsession, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.t_siri, "Siri Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.t_siri, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.t_siri, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <input type="number" id="RoomPrice" name="RoomPrice" value="@ViewBag.RoomPrice" hidden />
+                <input type="number" id="RoomID" name="RoomID" value="@ViewBag.RoomID" hidden />
+
+                <div class="form-group row">
+                    <div class="col-md-offset-2 col-sm-9">
+                        <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#myModal">
+                            Create
+                        </button>
+                        <span>
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+                        </span>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Deposit and Payment Method</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="DepositAmount" class="control-label">Deposit Amount</label>
+                                    <div>
+                                        <input type="text" id="DepositAmount" name="DepositAmount" class="form-control" required />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="PaymentMethod" class="control-label">Payment Method</label>
+                                    <div>
+                                        <select id="PaymentMethod" name="PaymentMethod" class="form-control" required>
+                                            <option value="" selected disabled>Select Payment Method</option>
+                                            <option value="Bank">Bank</option>
+                                            <option value="Cash">Cash</option>
+                                        </select>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-secondary" id="btnNoDeposit">No Deposit</button>
+                                <button type="submit" class="btn btn-primary" id="submitButton">Create</button>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.t_ic, "IC Number", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.t_ic, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.t_ic, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.t_uploadic, "Upload IC Picture", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-9">
-                            @Html.TextBox("icfile", "", new { type = "file", @class = "form-control", accept = "image/*" })
-                            @Html.ValidationMessageFor(model => model.t_uploadic, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.t_contract, "Uplaod Contract", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-9">
-                            @Html.TextBox("contractfile", "", new { type = "file", @class = "form-control", accept = "image/*" })
-                            @Html.ValidationMessageFor(model => model.t_contract, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.t_phone, "Phone Number", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.t_phone, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.t_phone, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.t_emergency, "Emergency Contact", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.t_emergency, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.t_emergency, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.t_indate, "Check In Date", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.t_indate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
-                            @Html.ValidationMessageFor(model => model.t_indate, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.t_outdate, "Check Out Date", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.t_outdate, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
-                            @Html.ValidationMessageFor(model => model.t_outdate, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.t_outsession, "Out Session", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-9">
-                            @Html.DropDownList("t_outsession", new List<SelectListItem>
-                            {
-                                new SelectListItem { Text = "-- Select Out Session --", Selected = true, Disabled = true },
-                                new SelectListItem { Text = "Morning", Value = "Morning" },
-                                new SelectListItem { Text = "Afternoon", Value = "Afternoon" },
-                                new SelectListItem { Text = "Night", Value = "Night" },
-                                new SelectListItem { Text = "Wait", Value = "Wait" }
-                            }, new { @class = "form-control", @required = true })
-                            @Html.ValidationMessageFor(model => model.t_outsession, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.t_siri, "Siri Number", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-9">
-                            @Html.EditorFor(model => model.t_siri, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.t_siri, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <input type="number" id="RoomPrice" name="RoomPrice" value="@ViewBag.RoomPrice" hidden />
-                    <input type="number" id="RoomID" name="RoomID" value="@ViewBag.RoomID" hidden />
-
-                    <div class="form-group row">
-                        <div class="col-md-offset-2 col-sm-9">
-                            <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#myModal">
-                                Create
-                            </button>
-                            <span>
-                                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
-                            </span>
-                        </div>
-                    </div>
-                </form>
+                </div>
+            </form>
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Deposit and Payment Method</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="DepositAmount" class="control-label">Deposit Amount</label>
-                        <div>
-                            <input type="text" id="DepositAmount" name="DepositAmount" class="form-control" required />
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="PaymentMethod" class="control-label">Payment Method</label>
-                        <div>
-                            <select id="PaymentMethod" name="PaymentMethod" class="form-control" required>
-                                <option value="" selected disabled>Select Payment Method</option>
-                                <option value="Bank">Bank</option>
-                                <option value="Cash">Cash</option>
-                            </select>
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-secondary" id="btnNoDeposit">No Deposit</button>
-                    <button type="submit" class="btn btn-primary" id="submitButton">Create</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
 }
 
 @section Scripts {

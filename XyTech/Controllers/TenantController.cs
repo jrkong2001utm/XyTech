@@ -341,7 +341,7 @@ namespace XyTech.Controllers
                     else if (tb_tenant.t_paymentstatus == 2)
                     {
                         updatetenant.t_outstanding = updateRoom.r_price - (previousRoom.r_price - tb_tenant.t_outstanding);
-                        updatetenant.t_paymentstatus = 3;
+                        updatetenant.t_paymentstatus = 2;
                     }
                     else if (tb_tenant.t_paymentstatus == 3)
                     {
