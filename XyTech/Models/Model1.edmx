@@ -48,6 +48,8 @@
           <Property Name="fl_layout" Type="varchar(max)" />
           <Property Name="fl_bname" Type="varchar" MaxLength="50" />
           <Property Name="fl_landlord" Type="int" />
+          <Property Name="fl_preset_potential" Type="nvarchar(max)" />
+          <Property Name="fl_preset_current" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="tb_inventory">
           <Key>
@@ -103,6 +105,8 @@
           <Property Name="r_active" Type="varchar" MaxLength="10" />
           <Property Name="r_pic" Type="varchar(max)" />
           <Property Name="r_no" Type="varchar" MaxLength="50" />
+          <Property Name="r_access_uid" Type="varchar(max)" />
+          <Property Name="r_access_siri" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="tb_tenant">
           <Key>
@@ -555,6 +559,8 @@
           <NavigationProperty Name="tb_landlord" Relationship="db_XyTechModel.FK_tb_floor_tb_landlord" FromRole="tb_floor" ToRole="tb_landlord" />
           <NavigationProperty Name="tb_inventory" Relationship="db_XyTechModel.FK_tb_inventory_tb_floor" FromRole="tb_floor" ToRole="tb_inventory" />
           <NavigationProperty Name="tb_room" Relationship="db_XyTechModel.FK_tb_room_tb_floor" FromRole="tb_floor" ToRole="tb_room" />
+          <Property Name="fl_preset_potential" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fl_preset_current" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tb_room">
           <Key>
@@ -570,6 +576,8 @@
           <Property Name="r_no" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tb_floor" Relationship="db_XyTechModel.FK_tb_room_tb_floor" FromRole="tb_room" ToRole="tb_floor" />
           <NavigationProperty Name="tb_tenant" Relationship="db_XyTechModel.FK_tb_tenant_tb_room" FromRole="tb_room" ToRole="tb_tenant" />
+          <Property Name="r_access_uid" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="r_access_siri" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_tb_floor_tb_attendance">
           <End Type="db_XyTechModel.tb_floor" Role="tb_floor" Multiplicity="1" />
@@ -765,6 +773,8 @@
           <EntitySetMapping Name="tb_floor">
             <EntityTypeMapping TypeName="db_XyTechModel.tb_floor">
               <MappingFragment StoreEntitySet="tb_floor">
+                <ScalarProperty Name="fl_preset_current" ColumnName="fl_preset_current" />
+                <ScalarProperty Name="fl_preset_potential" ColumnName="fl_preset_potential" />
                 <ScalarProperty Name="fl_landlord" ColumnName="fl_landlord" />
                 <ScalarProperty Name="fl_bname" ColumnName="fl_bname" />
                 <ScalarProperty Name="fl_layout" ColumnName="fl_layout" />
@@ -781,6 +791,8 @@
           <EntitySetMapping Name="tb_room">
             <EntityTypeMapping TypeName="db_XyTechModel.tb_room">
               <MappingFragment StoreEntitySet="tb_room">
+                <ScalarProperty Name="r_access_siri" ColumnName="r_access_siri" />
+                <ScalarProperty Name="r_access_uid" ColumnName="r_access_uid" />
                 <ScalarProperty Name="r_no" ColumnName="r_no" />
                 <ScalarProperty Name="r_pic" ColumnName="r_pic" />
                 <ScalarProperty Name="r_active" ColumnName="r_active" />

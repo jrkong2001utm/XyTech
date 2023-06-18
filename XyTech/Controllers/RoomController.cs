@@ -96,7 +96,7 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "r_id,r_floor,r_price,r_availability,r_size,r_active,r_pic,r_no")] tb_room tb_room, HttpPostedFileBase roompic)
+        public ActionResult Create([Bind(Include = "r_id,r_floor,r_price,r_availability,r_size,r_active,r_pic,r_no, r_access_uid, r_access_siri")] tb_room tb_room, HttpPostedFileBase roompic)
         {
             if (ModelState.IsValid)
             {
@@ -155,7 +155,7 @@ namespace XyTech.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "r_id,r_floor,r_price,r_availability,r_size,r_active,r_pic,r_no")] tb_room tb_room, HttpPostedFileBase roompic)
+        public ActionResult Edit([Bind(Include = "r_id,r_floor,r_price,r_availability,r_size,r_active,r_pic,r_no, r_access_uid, r_access_siri")] tb_room tb_room, HttpPostedFileBase roompic)
         {
             if (ModelState.IsValid)
             {

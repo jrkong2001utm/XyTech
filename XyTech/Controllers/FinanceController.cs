@@ -34,12 +34,13 @@ namespace XyTech.Controllers
             ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
 
             // Populate floor options for the dropdown list
-            var floorOptions = db.tb_floor.Select(f => new SelectListItem
+            var floorOptions = db.tb_floor.Where(t => t.fl_active.Equals("active")).Select(f => new SelectListItem
             {
                 Text = f.fl_bname,
                 Value = f.fl_id.ToString(),
                 Selected = (floorFilter.HasValue && floorFilter.Value == f.fl_id)
-            }).ToList();
+            })
+            .ToList();
 
             // Add a default option at the beginning of the list
             floorOptions.Insert(0, new SelectListItem

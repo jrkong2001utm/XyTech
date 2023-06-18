@@ -4,50 +4,58 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
-
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Profit", new { id = Model.p_id }, FormMethod.Post, new { id = "deleteForm" }))
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>tb_profit</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.p_id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.p_investor, "p_investor", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("p_investor", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.p_investor, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Edit Profit</h4>
+                <p class="card-description">
+                    Edit the profit's information by filling the form below.
+                </p>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.p_id)
+                @Html.HiddenFor(model => model.p_investor)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.p_month, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.p_month, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.p_month, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <form class="forms-sample">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.p_profit, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.p_profit, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.p_profit, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.p_month, "Year-Month", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-9">
+                            @Html.EditorFor(model => model.p_month, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                            @Html.ValidationMessageFor(model => model.p_month, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.p_investor, "Investor Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-9">
+                            <input class="form-control" value="@ViewBag.u_username" readonly disabled/>
+                            @Html.ValidationMessageFor(model => model.p_investor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.p_profit, "Profit (RM)", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-9">
+                            @Html.EditorFor(model => model.p_profit, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                            @Html.ValidationMessageFor(model => model.p_profit, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mr-2" id="deleteButton">Save</button>
+                    <button type="reset" class="btn btn-secondary mr-2">Reset</button>
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+                    <div id="confirmDeleteModal" style="display: none;">
+                        <p>Are you sure you want to delete this transaction?</p>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
+}

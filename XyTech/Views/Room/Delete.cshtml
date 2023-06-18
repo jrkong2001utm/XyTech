@@ -18,66 +18,72 @@
                     These are the information for the room.
                 </p>
 
-                    <div class="form-group row">
-                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Room Number</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.r_no)
-                        </div>
+                <div class="form-group row">
+                    <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Room Number</label>
+                    <div class="col-sm-7 col-form-label">
+                        @Html.DisplayFor(model => model.r_no)
                     </div>
-                    <div class="form-group row">
-                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Building Name</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.ActionLink(Model.tb_floor.fl_bname, "Details", "Floor", new { id = Model.tb_floor.fl_id }, new { @class = "ilink" })
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Floor Name</label>
+                    <div class="col-sm-7 col-form-label">
+                        @Html.ActionLink(Model.tb_floor.fl_bname, "Details", "Floor", new { id = Model.tb_floor.fl_id }, new { @class = "ilink" })
                     </div>
-                    <div class="form-group row">
-                        <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Floor Level</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.tb_floor.fl_bid)
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Access Card User ID</label>
+                    <div class="col-sm-7 col-form-label">
+                        @Html.DisplayFor(model => model.r_access_uid)
                     </div>
-                    <div class="form-group row">
-                        <label for="exampleInputMobile" class="col-sm-4 col-form-label">Price (RM)</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.r_price)
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Access Card Series Number</label>
+                    <div class="col-sm-7 col-form-label">
+                        @Html.DisplayFor(model => model.r_access_siri)
                     </div>
-                    <div class="form-group row">
-                        <label for="exampleInputMobile" class="col-sm-4 col-form-label">Number of Beds</label>
-                        <div class="col-sm-7 col-form-label">
-                            @Html.DisplayFor(model => model.r_size)
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputMobile" class="col-sm-4 col-form-label">Price (RM)</label>
+                    <div class="col-sm-7 col-form-label">
+                        @Html.DisplayFor(model => model.r_price)
                     </div>
-                    <div class="form-group row">
-                        <label for="exampleInputPassword2" class="col-sm-4 col-form-label">Room Availability</label>
-                        <div class="col-sm-7 col-form-label">
-                            @if (Model.r_availability == 1)
-                            {
-                                <span style="color: forestgreen;">Available</span>
-                            }
-                            else if (Model.r_availability == 0)
-                            {
-                                <span style="color: red;">Unavailable</span>
-                            }
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputMobile" class="col-sm-4 col-form-label">Number of Beds</label>
+                    <div class="col-sm-7 col-form-label">
+                        @Html.DisplayFor(model => model.r_size)
                     </div>
-
-                    <div style="margin-top: 25px;">
-                        @using (Html.BeginForm("Delete", "Room", new { id = Model.r_id }, FormMethod.Post, new { id = "deleteForm" }))
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputPassword2" class="col-sm-4 col-form-label">Room Availability</label>
+                    <div class="col-sm-7 col-form-label">
+                        @if (Model.r_availability == 1)
                         {
-                            @Html.AntiForgeryToken()
-
-                            <!-- Button to trigger the delete confirmation -->
-                            <button type="button" class="btn btn-danger mr-2" id="deleteButton">Delete</button>
-                            @Html.ActionLink("Back to Room List", "Index", null, new { @class = "btn btn-light" })
-                            <div id="confirmDeleteModal" style="display: none;">
-                                <p>Are you sure you want to delete this room?</p>
-                            </div>
+                            <span style="color: forestgreen;">Available</span>
                         }
-
+                        else if (Model.r_availability == 0)
+                        {
+                            <span style="color: red;">Unavailable</span>
+                        }
                     </div>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    @using (Html.BeginForm("Delete", "Room", new { id = Model.r_id }, FormMethod.Post, new { id = "deleteForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <!-- Button to trigger the delete confirmation -->
+                        <button type="button" class="btn btn-danger mr-2" id="deleteButton">Delete</button>
+                        @Html.ActionLink("Back to Room List", "Index", null, new { @class = "btn btn-light" })
+                        <div id="confirmDeleteModal" style="display: none;">
+                            <p>Are you sure you want to delete this room?</p>
+                        </div>
+                    }
 
                 </div>
+
+            </div>
         </div>
     </div>
 </div>
