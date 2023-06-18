@@ -54,25 +54,248 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-4 grid-margin stretch-card">
+    <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <p class="card-title">@ViewBag.Month's Finance Details</p>
-                <div class="d-flex flex-wrap mb-5">
-                    <div class="mr-5 mt-3">
-                        <p class="text-muted">Total Profit</p>
-                        <h3 class="text-primary fs-30 font-weight-medium">@ViewBag.TotalProfit</h3>
-                    </div>
-                    <div class="mr-5 mt-3">
-                        <p class="text-muted">Profit Percentage</p>
-                        <h3 class="text-primary fs-30 font-weight-medium">@ViewBag.PercentProfit%</h3>
+                <p class="card-title">Unpaid rental fee that <strong>exceed or equal due date</strong></p>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table id="dataTable1" class="display expandable-table dataTable no-footer" style="width:100%" role="grid">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Outstanding</th>
+                                        <th>Room No</th>
+                                        <th style="text-align: center">Reminder</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var tenant in ViewBag.tenant)
+                                    {
+                                        var phoneNumber = tenant.t_phone;
+                                        var encodedMessage = "Dear " + tenant.t_name + ", Please kindly pay the rental fee (RM" + tenant.t_outstanding + ") for last month. Thank You.";
+                                        var whatsappUrl = "https://wa.me/+6" + phoneNumber + "?text=" + encodedMessage;
+                                        <tr>
+                                            <td>@tenant.t_name</td>
+                                            <td>@tenant.t_phone</td>
+                                            <td>@tenant.t_indate.ToString("dd-MM-yyyy")</td>
+                                            <td>@tenant.t_outdate.ToString("dd-MM-yyyy")</td>
+                                            <td style="text-align: center">@tenant.t_outstanding</td>
+                                            <td style="text-align: center">@tenant.t_room</td>
+                                            <td style="text-align: center">
+                                                <a href="@whatsappUrl" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a>
+                                                <a href="@Url.Action("Edit", "Tenant", new { id = tenant.t_id })" class="btn btn-link" title="edit">
+                                                    <i class="fa fa-edit text-primary"></i>
+                                                </a>
+                                                <button class="btn mdi mdi-cash-usd text-success" data-toggle="modal" data-target="#paymentModal-@tenant.t_id"></button>
+
+                                                <!-- Payment Modal -->
+                                                <div class="modal fade" id="paymentModal-@tenant.t_id" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-@tenant.t_id" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="paymentModalLabel-@tenant.t_id">Make Payment</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form id="paymentForm-@tenant.t_id" method="post" action="@Url.Action("Pay", "Home", new { id = tenant.t_id })">
+                                                                    <div style="overflow: hidden;">
+                                                                        <span style="float: left;">@tenant.t_name</span>
+                                                                        <span style="float: right;">Current Outstanding: @tenant.t_outstanding</span>
+                                                                    </div>
+                                                                    <br />
+                                                                    <div class="form-group">
+                                                                        <label for="amount-@tenant.t_id">Amount:</label>
+                                                                        <input type="number" class="form-control" id="amount" name="amount" required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="method-@tenant.t_id">Payment Method:</label>
+                                                                        <select class="form-control" id="method" name="method" required>
+                                                                            <option value="" selected disabled hidden>Select Method</option>
+                                                                            <option value="Bank">Bank</option>
+                                                                            <option value="Cash">Cash</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <button type="submit" class="btn btn-primary">Submit Payment</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <canvas id="pieChart"></canvas>
             </div>
         </div>
     </div>
-    <div class="col-md-8 grid-margin stretch-card">
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title">Rental Fee Due within <strong>one week</strong></p>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table id="dataTable4" class="display expandable-table dataTable no-footer" style="width:100%" role="grid">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Outstanding</th>
+                                        <th>Room No</th>
+                                        <th style="text-align: center">Reminder</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var weektenant in ViewBag.weektenant)
+                                    {
+                                        var phoneNumber = weektenant.t_phone;
+                                        var encodedMessage = "Dear " + weektenant.t_name + ", Your rental fee due is coming soon on " + weektenant.t_indate.Day + " this month. Please kindly pay the rental fee (RM" + weektenant.t_outstanding + ") as soon as possible. Thank You.";
+                                        var urlwhatsapp = "https://wa.me/+6" + phoneNumber + "?text=" + encodedMessage;
+                                        <tr>
+                                            <td>@weektenant.t_name</td>
+                                            <td>@weektenant.t_phone</td>
+                                            <td>@weektenant.t_indate.ToString("dd-MM-yyyy")</td>
+                                            <td>@weektenant.t_outdate.ToString("dd-MM-yyyy")</td>
+                                            <td style="text-align: center">@weektenant.t_outstanding</td>
+                                            <td style="text-align: center">@weektenant.t_room</td>
+                                            <td style="text-align: center">
+                                                <a href="@urlwhatsapp" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a>
+                                                <a href="@Url.Action("Edit", "Tenant", new { id = weektenant.t_id })" class="btn btn-link" title="edit">
+                                                    <i class="fa fa-edit text-primary"></i>
+                                                </a>
+                                                <button class="btn mdi mdi-cash-usd text-success" data-toggle="modal" data-target="#paymentModal-@weektenant.t_id"></button>
+
+                                                <!-- Payment Modal -->
+                                                <div class="modal fade" id="paymentModal-@weektenant.t_id" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-@weektenant.t_id" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="paymentModalLabel-@weektenant.t_id">Make Payment</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form id="paymentForm-@weektenant.t_id" method="post" action="@Url.Action("Pay", "Home", new { id = weektenant.t_id })">
+                                                                    <div style="overflow: hidden;">
+                                                                        <span style="float: left;">@weektenant.t_name</span>
+                                                                        <span style="float: right;">Current Outstanding: @weektenant.t_outstanding</span>
+                                                                    </div>
+                                                                    <br />
+                                                                    <div class="form-group">
+                                                                        <label for="amount-@weektenant.t_id">Amount:</label>
+                                                                        <input type="number" class="form-control" id="amount" name="amount" required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="method-@weektenant.t_id">Payment Method:</label>
+                                                                        <select class="form-control" id="method" name="method" required>
+                                                                            <option value="" selected disabled hidden>Select Method</option>
+                                                                            <option value="Bank">Bank</option>
+                                                                            <option value="Cash">Cash</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <button type="submit" class="btn btn-primary">Submit Payment</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title">Room Available</p>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table id="dataTable3" class="display expandable-table dataTable no-footer" style="width:100%" role="grid">
+                                <thead>
+                                    <tr>
+                                        <th>Floor No</th>
+                                        <th>Room No</th>
+                                        <th>Price</th>
+                                        <th style="text-align: center">Number of Beds</th>
+                                        <th>Availability</th>
+                                        <th style="text-align: center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var room in ViewBag.room)
+                                    {
+                                        <tr>
+                                            <td>@room.tb_floor.fl_bname</td>
+                                            <td>@room.r_no</td>
+                                            <td>@room.r_price</td>
+                                            <td style="text-align: center">@room.r_size</td>
+                                            <td style="text-align: center">
+                                                @if (@room.r_availability == 1)
+                                                {
+                                                    <div class="badge badge-success">
+                                                        <span>Available</span>
+                                                    </div>
+                                                }
+                                                else if (@room.r_availability == 0)
+                                                {
+                                                    <div class="badge badge-danger">
+                                                        <span>Unavailable</span>
+                                                    </div>
+                                                }
+                                            </td>
+                                            <td style="text-align: center">
+                                                <a href="@Url.Action("Edit", "Room", new { id = room.r_id })" class="btn btn-link" title="edit">
+                                                    <i class="fa fa-edit text-primary"></i>
+                                                </a>
+                                                <a href="@Url.Action("Details", "Room", new { id = room.r_id })" class="btn btn-link" title="details">
+                                                    <i class="fa fa-info-circle text-info"></i>
+                                                </a>
+                                                <a href="@Url.Action("Delete", "Room", new { id = room.r_id })" class="btn btn-link" title="delete">
+                                                    <i class="fa fa-trash text-danger"></i>
+                                                </a>
+                                                <a href="@Url.Action("Create", "Tenant", new { id = room.r_id })" class="btn btn-link" title="addtenant">
+                                                    <i class="fa mdi mdi-account-multiple-plus text-success"></i>
+                                                </a>
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
@@ -83,6 +306,7 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Bank Name</th>
                                 <th>Bank Account</th>
                                 <th>Fee</th>
                                 <th>Payment Due</th>
@@ -93,10 +317,14 @@
                             @foreach (var landlord in ViewBag.landlord)
                             {
                                 var phoneNum = landlord.l_phone;
-                                var encodedMsg = "Dear " + landlord.l_name + ", an amount of RM" + landlord.l_fee + " have been credited to your bank account " + landlord.l_bank + ". Please kindly check your bank account. Thank You.";
+                                var encodedMsg = "Dear " + landlord.l_name + "%0A" +
+                                                 "An amount of RM" + landlord.l_fee + " has been credited to your bank %0A" + landlord.tb_bankname.bn_description + "%0A" + landlord.l_bank + ".%0A" +
+                                                 "Please kindly check your bank account.%0A" +
+                                                 "Thank you.";
                                 var whatsapp = "https://wa.me/+6" + phoneNum + "?text=" + encodedMsg;
                                 <tr>
                                     <td>@landlord.l_name</td>
+                                    <td>@landlord.tb_bankname.bn_description</td>
                                     <td>@landlord.l_bank</td>
                                     <td>@landlord.l_fee</td>
                                     <td>@landlord.l_due.ToString("dd-MM-yyyy")</td>
@@ -175,272 +403,25 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
-        <div class="card position-relative">
-            <div class="card-body">
-                <div id="detailedReports" class="carousel slide detailed-report-carousel position-static pt-2" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="row">
-                                <div class="col-md-12 grid-margin stretch-card">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="card-title"><strong>Unpaid</strong> rental fee that exceed or equal due date</p>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="table-responsive">
-                                                        <table id="dataTable1" class="display expandable-table dataTable no-footer" style="width:100%" role="grid">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Name</th>
-                                                                    <th>Phone</th>
-                                                                    <th>Check In</th>
-                                                                    <th>Check Out</th>
-                                                                    <th>Outstanding</th>
-                                                                    <th>Room No</th>
-                                                                    <th style="text-align: center">Reminder</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @foreach (var tenant in ViewBag.tenant)
-                                                                {
-                                                                    var phoneNumber = tenant.t_phone;
-                                                                    var encodedMessage = "Dear " + tenant.t_name + ", Please kindly pay the rental fee (RM" + tenant.t_outstanding + ") for last month. Thank You.";
-                                                                    var whatsappUrl = "https://wa.me/+6" + phoneNumber + "?text=" + encodedMessage;
-                                                                    <tr>
-                                                                        <td>@tenant.t_name</td>
-                                                                        <td>@tenant.t_phone</td>
-                                                                        <td>@tenant.t_indate.ToString("dd-MM-yyyy")</td>
-                                                                        <td>@tenant.t_outdate.ToString("dd-MM-yyyy")</td>
-                                                                        <td style="text-align: center">@tenant.t_outstanding</td>
-                                                                        <td style="text-align: center">@tenant.t_room</td>
-                                                                        <td style="text-align: center">
-                                                                            <a href="@whatsappUrl" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a>
-                                                                            <a href="@Url.Action("Edit", "Tenant", new { id = tenant.t_id })" class="btn btn-link" title="edit">
-                                                                                <i class="fa fa-edit text-primary"></i>
-                                                                            </a>
-                                                                            <button class="btn mdi mdi-cash-usd text-success" data-toggle="modal" data-target="#paymentModal-@tenant.t_id"></button>
-
-                                                                            <!-- Payment Modal -->
-                                                                            <div class="modal fade" id="paymentModal-@tenant.t_id" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-@tenant.t_id" aria-hidden="true">
-                                                                                <div class="modal-dialog" role="document">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header">
-                                                                                            <h5 class="modal-title" id="paymentModalLabel-@tenant.t_id">Make Payment</h5>
-                                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                                <span aria-hidden="true">&times;</span>
-                                                                                            </button>
-                                                                                        </div>
-                                                                                        <div class="modal-body">
-                                                                                            <form id="paymentForm-@tenant.t_id" method="post" action="@Url.Action("Pay", "Home", new { id = tenant.t_id })">
-                                                                                                <div style="overflow: hidden;">
-                                                                                                    <span style="float: left;">@tenant.t_name</span>
-                                                                                                    <span style="float: right;">Current Outstanding: @tenant.t_outstanding</span>
-                                                                                                </div>
-                                                                                                <br />
-                                                                                                <div class="form-group">
-                                                                                                    <label for="amount-@tenant.t_id">Amount:</label>
-                                                                                                    <input type="number" class="form-control" id="amount" name="amount" required>
-                                                                                                </div>
-                                                                                                <div class="form-group">
-                                                                                                    <label for="method-@tenant.t_id">Payment Method:</label>
-                                                                                                    <select class="form-control" id="method" name="method" required>
-                                                                                                        <option value="" selected disabled hidden>Select Method</option>
-                                                                                                        <option value="Bank">Bank</option>
-                                                                                                        <option value="Cash">Cash</option>
-                                                                                                    </select>
-                                                                                                </div>
-                                                                                                <button type="submit" class="btn btn-primary">Submit Payment</button>
-                                                                                            </form>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                }
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="row">
-                                <div class="col-md-12 grid-margin stretch-card">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="card-title">Rental Fee Due within <strong>one week</strong></p>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="table-responsive">
-                                                        <table id="dataTable4" class="display expandable-table dataTable no-footer" style="width:100%" role="grid">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Name</th>
-                                                                    <th>Phone</th>
-                                                                    <th>Check In</th>
-                                                                    <th>Check Out</th>
-                                                                    <th>Outstanding</th>
-                                                                    <th>Room No</th>
-                                                                    <th style="text-align: center">Reminder</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @foreach (var weektenant in ViewBag.weektenant)
-                                                                {
-                                                                    var phoneNumber = weektenant.t_phone;
-                                                                    var encodedMessage = "Dear " + weektenant.t_name + ", Your rental fee due is coming soon on " + weektenant.t_indate.Day + " this month. Please kindly pay the rental fee (RM" + weektenant.t_outstanding + ") as soon as possible. Thank You.";
-                                                                    var urlwhatsapp = "https://wa.me/+6" + phoneNumber + "?text=" + encodedMessage;
-                                                                    <tr>
-                                                                        <td>@weektenant.t_name</td>
-                                                                        <td>@weektenant.t_phone</td>
-                                                                        <td>@weektenant.t_indate.ToString("dd-MM-yyyy")</td>
-                                                                        <td>@weektenant.t_outdate.ToString("dd-MM-yyyy")</td>
-                                                                        <td style="text-align: center">@weektenant.t_outstanding</td>
-                                                                        <td style="text-align: center">@weektenant.t_room</td>
-                                                                        <td style="text-align: center">
-                                                                            <a href="@urlwhatsapp" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a>
-                                                                            <a href="@Url.Action("Edit", "Tenant", new { id = weektenant.t_id })" class="btn btn-link" title="edit">
-                                                                                <i class="fa fa-edit text-primary"></i>
-                                                                            </a>
-                                                                            <button class="btn mdi mdi-cash-usd text-success" data-toggle="modal" data-target="#paymentModal-@weektenant.t_id"></button>
-
-                                                                            <!-- Payment Modal -->
-                                                                            <div class="modal fade" id="paymentModal-@weektenant.t_id" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel-@weektenant.t_id" aria-hidden="true">
-                                                                                <div class="modal-dialog" role="document">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header">
-                                                                                            <h5 class="modal-title" id="paymentModalLabel-@weektenant.t_id">Make Payment</h5>
-                                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                                <span aria-hidden="true">&times;</span>
-                                                                                            </button>
-                                                                                        </div>
-                                                                                        <div class="modal-body">
-                                                                                            <form id="paymentForm-@weektenant.t_id" method="post" action="@Url.Action("Pay", "Home", new { id = weektenant.t_id })">
-                                                                                                <div style="overflow: hidden;">
-                                                                                                    <span style="float: left;">@weektenant.t_name</span>
-                                                                                                    <span style="float: right;">Current Outstanding: @weektenant.t_outstanding</span>
-                                                                                                </div>
-                                                                                                <br />
-                                                                                                <div class="form-group">
-                                                                                                    <label for="amount-@weektenant.t_id">Amount:</label>
-                                                                                                    <input type="number" class="form-control" id="amount" name="amount" required>
-                                                                                                </div>
-                                                                                                <div class="form-group">
-                                                                                                    <label for="method-@weektenant.t_id">Payment Method:</label>
-                                                                                                    <select class="form-control" id="method" name="method" required>
-                                                                                                        <option value="" selected disabled hidden>Select Method</option>
-                                                                                                        <option value="Bank">Bank</option>
-                                                                                                        <option value="Cash">Cash</option>
-                                                                                                    </select>
-                                                                                                </div>
-                                                                                                <button type="submit" class="btn btn-primary">Submit Payment</button>
-                                                                                            </form>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                }
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#detailedReports" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#detailedReports" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
+    <div class="col-md-4 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <p class="card-title">Room Available</p>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="table-responsive">
-                            <table id="dataTable3" class="display expandable-table dataTable no-footer" style="width:100%" role="grid">
-                                <thead>
-                                    <tr>
-                                        <th>Floor No</th>
-                                        <th>Room No</th>
-                                        <th>Price</th>
-                                        <th style="text-align: center">Number of Beds</th>
-                                        <th>Availability</th>
-                                        <th style="text-align: center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var room in ViewBag.room)
-                                    {
-                                        <tr>
-                                            <td>@room.tb_floor.fl_bname</td>
-                                            <td>@room.r_no</td>
-                                            <td>@room.r_price</td>
-                                            <td style="text-align: center">@room.r_size</td>
-                                            <td style="text-align: center">
-                                                @if (@room.r_availability == 1)
-                                                {
-                                                    <div class="badge badge-success">
-                                                        <span>Available</span>
-                                                    </div>
-                                                }
-                                                else if (@room.r_availability == 0)
-                                                {
-                                                    <div class="badge badge-danger">
-                                                        <span>Unavailable</span>
-                                                    </div>
-                                                }
-                                            </td>
-                                            <td style="text-align: center">
-                                                <a href="@Url.Action("Edit", "Room", new { id = room.r_id })" class="btn btn-link" title="edit">
-                                                    <i class="fa fa-edit text-primary"></i>
-                                                </a>
-                                                <a href="@Url.Action("Details", "Room", new { id = room.r_id })" class="btn btn-link" title="details">
-                                                    <i class="fa fa-info-circle text-info"></i>
-                                                </a>
-                                                <a href="@Url.Action("Delete", "Room", new { id = room.r_id })" class="btn btn-link" title="delete">
-                                                    <i class="fa fa-trash text-danger"></i>
-                                                </a>
-                                                <a href="@Url.Action("Create", "Tenant", new { id = room.r_id })" class="btn btn-link" title="addtenant">
-                                                    <i class="fa mdi mdi-account-multiple-plus text-success"></i>
-                                                </a>
-
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                <p class="card-title">@ViewBag.Month's Finance Details</p>
+                <div class="d-flex flex-wrap mb-5">
+                    <div class="mr-5 mt-3">
+                        <p class="text-muted">Total Profit</p>
+                        <h3 class="text-primary fs-30 font-weight-medium">@ViewBag.TotalProfit</h3>
+                    </div>
+                    <div class="mr-5 mt-3">
+                        <p class="text-muted">Profit Percentage</p>
+                        <h3 class="text-primary fs-30 font-weight-medium">@ViewBag.PercentProfit%</h3>
                     </div>
                 </div>
+                <canvas id="pieChart"></canvas>
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
+    <div class="col-md-8 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <p class="card-title">@ViewBag.Year Finance Details</p>
@@ -453,24 +434,10 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            //jQuery('#dataTable').DataTable();
+            jQuery('#dataTable1').DataTable();
             jQuery('#dataTable2').DataTable();
             jQuery('#dataTable3').DataTable();
-
-        });
-
-        function initDataTable() {
-            jQuery('#dataTable1').DataTable();
             jQuery('#dataTable4').DataTable();
-        }
-
-        // Initialize DataTable on document ready
-        $(document).ready(function () {
-            initDataTable();
-        });
-
-        $('#detailedReports').on('slid.bs.carousel', function () {
-            initDataTable();
         });
 
         // Prepare the data for the pie chart

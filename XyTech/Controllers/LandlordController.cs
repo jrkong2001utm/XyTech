@@ -28,7 +28,7 @@ namespace XyTech.Controllers
             {
                 currentDay += 30;
             }
-            ViewBag.counttenant = tenants.Count(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Day < currentDay && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+            ViewBag.counttenant = tenants.Count(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Month != DateTime.Today.Month && t.t_indate.Day < currentDay && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
 
             var landlords = db.tb_landlord
                         .Where(l => l.l_active != "0")

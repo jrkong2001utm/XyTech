@@ -35,10 +35,10 @@ namespace XyTech.Controllers
             }
 
             ViewBag.tenant = tenants
-                .Where(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Day < currentDay && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3))
+                .Where(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Day < currentDay && t.t_indate.Month != DateTime.Today.Month && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3))
                 .ToList();
 
-            ViewBag.weektenant = tenants2.Where(t => t.t_indate.Day >= currentDay2 && t.t_indate.Day < (currentDay2 + 7) && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3)).ToList();
+            ViewBag.weektenant = tenants2.Where(t => t.t_indate.Day >= currentDay2 && t.t_indate.Month != DateTime.Today.Month && t.t_indate.Day < (currentDay2 + 7) && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3)).ToList();
             ViewBag.landlord = db.tb_landlord.Where(l => l.l_due <= DateTime.Today && l.l_active == "1").ToList();
             ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
             ViewBag.lenroom = db.tb_room.Count(r => r.r_availability == 1 && r.r_active == "active");
@@ -48,7 +48,7 @@ namespace XyTech.Controllers
             ViewBag.Year = DateTime.Today.Year;
 
             ViewBag.room = db.tb_room.Where(r => r.r_availability == 1 && r.r_active == "active").ToList();
-            ViewBag.counttenant = tenants.Count(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Day < currentDay && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+            ViewBag.counttenant = tenants.Count(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Day < currentDay && t.t_indate.Month != DateTime.Today.Month && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
             ViewBag.lentenant = db.tb_tenant.Count();
             ViewBag.leninvestor = db.tb_investor.Count(i => i.i_active == "active");
 
