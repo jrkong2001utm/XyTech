@@ -166,7 +166,7 @@ namespace XyTech.Controllers
         {
             ViewBag.f_user = Session["id"];
 
-            var floorList = db.tb_floor.ToList();
+            var floorList = db.tb_floor.Where(t => t.fl_active.Equals("active")).ToList();
             var selectList = new List<SelectListItem>
             {
                 new SelectListItem { Value = "select", Text = "-- Select Floor --", Disabled = true },
@@ -216,7 +216,7 @@ namespace XyTech.Controllers
 
             ViewBag.f_user = Session["id"];
 
-            var floorList = db.tb_floor.ToList();
+            var floorList = db.tb_floor.Where(t => t.fl_active.Equals("active")).ToList();
             var selectList = new List<SelectListItem>
             {
                 new SelectListItem { Value = "select", Text = "-- Select Floor --", Disabled = true },
@@ -240,7 +240,8 @@ namespace XyTech.Controllers
                 return HttpNotFound();
             }
             ViewBag.f_user = Session["id"];
-            ViewBag.f_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_finance.f_floor);
+            var floorList = db.tb_floor.Where(t => t.fl_active.Equals("active")).ToList();
+            ViewBag.f_floor = new SelectList(floorList, "fl_id", "fl_bname", tb_finance.f_floor);
             return View(tb_finance);
         }
 
@@ -301,7 +302,8 @@ namespace XyTech.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.f_user = Session["id"];
-            ViewBag.f_floor = new SelectList(db.tb_floor, "fl_id", "fl_bname", tb_finance.f_floor);
+            var floorList = db.tb_floor.Where(t => t.fl_active.Equals("active")).ToList();
+            ViewBag.f_floor = new SelectList(floorList, "fl_id", "fl_bname", tb_finance.f_floor);
             return View(tb_finance);
         }
 

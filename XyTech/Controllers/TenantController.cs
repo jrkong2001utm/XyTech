@@ -229,6 +229,12 @@ namespace XyTech.Controllers
             db.tb_finance.Add(financeTransaction);
             db.SaveChanges();
 
+            // Resolve an instance of the FinanceController using the DependencyResolver
+            var financeController = DependencyResolver.Current.GetService<FinanceController>();
+
+            // Call the CalculateCurrentMonthProfit function
+            financeController.CalculateCurrentMonthProfit();
+
             // Update the outstanding amount based on the payment amount
             if (tenant.t_outstanding > amount && amount != 0)
             {
