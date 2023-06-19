@@ -141,7 +141,7 @@ namespace XyTech.Controllers
 
                 if (contractfile != null && contractfile.ContentLength > 0)
                 {
-                    if (contractfile.ContentType.Contains("image"))
+                    if (contractfile.ContentType.Contains("pdf"))
                     {
                         string _FileName = Path.GetFileName(contractfile.FileName);
                         string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contractfile"), _FileName);
@@ -150,7 +150,7 @@ namespace XyTech.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = "Please choose image only.";
+                        ViewBag.Message = "Please choose pdf only.";
                         return View(tb_tenant);
                     }
                 }
@@ -312,7 +312,7 @@ namespace XyTech.Controllers
 
                 if (contractfile != null && contractfile.ContentLength > 0)
                 {
-                    if (contractfile.ContentType.Contains("image"))
+                    if (contractfile.ContentType.Contains("pdf"))
                     {
                         string _FileName = Path.GetFileName(contractfile.FileName);
                         string _path = Path.Combine(Server.MapPath("~/Content/assets/images/Contractfile"), _FileName);
@@ -321,7 +321,7 @@ namespace XyTech.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = "Please choose image only.";
+                        ViewBag.Message = "Please choose pdf only.";
                         return View(tb_tenant);
                     }
                 }

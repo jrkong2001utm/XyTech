@@ -53,14 +53,19 @@
                 <div class="form-group row">
                     @Html.LabelFor(model => model.t_contract, "Uplaod Contract", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-9">
-                        @Html.TextBox("contractfile", "", new { type = "file", @class = "form-control", accept = "image/*" })
+                        @Html.TextBox("contractfile", "", new { type = "file", @class = "form-control", accept = ".pdf" })
                         @Html.ValidationMessageFor(model => model.t_contract, "", new { @class = "text-danger" })
                         <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
                             <span class="menu-title">@Html.DisplayFor(model => model.t_contract)</span>
                             <i class="mdi mdi-eye"></i>
                         </a>
                         <div class="collapse" id="icons">
-                            <img src="@Url.Content("~/Content/assets/images/Contractfile/" + Model.t_contract)" alt="Uploaded Image" style="width: 400px; height: auto;" />
+                            <object data="@Url.Content("~/Content/assets/images/Contractfile/" + Model.t_contract)" type="application/pdf" width="100%" height="500px">
+                                <p>
+                                    Your web browser doesn't have a PDF plugin.
+                                    <a href="@Url.Content("~/Content/assets/images/Contractfile/" + Model.t_contract)">Click here to download the PDF file.</a>
+                                </p>
+                            </object>                        
                         </div>
                     </div>
                 </div>
