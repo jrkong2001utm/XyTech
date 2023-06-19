@@ -65,7 +65,7 @@
 
                     <div class="form-group">
                         <label>File upload</label>
-                        @Html.TextBox("uploadly", "", new { type = "file", accept = "image/*", required = "required", @class = "form-control", })
+                        @Html.TextBox("uploadly", "", new { type = "file", accept = "image/*", @class = "form-control", })
                         @Html.ValidationMessageFor(model => model.fl_layout, "", new { @class = "text-danger" })
                     </div>
 

@@ -69,6 +69,7 @@
                                         <th>Check In</th>
                                         <th>Check Out</th>
                                         <th>Outstanding</th>
+                                        <th>Floor Name</th>
                                         <th>Room No</th>
                                         <th style="text-align: center">Reminder</th>
                                     </tr>
@@ -76,8 +77,12 @@
                                 <tbody>
                                     @foreach (var tenant in ViewBag.tenant)
                                     {
+                                        var floor = tenant.tb_room.tb_floor;
+                                        var floorPresetCurrent = floor.fl_preset_current;
+                                        var encodedFloorPresetCurrent = floorPresetCurrent.Replace(Environment.NewLine, "%0A");
+
                                         var phoneNumber = tenant.t_phone;
-                                        var encodedMessage = "Dear " + tenant.t_name + ", Please kindly pay the rental fee (RM" + tenant.t_outstanding + ") for last month. Thank You.";
+                                        var encodedMessage = encodedFloorPresetCurrent + "%0A%0A" + "RM" + tenant.t_outstanding;
                                         var whatsappUrl = "https://wa.me/+6" + phoneNumber + "?text=" + encodedMessage;
                                         <tr>
                                             <td>@tenant.t_name</td>
@@ -85,7 +90,8 @@
                                             <td>@tenant.t_indate.ToString("dd-MM-yyyy")</td>
                                             <td>@tenant.t_outdate.ToString("dd-MM-yyyy")</td>
                                             <td style="text-align: center">@tenant.t_outstanding</td>
-                                            <td style="text-align: center">@tenant.t_room</td>
+                                            <td style="text-align: center">@floor.fl_bname</td>
+                                            <td style="text-align: center">@tenant.tb_room.r_no</td>
                                             <td style="text-align: center">
                                                 <a href="@whatsappUrl" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a>
                                                 <a href="@Url.Action("Edit", "Tenant", new { id = tenant.t_id })" class="btn btn-link" title="edit">
@@ -156,6 +162,7 @@
                                         <th>Check In</th>
                                         <th>Check Out</th>
                                         <th>Outstanding</th>
+                                        <th>Floor Name</th>
                                         <th>Room No</th>
                                         <th style="text-align: center">Reminder</th>
                                     </tr>
@@ -163,8 +170,12 @@
                                 <tbody>
                                     @foreach (var weektenant in ViewBag.weektenant)
                                     {
+                                        var floor = weektenant.tb_room.tb_floor;
+                                        var floorPresetCurrent = floor.fl_preset_current;
+                                        var encodedFloorPresetCurrent = floorPresetCurrent.Replace(Environment.NewLine, "%0A");
+
                                         var phoneNumber = weektenant.t_phone;
-                                        var encodedMessage = "Dear " + weektenant.t_name + ", Your rental fee due is coming soon on " + weektenant.t_indate.Day + " this month. Please kindly pay the rental fee (RM" + weektenant.t_outstanding + ") as soon as possible. Thank You.";
+                                        var encodedMessage = "Your rental fee due is coming soon.%0A" + encodedFloorPresetCurrent + "%0A%0A" + "RM" + weektenant.t_outstanding;
                                         var urlwhatsapp = "https://wa.me/+6" + phoneNumber + "?text=" + encodedMessage;
                                         <tr>
                                             <td>@weektenant.t_name</td>
@@ -172,7 +183,8 @@
                                             <td>@weektenant.t_indate.ToString("dd-MM-yyyy")</td>
                                             <td>@weektenant.t_outdate.ToString("dd-MM-yyyy")</td>
                                             <td style="text-align: center">@weektenant.t_outstanding</td>
-                                            <td style="text-align: center">@weektenant.t_room</td>
+                                            <td style="text-align: center">@floor.fl_bname</td>
+                                            <td style="text-align: center">@weektenant.tb_room.r_no</td>
                                             <td style="text-align: center">
                                                 <a href="@urlwhatsapp" target="_blank" class="btn btn-link mdi mdi-whatsapp"></a>
                                                 <a href="@Url.Action("Edit", "Tenant", new { id = weektenant.t_id })" class="btn btn-link" title="edit">

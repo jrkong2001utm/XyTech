@@ -327,7 +327,7 @@ namespace XyTech.Controllers
                     db.SaveChanges();
                 }
                 var updateRoom = db.tb_room.FirstOrDefault(r => r.r_id == updatetenant.t_room);
-                if (updateRoom != null)
+                if (updateRoom != previousRoom)
                 {
                     if (tb_tenant.t_paymentstatus == 0)
                     {
