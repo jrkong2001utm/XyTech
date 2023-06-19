@@ -46,7 +46,12 @@
                                 </th>
                                 <td>
                                     <div class="collapse" id="icons">
-                                        <img src="@Url.Content("~/Content/assets/images/Contractfile/" + Model.t_contract)" alt="Uploaded Image" style="width: 400px; height: auto;" />
+                                        <object data="@Url.Content("~/Content/assets/images/Contractfile/" + Model.t_contract)" type="application/pdf" width="100%" height="500px">
+                                            <p>
+                                                Your web browser doesn't have a PDF plugin.
+                                                <a href="@Url.Content("~/Content/assets/images/Contractfile/" + Model.t_contract)">Click here to download the PDF file.</a>
+                                            </p>
+                                        </object>
                                     </div>
                                     @Html.DisplayFor(model => model.t_contract)
                                 </td>

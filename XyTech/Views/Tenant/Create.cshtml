@@ -45,7 +45,7 @@
                 <div class="form-group row">
                     @Html.LabelFor(model => model.t_contract, "Uplaod Contract", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-9">
-                        @Html.TextBox("contractfile", "", new { type = "file", @class = "form-control", accept = "image/*" })
+                        @Html.TextBox("contractfile", "", new { type = "file", @class = "form-control", accept = ".pdf" })
                         @Html.ValidationMessageFor(model => model.t_contract, "", new { @class = "text-danger" })
                     </div>
                 </div>
