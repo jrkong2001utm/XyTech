@@ -17,7 +17,7 @@ namespace XyTech.Controllers
         private db_XyTechEntities db = new db_XyTechEntities();
 
         // GET: Attendance
-        public ActionResult Index()
+        public ActionResult Index(int? floorFilter)
         {
             int currentDay = DateTime.Today.Day;
             var tenants = db.tb_tenant.ToList();
@@ -26,8 +26,20 @@ namespace XyTech.Controllers
             {
                 currentDay += 30;
             }
-            ViewBag.counttenant = tenants.Count(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Month != DateTime.Today.Month && t.t_indate.Day < currentDay && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
+            ViewBag.counttenant = tenants.Count(t => t.t_indate.Day >= (currentDay - 7) && t.t_indate.Day < currentDay && (t.t_paymentstatus == 2 || t.t_paymentstatus == 3));
             ViewBag.countlandlord = db.tb_landlord.Count(l => l.l_due <= DateTime.Today && l.l_active == "1");
+
+            var floorOptions = db.tb_floor
+                .Where(f => f.fl_active.Equals("active"))
+                .Select(f => new SelectListItem
+                {
+                    Text = f.fl_bname,
+                    Value = f.fl_id.ToString(),
+                    Selected = (floorFilter.HasValue && floorFilter.Value == f.fl_id)
+                })
+                .ToList();
+
+            ViewBag.FloorFilter = floorOptions;
 
             var tb_attendance = db.tb_attendance.Include(t => t.tb_floor);
             if (TempData.Count > 0)
@@ -37,13 +49,18 @@ namespace XyTech.Controllers
             return View(tb_attendance.ToList());
         }
 
-        public ActionResult GetFilteredData(DateTime? startDate, DateTime? endDate)
+        public ActionResult GetFilteredData(DateTime? startDate, DateTime? endDate, int? floorFilter)
         {
             var query = db.tb_attendance.AsQueryable();
 
             if (startDate.HasValue && endDate.HasValue)
             {
                 query = query.Where(a => a.a_check >= startDate && a.a_check <= endDate);
+            }
+
+            if (floorFilter.HasValue && floorFilter.Value != 0)
+            {
+                query = query.Where(a => a.a_floor == floorFilter.Value);
             }
 
             var data = query.Select(a => new
