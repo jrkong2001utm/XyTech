@@ -1,4 +1,4 @@
-﻿﻿@model IEnumerable<XyTech.Models.tb_attendance>
+﻿@model IEnumerable<XyTech.Models.tb_attendance>
 
 @{
     ViewBag.Title = "Index";
@@ -72,50 +72,63 @@
             }
 
             <div class="d-flex justify-content-between">
-                <p class="card-title mb-0" style="font-size: x-large;">Attendance</p>
-                @Html.ActionLink("Create", "Create", "Attendance", null, new { @class = "btn btn-success btn-rounded btn-fw" })
+                <p class="card-title mb-0" style="font-size: x-large;">Finance</p>
+
+                <!--Print PDF Button-->
+                @*<button id="exportPDFButton" class="btn btn-primary" type="button" onclick="pdf()">Export to PDF</button>*@
+
+                @Html.ActionLink("Create", "Create", "Attendance", new { @class = "btn btn-success btn-rounded" })
             </div>
 
-
             <div class="row mb-3">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="input-group">
                         <input type="text" id="dateRangePicker" class="form-control" autocomplete="off" placeholder="Select Date To View" />
                         <div class="input-group-append">
                         </div>
                     </div>
                 </div>
+
+                <div class="col-3">
+                    <form id="floorFilterForm">
+                        <select id="floorFilter" class="form-control">
+                            <option value="">All Floors</option>
+                            @foreach (var floorItem in ViewData["FloorFilter"] as IEnumerable<SelectListItem>)
+                            {
+                                <option value="@floorItem.Value">@floorItem.Text</option>
+                            }
+                        </select>
+                    </form>
+                </div>
             </div>
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="dataTable" class="display expandable-table" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Date and Time</th>
-                                    <th>Floor ID</th>
-                                    <th>Floor Name</th>
-                                    <th style="text-align:center">Actions</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="dataTable" class="display expandable-table" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Date and Time</th>
+                                <th>Floor ID</th>
+                                <th>Floor Name</th>
+                                <th style="text-align:center">Actions</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
-    <script src="https://cdn.datatables.net/plug-ins/1.13.4/sorting/datetime-moment.js"></script>
+    @section Scripts {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+        <script src="https://cdn.datatables.net/plug-ins/1.13.4/sorting/datetime-moment.js"></script>
 
-
-    <script type="text/javascript">
+        <script type="text/javascript">
         $(document).ready(function () {
             $.fn.dataTable.moment('DD-MM-YYYY');
 
@@ -164,6 +177,11 @@
                 $(this).val('');
                 table.ajax.url('@Url.Action("GetFilteredData", "Attendance")').load();
             });
+
+            $('#floorFilter').change(function () {
+                var floorId = $(this).val();
+                table.column(1).search(floorId).draw();
+            });
         });
-    </script>
-}
+        </script>
+    }
