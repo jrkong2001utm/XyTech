@@ -145,6 +145,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AttendanceCount.cs" />
     <Compile Include="Models\resetpassword.cs" />
     <Compile Include="Models\login.cs" />
     <Compile Include="Models\Model1.Context.cs">
@@ -2029,6 +2030,7 @@
     <Content Include="Views\Profit\Edit.cshtml" />
     <Content Include="Views\Profit\Index.cshtml" />
     <Content Include="Views\User\EditProfile.cshtml" />
+    <Content Include="Views\Attendance\MonthlyAttendance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2037,6 +2039,7 @@
     <Folder Include="Content\assets\images\floorlayout\" />
     <Folder Include="Content\assets\images\Icfile\" />
     <Folder Include="Content\assets\images\roomPicture\" />
+    <Folder Include="Views\AttendanceCount\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>

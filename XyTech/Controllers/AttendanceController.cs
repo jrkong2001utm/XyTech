@@ -85,6 +85,26 @@ namespace XyTech.Controllers
             base.Dispose(disposing);
         }
 
+        public ActionResult MonthlyAttendance()
+{
+            var attendanceData = db.tb_attendance.ToList();
+            var floorData = db.tb_floor.ToDictionary(f => f.fl_id, f => f.fl_bname);
+
+            var monthlyAttendance = attendanceData
+                .GroupBy(a => new { a.a_check.Year, a.a_check.Month, a.a_floor })
+                .Select(g => new MonthlyAttendanceViewModel
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    FloorName = floorData[g.Key.a_floor],
+                    AttendanceCount = g.Count()
+                })
+                .ToList();
+
+            return View(monthlyAttendance);
+        }
+
+
         // GET: Attendance/Details/5
         public ActionResult Details(int? id)
         {
